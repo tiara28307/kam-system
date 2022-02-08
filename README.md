@@ -1,6 +1,6 @@
 <!-- KAM LOGO -->
 <div align="center">
-  <img width="500" alt="KAM-System-Logo" src="https://user-images.githubusercontent.com/36643475/152270889-d93f9bdd-cbac-45f9-983f-5758b1141885.png">
+  <img width="500" alt="KAM-System-Logo" src="https://user-images.githubusercontent.com/36643475/152907446-a8c2c445-e7cb-44ab-9ed6-5b164b41f81a.png">
 </div>
 
 <!-- ABOUT THE PROJECT -->

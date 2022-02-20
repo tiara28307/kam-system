@@ -123,3 +123,6 @@ dist
 
 # Docker
 .history/
+
+# vercel
+.vercel

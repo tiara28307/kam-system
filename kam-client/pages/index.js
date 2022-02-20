@@ -5,10 +5,12 @@ import Link from "next/dist/client/link";
 import Banner2 from "../components/banner/Banner2";
 import ContactComponent from "../components/custom/sections/contactcomponent";
 import moneyLaunderingImg from "../assets/images/landingpage/money-laundering.png";
+import Header from "../layout/header/Header";
 
 export default function Home() {
   return (
     <div>
+      <Header />
       <Head>
         <title>KAM</title>
         <meta

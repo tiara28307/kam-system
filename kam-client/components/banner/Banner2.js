@@ -19,7 +19,7 @@ const Banner2 = () => {
               <br /> laundering in the U.S.
             </h4>
             <a
-              href="https://wrappixel.com/templates/nextkit-nextjs-free-uikit"
+              href="/"
               className="btn btn-success m-r-20 btn-md m-t-30 "
             >
               Sign Up

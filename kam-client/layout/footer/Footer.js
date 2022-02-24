@@ -5,11 +5,11 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="footer4 b-t spacer">
+    <div className="footer4 b-t mini-spacer">
       <Container>
         <Row>
           <Col lg="3" md="6">
-            <h5 className="m-b-20">Social</h5>
+            <h5 className="m-b-10">Social</h5>
             <div className="round-social light">
               <Link href="https://github.com/tiara28307/kam-system">
                 <a className="link">
@@ -28,11 +28,11 @@ const Footer = () => {
           <Row>
             <Col md="12">
               <div className="d-flex font-14">
-                <div className="m-t-10 m-b-10 copyright">
+                <div className="m-t-2 m-b-1 copyright">
                   Created by Ti'Ara Carroll
                 </div>
                 <div className="links ml-auto m-t-10 m-b-10">
-                  <div className="m-t-10 m-b-10 copyright">
+                  <div className="m-t-2 m-b-1 copyright">
                       UI Kit designed by {""}
                       <Link href="https://www.wrappixel.com/templates/nextkit-nextjs-free-uikit/">
                       wrappixel.com

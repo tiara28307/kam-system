@@ -45,7 +45,7 @@ const HeaderComponent = () => {
         <Container>
           <Navbar className="navbar-expand-lg h1-nav">
             <NavbarBrand href="#">
-              <Image src={logo} alt="wrapkit" />
+              <Image src={logo} alt="wrapkit" width={70} height={75} />
             </NavbarBrand>
             <NavbarToggler onClick={toggle}>
               <span className="ti-menu"></span>
@@ -89,11 +89,11 @@ const HeaderComponent = () => {
           </Navbar>
         </Container>
       </div>
-      <div className="header1 po-relative bg-dark">
+      <div className="header1 po-relative bg-theme">
         <Container>
           <Navbar className="navbar-expand-lg h2-nav">
             <NavbarBrand href="#">
-              <Image src={logo2} alt="wrapkit" />
+              <Image src={logo} alt="wrapkit" width={70} height={75} />
             </NavbarBrand>
             <NavbarToggler onClick={toggle}>
               <span className="ti-menu text-white"></span>

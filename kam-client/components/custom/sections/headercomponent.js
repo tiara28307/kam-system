@@ -18,8 +18,6 @@ import {
 } from "reactstrap";
 import Image from "next/image";
 import logo from "../../../assets/images/logos/kam-logo.png";
-import logo2 from "../../../assets/images/logos/white-logo.png";
-import image from "next/image";
 
 const HeaderComponent = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -8,12 +8,9 @@ import {
   NavbarBrand, 
   Collapse ,
   NavItem,
-  NavLink,
   Row,
   Col,
   Card,
-  CardTitle,
-  CardText,
   Button,
   Form,
   FormGroup,
@@ -21,14 +18,10 @@ import {
   Input
 } from "reactstrap";
 import Link from "next/dist/client/link";
-import Banner from "../components/banner/Banner";
-import Components from "../components/basic/AllComponents";
 import Image from "next/dist/client/image";
-import Cards from "../components/basic/cards";
-import PageForm from "../components/basic/form";
-import HeaderComponent from "../components/custom/sections/headercomponent";
 import logo from "../assets/images/logos/kam-logo.png"
 
+// Login Page
 export default function Login() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -105,7 +98,7 @@ export default function Login() {
                         <Form className="row nt-start">
                             <FormGroup className="col-md-12">
                                 <Label htmlFor="name" className="font-bold">Email</Label>
-                                <Input type="text" className="form-control" id="name" placeholder="Enter email" />
+                                <Input type="text" className="form-control" id="email" placeholder="Enter email" />
                             </FormGroup>
                             <FormGroup className="col-md-12">
                                 <Label htmlFor="password" className="font-bold">Password</Label>
@@ -123,7 +116,7 @@ export default function Login() {
                                 Forgot <a href="#">password?</a>
                               </p>
                               <p>
-                                Don't have an account? <a href="#">Sign Up</a>
+                                Don't have an account? <a href="/signup">Sign Up</a>
                               </p>
                             </Col>
                         </Form>

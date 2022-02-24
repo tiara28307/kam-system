@@ -67,7 +67,6 @@ const Header = () => {
                 <NavLink
                   href="/login"
                   className="btn btn-light font-14"
-                  target="_blank"
                 >
                   Login
                 </NavLink>

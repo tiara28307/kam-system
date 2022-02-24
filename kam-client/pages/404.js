@@ -22,7 +22,7 @@ const ErrorPage = () => {
               <br /> please go back to homepage
             </h4>
             <Link href="/">
-              <Button className="btn btn-md m-t-30 btn-info-gradiant font-14">
+              <Button className="btn btn-md m-t-30 btn-danger-gradiant font-14">
                 Back to Homepage
               </Button>
             </Link>

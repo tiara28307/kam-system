@@ -4,6 +4,7 @@ import { Container, Row, Col } from "reactstrap";
 import Image from "next/image";
 import kycImg from "../../assets/images/landingpage/kyc.png";
 
+// Banner on KAM Homepage
 const Banner2 = () => {
   return (
     <div className="static-slider-head banner2">
@@ -19,7 +20,7 @@ const Banner2 = () => {
               <br /> laundering in the U.S.
             </h4>
             <a
-              href="/"
+              href="/signup"
               className="btn btn-success m-r-20 btn-md m-t-30 "
             >
               Sign Up

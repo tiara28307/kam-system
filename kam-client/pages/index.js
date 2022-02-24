@@ -7,6 +7,7 @@ import ContactComponent from "../components/custom/sections/contactcomponent";
 import moneyLaunderingImg from "../assets/images/landingpage/money-laundering.png";
 import Header from "../layout/header/Header";
 
+// KAM Homepage
 export default function Home() {
   return (
     <div>
@@ -35,8 +36,8 @@ export default function Home() {
               procedures to properly identify high-risk customers and offer secure data storage and sharing of information for 
               AML and KYC compliance.  
               </h6>
-              <Link href="/#coming">
-              <a className="linking text-primary m-t-10">
+              <Link href="/#white-paper">
+              <a className="linking text-primary m-t-10" target="_blank">
                 White Paper <i className="ti-arrow-right"></i>
               </a>
             </Link>

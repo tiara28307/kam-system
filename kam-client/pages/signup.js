@@ -16,22 +16,22 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  ButtonGroup
 } from "reactstrap";
 import Link from "next/dist/client/link";
 import Image from "next/dist/client/image";
 import logo from "../assets/images/logos/kam-logo.png"
+import CompanySignUpComponent from "../components/custom/sections/companysignupcomponent";
+import CustomerSignUpComponent from "../components/custom/sections/customersignupcomponent";
 
 // SignUp Page
 export default function SignUp() {
-  const [isOpen, setIsOpen, isCompany, setIsCompany] = useState(false);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [isCompany, setIsCompany] = useState(false);
+  
   const router = useRouter();
   const toggle = () => setIsOpen(!isOpen);
-  
-  function handleCompanyClick() {
-    setIsCompany(!isCompany);
-  }
 
   return (
     <div className="bg-theme">
@@ -101,26 +101,16 @@ export default function SignUp() {
             <Card body className="card-shadow bg-light text-info">
               <h2 className="text-center text-info m-t-10">Sign Up</h2>
               <Col className="mb-4 text-center">
-                <Button className="mt-4 mr-2 btn-blocks" color="primary">Customer</Button>
-                <Button className="mt-4 btn-blocks" outline color="primary">Company</Button>
+                <ButtonGroup>
+                  <Button className="mt-4 btn-blocks" outline color="primary" onClick={() => setIsCompany(false)} active={!isCompany}>Customer</Button>
+                  <Button className="mt-4 btn-blocks" outline color="primary" onClick={() => setIsCompany(true)}>Company</Button>
+                </ButtonGroup>
               </Col>
               <Col md="12">
                 <Form className="row nt-start col-md-12">
-                  <Label htmlFor="name" className="font-bold col-md-12">Name</Label>
-                  <FormGroup className="col-md-12 d-flex">
-                    <Input type="text" className="form-control mr-2" id="first-name" placeholder="First Name" />
-                    <Input type="text" className="form-control" id="last-name" placeholder="Last Name" />
-                  </FormGroup>
-                  <Label htmlFor="name" className="font-bold mr-4 col-md-12">Contact</Label>
-                  <FormGroup className="col-md-12 d-flex">
-                    <Input type="email" className="form-control mr-2" id="email" placeholder="Email" />
-                    <Input type="text" className="form-control" id="phone" placeholder="Phone" />
-                  </FormGroup>
-                  <Label htmlFor="password" className="font-bold col-md-12">Password</Label>
-                  <FormGroup className="col-md-12">
-                    <Input type="password" className="form-control" id="password" placeholder="Password" />
-                    <Input type="password" className="form-control mt-2" id="password" placeholder="Confirm password" />
-                  </FormGroup>
+                  {
+                    isCompany === false ? <CustomerSignUpComponent /> : <CompanySignUpComponent />
+                  }
                   <FormGroup className="col-md-8 ml-4">
                     <Input id="checkbox-terms" type="checkbox" />
                     <Label htmlFor="checkbox1">

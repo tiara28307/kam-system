@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+.bg-theme-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(0, 48, 96, var(--tw-bg-opacity));
+}
+
+.text-theme-500 {
+  --tw-text-opacity: 1;
+  color: rgba(0, 48, 96, var(--tw-text-opacity));
+}

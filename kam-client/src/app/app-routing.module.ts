@@ -13,7 +13,7 @@ import { TablesComponent } from "./views/admin/tables/tables.component";
 
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
-import { RegisterComponent } from "./views/auth/register/register.component";
+import { RegisterComponent } from "./views/auth/registers/register.component";
 
 // no layouts views
 import { IndexComponent } from "./views/index/index.component";
@@ -29,6 +29,7 @@ const routes: Routes = [
     path: "admin",
     component: AdminComponent,
     children: [
+      // TODO: Add /:id for admin paths
       { path: "dashboard", component: DashboardComponent },
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
@@ -42,7 +43,7 @@ const routes: Routes = [
     component: AuthComponent,
     children: [
       { path: "login", component: LoginComponent },
-      { path: "register", component: RegisterComponent },
+      { path: "signup", component: RegisterComponent },
       { path: "", redirectTo: "login", pathMatch: "full" },
     ],
   },

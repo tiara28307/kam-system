@@ -6,6 +6,7 @@ import { environment } from "src/environments/environment";
   templateUrl: "./index.component.html",
 })
 export class IndexComponent implements OnInit {
+  whitePaper = environment.whitePaper;
   constructor() {}
 
   ngOnInit(): void {}

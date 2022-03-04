@@ -4,6 +4,11 @@
   background-color: rgba(0, 48, 96, var(--tw-bg-opacity));
 }
 
+.bg-register-bt {
+  --tw-bg-opacity: 1;
+  background-color: rgba(0, 17, 105, var(--tw-bg-opacity));
+}
+
 .text-theme-500 {
   --tw-text-opacity: 1;
   color: rgba(0, 48, 96, var(--tw-text-opacity));

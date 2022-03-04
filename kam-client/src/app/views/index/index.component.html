@@ -12,7 +12,7 @@
         </p>
         <div class="mt-12">
           <a
-            [routerLink]="['/auth/register']"
+            [routerLink]="['/auth/signup']"
             target="_blank"
             class="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-emerald-400 active:bg-emerald-400 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
           >
@@ -79,7 +79,7 @@
       AML and KYC compliance.  
       </p>
       <a
-        href="/"
+        [attr.href]="whitePaper"
         target="_blank"
         class="font-bold text-theme-500 hover:text-blueGray-500 ease-linear transition-all duration-150"
       >
@@ -276,7 +276,7 @@
               </label>
               <input
                 type="text"
-                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none w-full ease-linear transition-all duration-150"
+                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
                 placeholder="Full Name"
               />
             </div>
@@ -290,7 +290,7 @@
               </label>
               <input
                 type="email"
-                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none w-full ease-linear transition-all duration-150"
+                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
                 placeholder="Email"
               />
             </div>
@@ -305,7 +305,7 @@
               <textarea
                 rows="4"
                 cols="80"
-                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none w-full"
+                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full"
                 placeholder="Type a message..."
               ></textarea>
             </div>

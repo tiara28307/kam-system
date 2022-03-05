@@ -126,3 +126,6 @@ dist
 
 # vercel
 .vercel
+
+# Angular
+.angular/

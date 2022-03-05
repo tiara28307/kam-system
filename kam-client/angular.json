@@ -36,6 +36,14 @@
             "scripts": []
           },
           "configurations": {
+            "development": {
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": true,
+              "optimization": false,
+              "namedChunks": true
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -46,7 +54,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -65,12 +72,14 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "defaultConfiguration": "",
           "options": {
-            "browserTarget": "notus-angular:build"
+            "browserTarget": "notus-angular:build:development"
           },
           "configurations": {
             "production": {

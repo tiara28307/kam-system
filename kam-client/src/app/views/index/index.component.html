@@ -1,0 +1,326 @@
+<app-index-navbar></app-index-navbar>
+<section class="header relative pt-16 items-center flex h-screen max-h-860-px">
+  <div class="container mx-auto items-center flex flex-wrap">
+    <div class="w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4">
+      <div class="pt-32 sm:pt-0">
+        <h2 class="font-semibold text-4xl text-theme-500">
+          KAM - KYC &amp; AML Management
+        </h2>
+        <p class="mt-4 text-lg leading-relaxed text-blueGray-500">
+          An innovative system that combines AI and Blockchain technology to help Financial Institutions maintain regulatory
+          compliance and fight against money laundering in the United States.
+        </p>
+        <div class="mt-12">
+          <a
+            [routerLink]="['/auth/signup']"
+            target="_blank"
+            class="get-started text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-emerald-400 active:bg-emerald-400 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
+          >
+            Get started
+          </a>
+          <a
+            href="#about"
+            class="ml-1 text-white font-bold px-6 py-4 rounded outline-none focus:outline-none mr-1 mb-1 bg-theme-500 active:bg-theme-500 uppercase text-sm shadow hover:shadow-lg ease-linear transition-all duration-150"
+          >
+            Learn more
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <img
+    class="absolute top-10 b-auto right-0 pt-10 sm:w-6/12 -mt-48 sm:mt-0 w-10/12 max-h-860-px"
+    src="assets/img/kam-landing.png"
+    alt="..."
+  />
+</section>
+
+<section class="mt-48 md:mt-40 pb-40 relative bg-blueGray-100">
+  <div
+    class="-mt-20 top-0 bottom-auto left-0 right-0 w-full absolute h-20"
+    style="transform: translateZ(0)"
+  >
+    <svg
+      class="absolute bottom-0 overflow-hidden"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+      version="1.1"
+      viewBox="0 0 2560 100"
+      x="0"
+      y="0"
+    >
+      <polygon
+        class="text-blueGray-100 fill-current"
+        points="2560 0 2560 100 0 100"
+      ></polygon>
+    </svg>
+  </div>
+  <div id="about" class="container mx-auto">
+    <div class="flex flex-wrap items-center">
+      <div
+      class="w-10/12 md:w-6/12 lg:w-40 px-12 md:px-4 mr-auto ml-auto mt-32"
+      >
+      <h3 class="text-3xl mb-2 font-semibold text-theme-500 leading-normal">
+        About
+      </h3>
+      <p
+        class="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600"
+      >
+      The <strong class="font-bold">KAM System</strong> is meant to be a solution for compliance teams within different financial institutions that are
+      wanting to improve their AML and KYC programs for end-users and internal operations to avoid penalties from 
+      regulators and aid in the fight against money laundering.  
+      
+      KAM, is a type of <strong class="font-bold">regulatory technology (RegTech)</strong> that provides seamless integration for existing operations and 
+      combats the arduous challenges of regulatory compliance to reduce the risks of AML penalties.
+    
+      KAM employs the use of AI and blockchain technology for <strong class="font-bold">Know Your Customer (KYC)</strong> and <strong class="font-bold"> Anti-Money Laundering (AML) </strong> 
+      procedures to properly identify high-risk customers and offer secure data storage and sharing of information for 
+      AML and KYC compliance.  
+      </p>
+      <a
+        [attr.href]="whitePaper"
+        target="_blank"
+        class="font-bold text-theme-500 hover:text-blueGray-500 ease-linear transition-all duration-150"
+      >
+        White Paper
+        <i class="fa fa-angle-double-right ml-1 leading-relaxed"></i>
+      </a>
+    </div>
+      <div class="w-full md:w-6/12 px-4">
+        <div class="flex flex-wrap">
+          <img
+            class="absolute top-0 b-auto right-0 pt-10 sm:w-6/12 mt-10 sm:mt-0 w-10/12 max-h-400-px"
+            src="assets/img/money-laundering.png"
+            alt="..."
+          />       
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto">
+    <div class="justify-start flex flex-wrap">
+      <div class="lg:w-4/12 px-4 ml-auto mr-auto mt-10">
+          <div class="px-4 py-5 flex-auto justify-center">
+            <div
+              class="text-theme-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white"
+            >
+              <i class="fa-solid fa-user fa-lg "></i>
+            </div>
+            <h6 class="text-xl text-theme-500 mb-1 font-semibold">Know Your Customer</h6>
+            <p class="mb-4 text-blueGray-500">
+              Verify and authenticate your customers with advanced automated solutions for CIP and CDD.
+            </p>
+          </div>
+      </div>
+      <div class="lg:w-4/12 px-4 ml-auto mr-auto mt-10">
+          <div class="px-4 py-5 flex-auto">
+            <div
+              class="text-theme-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white"
+            >
+              <i class="fas fa-magnifying-glass-dollar fa-lg"></i>
+            </div>
+            <h6 class="text-xl text-theme-500 mb-1 font-semibold">
+              Anti-Money Laundering
+            </h6>
+            <p class="mb-4 text-blueGray-500">
+              Quickly and accurately identify suscipicious transactions with daily monitoring.
+            </p>
+          </div>
+        </div>
+        <div class="lg:w-4/12 px-4 ml-auto mr-auto mt-10">
+          <div class="px-4 py-5 flex-auto">
+            <div
+              class="text-theme-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white"
+            >
+              <i class="fa-solid fa-folder fa-lg"></i>
+            </div>
+            <h6 class="text-xl text-theme-500 mb-1 font-semibold">Case Management</h6>
+            <p class="mb-4 text-blueGray-500">
+              Use reliable tools to properly investigate and report AML activities through a secure network.
+            </p>
+          </div>
+    </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 pb-32 pt-48">
+    <div class="items-center flex flex-wrap">
+      <div class="w-full md:w-8/12 ml-auto px-12 md:px-4">
+        <div class="md:pr-12">
+          <h3 class="text-3xl text-theme-500 font-semibold">AML Regulations</h3>
+          <p class="mt-4 text-lg leading-relaxed text-blueGray-600">
+            All financial institutions operating within the United States must comply with the AML regulations of the <strong class="font-bold">Bank Secrecy Act (BSA)</strong>. 
+            These regulations are meant to help identify and report suscipicious activity in relation to financial crimes  like money laundering
+            and terrorist financing. <strong class="font-bold">Regulatory compliance</strong> helps you protect your company's resources and reputation, but with the rapid growth of 
+            new regulatory alerts AML processess can become cumbersome. With KAM you can automate your business operations to enable a user-friendly 
+            and reliable AML program. Engage with highly advanced technology when using KAM as it provides:
+          </p>
+          <ul class="list-none mt-6">
+            <li class="py-2">
+              <div class="flex items-center">
+                <div>
+                  <span
+                    class="text-2xl font-semibold inline-block py-1 px-2 uppercase rounded-full text-theme-500 bg-blueGray-50 mr-3"
+                  >
+                    <i class="fas fa-fingerprint"></i>
+                  </span>
+                </div>
+                <div>
+                  <h4 class="text-blueGray-500 text-lg">
+                    ID Verification with Biometrics &amp; OCR
+                  </h4>
+                </div>
+              </div>
+            </li>
+            <li class="py-2">
+              <div class="flex items-center">
+                <div>
+                  <span
+                    class="text-2xl font-semibold inline-block py-1 px-2 uppercase rounded-full text-theme-500 bg-blueGray-50 mr-3"
+                  >
+                    <i class="fas fa-laptop-code"></i>
+                  </span>
+                </div>
+                <div>
+                  <h4 class="text-blueGray-500 text-lg">
+                    Live Transaction Monitoring
+                  </h4>
+                </div>
+              </div>
+            </li>
+            <li class="py-2">
+              <div class="flex items-center">
+                <div>
+                  <span
+                    class="text-2xl font-semibold inline-block py-1 px-2 uppercase rounded-full text-theme-500 bg-blueGray-50 mr-3"
+                  >
+                    <i class="fas fa-file-signature"></i>
+                  </span>
+                </div>
+                <div>
+                  <h4 class="text-blueGray-500 text-lg">
+                    Automated Reporting Service
+                  </h4>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="w-full md:w-4/12 mr-auto px-4 pt-24 md:pt-0">
+        <img
+          alt="..."
+          class="max-w-full rounded-lg shadow-xl bg-white"
+          style="
+            transform: scale(1) perspective(1040px) rotateY(-11deg)
+              rotateX(2deg) rotate(2deg);
+          "
+          src="assets/img/aml-compliance.png"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pb-20 relative block bg-theme-500">
+  <div
+    class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20 h-20"
+    style="transform: translateZ(0)"
+  >
+    <svg
+      class="absolute bottom-0 overflow-hidden"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+      version="1.1"
+      viewBox="0 0 2560 100"
+      x="0"
+      y="0"
+    >
+      <polygon
+        class="text-theme-500 fill-current"
+        points="2560 0 2560 100 0 100"
+      ></polygon>
+    </svg>
+  </div>
+
+  <div id="contact" class="container mx-auto px-4 lg:pt-24 lg:pb-64">
+    <div class="flex flex-wrap text-center justify-center">
+      <div class="w-full lg:w-6/12 px-4">
+        <h2 class="text-4xl font-semibold text-white">Contact Us</h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="relative block py-24 lg:pt-0 bg-theme-500">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap justify-center lg:-mt-64 -mt-48">
+      <div class="w-full lg:w-6/12 px-4">
+        <div
+          class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200"
+        >
+          <div class="flex-auto p-5 lg:p-10">
+            <h4 class="text-2xl font-semibold">Have any questions?</h4>
+            <p class="leading-relaxed mt-1 mb-4 text-blueGray-500">
+              Complete this form to hear from us and learn more about KAM.
+            </p>
+            <div class="relative w-full mb-3 mt-8">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                htmlFor="full-name"
+              >
+                Full Name
+              </label>
+              <input
+                type="text"
+                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                placeholder="Full Name"
+              />
+            </div>
+
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                placeholder="Email"
+              />
+            </div>
+
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                htmlFor="message"
+              >
+                Message
+              </label>
+              <textarea
+                rows="4"
+                cols="80"
+                class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full"
+                placeholder="Type a message..."
+              ></textarea>
+            </div>
+            <div class="text-center mt-6">
+              <button
+                class="bg-theme-500 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button"
+              >
+                Send Message
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-footer></app-footer>

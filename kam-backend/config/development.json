@@ -1,0 +1,21 @@
+{
+  "app-name": "KAM System Backend",
+  "kyc-screening-service-config": {
+    "protocol": "http://",
+    "host": "localhost",
+    "port": 8080,
+    "base": "/kam/api/kss"
+  },
+  "aml-transaction-service-config": {
+    "protocol": "http://",
+    "host": "localhost",
+    "port": 8081,
+    "base": "/kam/api/ats"
+  },
+  "case-management-service-config": {
+    "protocol": "http://",
+    "host": "localhost",
+    "port": 8082,
+    "base": "/kam/api/cms"
+  }
+}

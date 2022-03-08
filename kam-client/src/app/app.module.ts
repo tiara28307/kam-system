@@ -1,5 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -26,7 +28,6 @@ import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
 
 // components for views and layouts
-
 import { AdminNavbarComponent } from "./components/navbars/admin-navbar/admin-navbar.component";
 import { AuthNavbarComponent } from "./components/navbars/auth-navbar/auth-navbar.component";
 import { CardBarChartComponent } from "./components/cards/card-bar-chart/card-bar-chart.component";
@@ -49,6 +50,8 @@ import { PagesDropdownComponent } from "./components/dropdowns/pages-dropdown/pa
 import { NotificationDropdownComponent } from "./components/dropdowns/notification-dropdown/notification-dropdown.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user-dropdown.component";
+import { ContactFormComponent } from './views/contact-form/contact-form.component';
+import { EmailService } from "./services/email.service";
 
 @NgModule({
   declarations: [
@@ -87,10 +90,16 @@ import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user
     LandingComponent,
     ProfileComponent,
     CustomerRegisterComponent,
-    FiRegisterComponent
+    FiRegisterComponent,
+    ContactFormComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [],
+  imports: [
+    BrowserModule, 
+    AppRoutingModule, 
+    ReactiveFormsModule, 
+    HttpClientModule
+  ],
+  providers: [EmailService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

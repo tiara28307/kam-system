@@ -19,8 +19,6 @@ import { TablesComponent } from "./views/admin/tables/tables.component";
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
 import { RegisterComponent } from "./views/auth/registers/register.component";
-import { CustomerRegisterComponent } from './views/auth/registers/customer-register/customer-register.component';
-import { FiRegisterComponent } from './views/auth/registers/fi-register/fi-register.component';
 
 // no layouts views
 import { IndexComponent } from "./views/index/index.component";
@@ -89,9 +87,7 @@ import { EmailService } from "./services/email.service";
     IndexComponent,
     LandingComponent,
     ProfileComponent,
-    CustomerRegisterComponent,
-    FiRegisterComponent,
-    ContactFormComponent,
+    ContactFormComponent
   ],
   imports: [
     BrowserModule, 

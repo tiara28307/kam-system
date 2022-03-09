@@ -1417,6 +1417,10 @@ select {
   background-color: rgba(71, 85, 105, var(--tw-bg-opacity));
 }
 
+.disabled\:bg-emerald-400:disabled {
+  opacity: 0.5;
+}
+
 .bg-center {
   background-position: center;
 }

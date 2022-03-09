@@ -7,6 +7,7 @@
         <div class="rounded-t mb-0 px-6 py-6">
           <div class="text-center mb-3">
             <h6 class="text-slate-600 text-lg font-bold">Sign Up</h6>
+            <p class="text-slate-600 text-md mt-2">Select a user type</p>
           </div>
           <div class="btn-wrapper text-center mt-6">
             <mat-button-toggle-group name="userType" aria-label="User Type">
@@ -17,7 +18,7 @@
                   Customer
               </mat-button-toggle>
               <mat-button-toggle 
-                class="{{ !isCustomer ? 'bg-sky-500' : 'bg-white' }} {{ isCompany ? 'text-white' : 'text-slate-700' }} text-sm font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-3 mb-1 ease-linear transition-all duration-150" 
+                class="{{ isCompany ? 'bg-sky-500' : 'bg-white' }} {{ isCompany ? 'text-white' : 'text-slate-700' }} text-sm font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-3 mb-1 ease-linear transition-all duration-150" 
                 (click)="toggleIsCompany($event)"
                 >
                   Company
@@ -28,13 +29,155 @@
         </div>
         
         <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-          <form>
-
-            <div [hidden]="!isCustomer">
-              <app-customer-register></app-customer-register>
-            </div>
-            <div [hidden]="!isCompany">
-              <app-fi-register></app-fi-register>
+          
+          <!--
+            Register form for Customer User
+          -->
+          <form [formGroup]="customerRegisterForm" *ngIf="isCustomer">
+            <div>
+              <h6 class="text-slate-400 text-sm mt-0 mb-6 font-bold uppercase">
+                User Information
+              </h6>
+              <div class="flex flex-wrap">
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="First Name"
+                      formControlName="customerFirstName"
+                    />
+                    <div *ngIf="customerRegisterForm.controls['customerFirstName'].invalid && (customerRegisterForm.controls['customerFirstName'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="customerRegisterForm.controls['customerFirstName'].errors.required">
+                        Please enter first name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Last Name"
+                      formControlName="customerLastName"
+                    />
+                    <div *ngIf="customerRegisterForm.controls['customerLastName'].invalid && (customerRegisterForm.controls['customerLastName'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="customerRegisterForm.controls['customerLastName'].errors.required">
+                        Please enter last name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap">
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Email"
+                      formControlName="customerEmail"
+                    />
+                    <div *ngIf="customerRegisterForm.controls['customerEmail'].invalid && (customerRegisterForm.controls['customerEmail'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="customerRegisterForm.controls['customerEmail'].errors.required">
+                        Please enter email
+                      </div>
+                      <div *ngIf="customerRegisterForm.controls['customerEmail'].errors.email">
+                        Please use a valid email address
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="XXX-XXX-XXXX"
+                      formControlName="customerPhone"
+                    />
+                    <div *ngIf="customerRegisterForm.controls['customerPhone'].invalid && (customerRegisterForm.controls['customerPhone'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="customerRegisterForm.controls['customerPhone'].errors.pattern">
+                        Please enter a valid phone number
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap">
+                  <div class="w-full lg:w-6/12 px-4">
+                    <div class="relative w-full mb-3">
+                      <label
+                        class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                      >
+                        Password
+                      </label>
+                      <input
+                        type="password"
+                        class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                        placeholder="Password"
+                        formControlName="customerPass"
+                      />
+                      <div *ngIf="customerRegisterForm.controls['customerPass'].invalid && (customerRegisterForm.controls['customerPass'].touched)" 
+                        class="text-sm text-red-500 mt-1">
+                        <div *ngIf="customerRegisterForm.controls['customerPass'].errors.required">
+                          Please enter password
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                  <div class="w-full lg:w-6/12 px-4">
+                    <div class="relative w-full mb-3">
+                      <label
+                        class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                      >
+                        Confirm Password
+                      </label>
+                      <input
+                        type="password"
+                        class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                        placeholder="Confirm Password"
+                        formControlName="customerPassConfirm"
+                      />
+                      <div *ngIf="customerRegisterForm.controls['customerPassConfirm'].invalid && (customerRegisterForm.controls['customerPassConfirm'].touched)" 
+                        class="text-sm text-red-500 mt-1">
+                        <div *ngIf="customerRegisterForm.controls['customerPassConfirm'].errors.required">
+                          Please confirm password
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>              
             </div>
 
             <div>
@@ -43,6 +186,7 @@
                   id="privacy-policy"
                   type="checkbox"
                   class="form-checkbox border-0 focus:ring-0 text-slate-700 ml-1 w-5 h-5 ease-linear transition-all duration-150 rounded"
+                  formControlName="customerPolicy"
                 />
                 <span class="ml-2 text-sm font-semibold text-slate-600">
                   I agree with the
@@ -55,8 +199,293 @@
 
             <div class="text-center mt-6">
               <button
-                class="bg-emerald-400 text-white active:bg-slate-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                class="bg-emerald-400 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="submit"
+                (click)="registerCustomerUser()"
+                disabled
+              >
+                Create Account
+              </button>
+            </div>
+          </form>
+
+          <!--
+            Register form for Company User
+          -->
+          <form [formGroup]="companyRegisterForm" *ngIf="isCompany">
+
+            <div>
+              <!--<app-fi-register [form]="registerForm"></app-fi-register> -->
+              <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+                Company Information
+              </h6>
+              <div class="flex flex-wrap">
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Company Name
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Company Name"
+                      formControlName="companyName"
+                    />
+                  </div>
+                </div>
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="XXX-XXX-XXXX"
+                      formControlName="companyPhone"
+                    />
+                  </div>
+                </div>
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Company Type
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Company Type"
+                      formControlName="companyType"
+                    />
+                  </div>
+                </div>
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Website
+                    </label>
+                    <input
+                      type="url"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Website"
+                      formControlName="companyWebsite"
+                    />
+                  </div>
+                </div>
+              
+                <div class=" w-full lg:w-6/12 px-4 flex flex-grow gap-6">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2 mr-4"
+                    >
+                      Address
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Street Address"
+                      formControlName="companyAddress"
+                    />
+                  </div>
+                
+                  <div class="relative w-6/12 mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2 ml-3"
+                    >
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="City"
+                      formControlName="companyCity"
+                    />
+                  </div>
+              
+                  <div class="relative w-6/12 mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Country
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Country"
+                      formControlName="companyCountry"
+                    />
+                  </div>
+              
+                  <div class="relative w-6/12 mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Postal Code
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Postal Code"
+                      formControlName="companyPostal"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <hr class="mt-6 border-b-1 border-slate-300" />
+              
+              <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+                User Information
+              </h6>
+              <div class="flex flex-wrap">
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="First Name"
+                      formControlName="employeeFirstName"
+                    />
+                  </div>
+                </div>
+              
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Last Name"
+                      formControlName="employeeLastName"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap">
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Email"
+                      formControlName="employeeEmail"
+                    />
+                  </div>
+                </div>
+              
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="XXX-XXX-XXXX"
+                      formControlName="employeePhone"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap">
+                  <div class="w-full lg:w-6/12 px-4">
+                    <div class="relative w-full mb-3">
+                      <label
+                        class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                      >
+                        Password
+                      </label>
+                      <input
+                        type="password"
+                        class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                        placeholder="Password"
+                        formControlName="employeePass"
+                      />
+                    </div>
+                  </div>
+                
+                  <div class="w-full lg:w-6/12 px-4">
+                    <div class="relative w-full mb-3">
+                      <label
+                        class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                      >
+                        Confirm Password
+                      </label>
+                      <input
+                        type="password"
+                        class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                        placeholder="Confirm Password"
+                        formControlName="employeePassConfirm"
+                      />
+                    </div>
+                </div>
+              
+                <div class="w-full lg:w-6/12 px-4">
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      Job Title
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="Job Title"
+                      formControlName="employeeJobTitle"
+                    />
+                  </div>
+                </div>
+              </div>              
+            </div>
+
+            <div>
+              <label class="inline-flex items-center cursor-pointer mt-6 px-2">
+                <input
+                  id="privacy-policy"
+                  type="checkbox"
+                  class="form-checkbox border-0 focus:ring-0 text-slate-700 ml-1 w-5 h-5 ease-linear transition-all duration-150 rounded"
+                  formControlName="companyPolicy"
+                />
+                <span class="ml-2 text-sm font-semibold text-slate-600">
+                  I agree with the
+                  <a [attr.href]="privacyPolicy" class="text-red-500">
+                    Privacy Policy
+                  </a>
+                </span>
+              </label>
+            </div>
+
+            <div class="text-center mt-6">
+              <button
+                class="bg-emerald-400 text-white active:bg-slate-600 disabled:bg-slate-200 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="submit"
+                (click)="registerCompanyUser()"
               >
                 Create Account
               </button>

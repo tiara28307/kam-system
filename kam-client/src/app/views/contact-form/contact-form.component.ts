@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { EmailService } from 'src/app/services/email.service';
 
 @Component({
@@ -17,8 +16,7 @@ export class ContactFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder, 
-    private emailService: EmailService,
-    private router: Router
+    private emailService: EmailService
   ) { }
 
   ngOnInit(): void {

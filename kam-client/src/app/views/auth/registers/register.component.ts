@@ -20,7 +20,6 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // TODO: Add input validation schema
 
     // TODO: Disable Create new account button until valid input
 
@@ -34,7 +33,10 @@ export class RegisterComponent implements OnInit {
       customerPhone: ['', Validators.compose([
         Validators.pattern(this.registerValidator.phonePattern)
       ])],
-      customerPass: ['', [Validators.required]],
+      customerPass: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern(this.registerValidator.passwordPattern)
+      ])],
       customerPassConfirm: ['', [Validators.required]],
       customerPolicy: ['', [Validators.required]]
     },
@@ -57,7 +59,7 @@ export class RegisterComponent implements OnInit {
       companyCountry: ['', [Validators.required]],
       companyPostal: ['', Validators.compose([
         Validators.required,
-        Validators.pattern(this.registerValidator.postalCode)
+        Validators.pattern(this.registerValidator.postalCodePattern)
       ])],
       employeeFirstName: ['', [Validators.required]],
       employeeLastName: ['', [Validators.required]],
@@ -68,7 +70,10 @@ export class RegisterComponent implements OnInit {
       employeePhone: ['', Validators.compose([
         Validators.pattern(this.registerValidator.phonePattern)
       ])],
-      employeePass: ['', [Validators.required]],
+      employeePass: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern(this.registerValidator.passwordPattern)
+      ])],
       employeePassConfirm: ['', [Validators.required]],
       employeeJobTitle: ['', [Validators.required]],
       companyPolicy: ['', [Validators.required]]
@@ -106,7 +111,7 @@ export class RegisterComponent implements OnInit {
     // If exists return 'user already exists' error message suggest logging in
     // If does not exist register new user
     if (this.customerRegisterForm.valid) {
-      alert('Form Submitted succesfully!!!\n Check the values in browser console.');
+      alert('Customer form submitted succesfully!');
       console.table(this.customerRegisterForm.value);
     } else {
       console.log('Invalid Input');
@@ -118,6 +123,11 @@ export class RegisterComponent implements OnInit {
     // Check if user already exists
     // If exists return 'user already exists' error message suggest logging in
     // If does not exist register new user
-    console.log('Company: ', this.companyRegisterForm);
+    if (this.companyRegisterForm.valid) {
+      alert('Company form submitted succesfully!');
+      console.table(this.companyRegisterForm.value);
+    } else {
+      console.log('Invalid Input');
+    }
   }
 }

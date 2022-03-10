@@ -152,6 +152,16 @@
                         <div *ngIf="customerRegisterForm.controls['customerPass'].errors.required">
                           Please enter password
                         </div>
+                        <div *ngIf="customerRegisterForm.controls['customerPass'].errors.pattern">
+                          Invalid password. Must contain at least:
+                          <ul class="list-disc px-6">
+                            <li>8 characters</li>
+                            <li>1 number</li>
+                            <li>1 special character</li>
+                            <li>1 uppercase letter</li>
+                            <li>1 lowercase letter</li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -175,6 +185,12 @@
                           Please confirm password
                         </div>
                       </div>
+                      <div *ngIf="customerRegisterForm.controls['customerPassConfirm'].valid && (customerRegisterForm.controls['customerPassConfirm'].touched)" 
+                        class="text-sm text-red-500 mt-1">
+                        <div *ngIf="customerRegisterForm.hasError('notSame')">
+                          Passwords do not match
+                        </div>
+                      </div>
                     </div>
                 </div>
               </div>              
@@ -187,6 +203,7 @@
                   type="checkbox"
                   class="form-checkbox border-0 focus:ring-0 text-slate-700 ml-1 w-5 h-5 ease-linear transition-all duration-150 rounded"
                   formControlName="customerPolicy"
+                  required
                 />
                 <span class="ml-2 text-sm font-semibold text-slate-600">
                   I agree with the
@@ -202,7 +219,7 @@
                 class="bg-emerald-400 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="submit"
                 (click)="registerCustomerUser()"
-                disabled
+                [disabled]="!customerRegisterForm.valid"
               >
                 Create Account
               </button>
@@ -233,6 +250,12 @@
                       placeholder="Company Name"
                       formControlName="companyName"
                     />
+                    <div *ngIf="companyRegisterForm.controls['companyName'].invalid && (companyRegisterForm.controls['companyName'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['companyName'].errors.required">
+                        Please enter company name
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="w-full lg:w-6/12 px-4">
@@ -248,6 +271,12 @@
                       placeholder="XXX-XXX-XXXX"
                       formControlName="companyPhone"
                     />
+                    <div *ngIf="companyRegisterForm.controls['companyPhone'].invalid && (companyRegisterForm.controls['companyPhone'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['companyPhone'].errors.pattern">
+                        Please enter a valid phone number
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="w-full lg:w-6/12 px-4">
@@ -257,12 +286,15 @@
                     >
                       Company Type
                     </label>
-                    <input
-                      type="text"
-                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
-                      placeholder="Company Type"
-                      formControlName="companyType"
-                    />
+                    <select 
+                    formControlName="companyType" 
+                    class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                    >
+                      <option hidden value="" disabled selected>Select Company Type</option>
+                      <option>test</option>
+                      <option>bank</option>
+                      <option>company</option>
+                  </select>
                   </div>
                 </div>
                 <div class="w-full lg:w-6/12 px-4">
@@ -278,6 +310,12 @@
                       placeholder="Website"
                       formControlName="companyWebsite"
                     />
+                    <div *ngIf="companyRegisterForm.controls['companyWebsite'].invalid && (companyRegisterForm.controls['companyWebsite'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['companyWebsite'].errors.pattern">
+                        Please enter a valid url
+                      </div>
+                    </div>
                   </div>
                 </div>
               
@@ -294,6 +332,12 @@
                       placeholder="Street Address"
                       formControlName="companyAddress"
                     />
+                    <div *ngIf="companyRegisterForm.controls['companyAddress'].invalid && (companyRegisterForm.controls['companyAddress'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['companyAddress'].errors.required">
+                        Please enter company address
+                      </div>
+                    </div>
                   </div>
                 
                   <div class="relative w-6/12 mb-3">
@@ -308,6 +352,12 @@
                       placeholder="City"
                       formControlName="companyCity"
                     />
+                    <div *ngIf="companyRegisterForm.controls['companyCity'].invalid && (companyRegisterForm.controls['companyCity'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['companyCity'].errors.required">
+                        Please enter city
+                      </div>
+                    </div>
                   </div>
               
                   <div class="relative w-6/12 mb-3">
@@ -316,12 +366,15 @@
                     >
                       Country
                     </label>
-                    <input
-                      type="text"
-                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
-                      placeholder="Country"
-                      formControlName="companyCountry"
-                    />
+                    <select 
+                    formControlName="companyCountry" 
+                    class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                    >
+                      <option hidden value="" disabled selected>Select Country</option>
+                      <option>USA</option>
+                      <option>Japan</option>
+                      <option>Germany</option>
+                  </select>
                   </div>
               
                   <div class="relative w-6/12 mb-3">
@@ -336,6 +389,15 @@
                       placeholder="Postal Code"
                       formControlName="companyPostal"
                     />
+                    <div *ngIf="companyRegisterForm.controls['companyPostal'].invalid && (companyRegisterForm.controls['companyPostal'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['companyPostal'].errors.required">
+                        Please enter postal code
+                      </div>
+                      <div *ngIf="companyRegisterForm.controls['companyPostal'].errors.pattern">
+                        Please enter a valid postal code
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -359,6 +421,12 @@
                       placeholder="First Name"
                       formControlName="employeeFirstName"
                     />
+                    <div *ngIf="companyRegisterForm.controls['employeeFirstName'].invalid && (companyRegisterForm.controls['employeeFirstName'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['employeeFirstName'].errors.required">
+                        Please enter first name
+                      </div>
+                    </div>
                   </div>
                 </div>
               
@@ -375,6 +443,12 @@
                       placeholder="Last Name"
                       formControlName="employeeLastName"
                     />
+                    <div *ngIf="companyRegisterForm.controls['employeeLastName'].invalid && (companyRegisterForm.controls['employeeLastName'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['employeeLastName'].errors.required">
+                        Please enter last name
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -393,6 +467,15 @@
                       placeholder="Email"
                       formControlName="employeeEmail"
                     />
+                    <div *ngIf="companyRegisterForm.controls['employeeEmail'].invalid && (companyRegisterForm.controls['employeeEmail'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['employeeEmail'].errors.required">
+                        Please enter email
+                      </div>
+                      <div *ngIf="companyRegisterForm.controls['employeeEmail'].errors.pattern">
+                        Please enter a valid email address
+                      </div>
+                    </div>
                   </div>
                 </div>
               
@@ -409,6 +492,12 @@
                       placeholder="XXX-XXX-XXXX"
                       formControlName="employeePhone"
                     />
+                    <div *ngIf="companyRegisterForm.controls['employeePhone'].invalid && (companyRegisterForm.controls['employeePhone'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['employeePhone'].errors.pattern">
+                        Please enter a valid phone number
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -427,6 +516,22 @@
                         placeholder="Password"
                         formControlName="employeePass"
                       />
+                      <div *ngIf="companyRegisterForm.controls['employeePass'].invalid && (companyRegisterForm.controls['employeePass'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                        <div *ngIf="companyRegisterForm.controls['employeePass'].errors.required">
+                          Please enter password
+                        </div>
+                        <div *ngIf="companyRegisterForm.controls['employeePass'].errors.pattern">
+                          Invalid password. Must contain at least:
+                          <ul class="list-disc px-6">
+                            <li>8 characters</li>
+                            <li>1 number</li>
+                            <li>1 special character</li>
+                            <li>1 uppercase letter</li>
+                            <li>1 lowercase letter</li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 
@@ -443,6 +548,18 @@
                         placeholder="Confirm Password"
                         formControlName="employeePassConfirm"
                       />
+                      <div *ngIf="companyRegisterForm.controls['employeePassConfirm'].invalid && (companyRegisterForm.controls['employeePassConfirm'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                        <div *ngIf="companyRegisterForm.controls['employeePassConfirm'].errors.required">
+                          Please confirm password
+                        </div>
+                      </div>
+                      <div *ngIf="companyRegisterForm.controls['employeePassConfirm'].valid && (companyRegisterForm.controls['employeePassConfirm'].touched)" 
+                        class="text-sm text-red-500 mt-1">
+                        <div *ngIf="companyRegisterForm.hasError('notSame')">
+                          Passwords do not match
+                        </div>
+                      </div>
                     </div>
                 </div>
               
@@ -459,6 +576,12 @@
                       placeholder="Job Title"
                       formControlName="employeeJobTitle"
                     />
+                    <div *ngIf="companyRegisterForm.controls['employeeJobTitle'].invalid && (companyRegisterForm.controls['employeeJobTitle'].touched)" 
+                    class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['employeeJobTitle'].errors.required">
+                        Please enter job title
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>              
@@ -471,6 +594,7 @@
                   type="checkbox"
                   class="form-checkbox border-0 focus:ring-0 text-slate-700 ml-1 w-5 h-5 ease-linear transition-all duration-150 rounded"
                   formControlName="companyPolicy"
+                  required
                 />
                 <span class="ml-2 text-sm font-semibold text-slate-600">
                   I agree with the
@@ -483,9 +607,10 @@
 
             <div class="text-center mt-6">
               <button
-                class="bg-emerald-400 text-white active:bg-slate-600 disabled:bg-slate-200 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                class="bg-emerald-400 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="submit"
                 (click)="registerCompanyUser()"
+                [disabled]="!companyRegisterForm.valid"
               >
                 Create Account
               </button>

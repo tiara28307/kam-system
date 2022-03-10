@@ -2176,6 +2176,10 @@ select {
   list-style-type: none;
 }
 
+.list-disc {
+  list-style-type: disc;
+}
+
 .m-1 {
   margin: 0.25rem;
 }

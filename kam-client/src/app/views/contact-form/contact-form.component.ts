@@ -46,6 +46,11 @@ export class ContactFormComponent implements OnInit {
         console.log('Response: ', res);
       },
       error => {
+        setTimeout(() => {
+          this.loading = false; 
+          this.buttonText = "Try Again";
+          }, 1000
+        );
         console.error('Error: ', error)
       }
     );

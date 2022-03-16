@@ -1,4 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { RegisterValidationService } from "src/app/services/register-validation.service";
 import { environment } from "src/environments/environment";
 
 @Component({
@@ -7,12 +9,83 @@ import { environment } from "src/environments/environment";
 })
 export class RegisterComponent implements OnInit {
   privacyPolicy = environment.privacyPolicyUrl;
-  isCustomer = true;
+  isCustomer = false;
   isCompany = false;
+  customerRegisterForm: FormGroup;
+  companyRegisterForm: FormGroup;
   
-  constructor() {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private registerValidator: RegisterValidationService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    // TODO: Disable Create new account button until valid input
+
+    this.customerRegisterForm = this.formBuilder.group({
+      customerFirstName: ['', [Validators.required]],
+      customerLastName: ['', [Validators.required]],
+      customerEmail: ['', Validators.compose([
+        Validators.required,
+        Validators.email
+      ])],
+      customerPhone: ['', Validators.compose([
+        Validators.pattern(this.registerValidator.phonePattern)
+      ])],
+      customerPass: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern(this.registerValidator.passwordPattern)
+      ])],
+      customerPassConfirm: ['', [Validators.required]],
+      customerPolicy: ['', [Validators.required]]
+    },
+    {
+      validators: this.registerValidator.checkCustomerPasswords
+    }
+    );
+
+    this.companyRegisterForm = this.formBuilder.group({
+      companyName: ['', [Validators.required]],
+      companyPhone: ['', Validators.compose([
+        Validators.pattern(this.registerValidator.phonePattern)
+      ])],
+      companyType: ['', [Validators.required]],
+      companyWebsite: ['', Validators.compose([
+        Validators.pattern(this.registerValidator.urlPattern)
+      ])],
+      companyAddress: ['', [Validators.required]],
+      companyCity: ['', [Validators.required]],
+      companyCountry: ['', [Validators.required]],
+      companyPostal: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern(this.registerValidator.postalCodePattern)
+      ])],
+      employeeFirstName: ['', [Validators.required]],
+      employeeLastName: ['', [Validators.required]],
+      employeeEmail: ['', Validators.compose([
+        Validators.required,
+        Validators.email
+      ])],
+      employeePhone: ['', Validators.compose([
+        Validators.pattern(this.registerValidator.phonePattern)
+      ])],
+      employeePass: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern(this.registerValidator.passwordPattern)
+      ])],
+      employeePassConfirm: ['', [Validators.required]],
+      employeeJobTitle: ['', [Validators.required]],
+      companyPolicy: ['', [Validators.required]]
+    },
+    {
+      validators: this.registerValidator.checkEmployeePasswords
+    }
+    );
+  }
+
+  // Add some validation checker that enables and disables create new account button
+  // based on proper input values
 
   toggleIsCustomer(event) {
     event.preventDefault();
@@ -30,5 +103,31 @@ export class RegisterComponent implements OnInit {
     }
     this.isCustomer = false;
     console.log("Is Company User!");
+  }
+
+  registerCustomerUser() {
+    // Connect to AWS Cognito
+    // Check if user already exists
+    // If exists return 'user already exists' error message suggest logging in
+    // If does not exist register new user
+    if (this.customerRegisterForm.valid) {
+      alert('Customer form submitted succesfully!');
+      console.table(this.customerRegisterForm.value);
+    } else {
+      console.log('Invalid Input');
+    }
+  }
+
+  registerCompanyUser() {
+    // Connect to AWS Cognito
+    // Check if user already exists
+    // If exists return 'user already exists' error message suggest logging in
+    // If does not exist register new user
+    if (this.companyRegisterForm.valid) {
+      alert('Company form submitted succesfully!');
+      console.table(this.companyRegisterForm.value);
+    } else {
+      console.log('Invalid Input');
+    }
   }
 }

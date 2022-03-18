@@ -23,6 +23,7 @@ import { ProfileComponent } from "./views/profile/profile.component";
 // env config
 import { environment } from "src/environments/environment";
 import { AuthGuard } from "./auth/auth.guard";
+import { ForgotPasswordComponent } from "./views/auth/forgot-password/forgot-password.component";
 
 const routes: Routes = [
   // admin views
@@ -45,6 +46,7 @@ const routes: Routes = [
     children: [
       { path: "login", component: LoginComponent },
       { path: "signup", component: RegisterComponent },
+      { path: "forgotpassword", component: ForgotPasswordComponent },
       { path: "", redirectTo: "login", pathMatch: "full" },
     ],
   },

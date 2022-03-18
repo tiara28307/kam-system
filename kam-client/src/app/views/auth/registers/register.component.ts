@@ -4,8 +4,7 @@ import { Router } from "@angular/router";
 import { CognitoUserAttribute, CognitoUserPool } from "amazon-cognito-identity-js";
 import { RegisterValidationService } from "src/app/services/register-validation.service";
 import { environment } from "src/environments/environment";
-import { colors } from "src/constants/colors.constant";
-import Swal from 'sweetalert2';
+import { FailedRegistrationAlert, SuccessfulRegistrationAlert } from "src/constants/alerts.constant";
 
 @Component({
   selector: "app-register",
@@ -153,28 +152,15 @@ export class RegisterComponent implements OnInit {
         this.isLoading = false;
         if (err) {
           //alert(err.message || JSON.stringify(err));
-          Swal.fire({
-            title: 'Error',
-            text: err.message || JSON.stringify(err),
-            confirmButtonText: 'Okay',
-            confirmButtonColor: colors.theme,
-            iconColor: colors.error,
-            icon: 'error'
-          });
+          FailedRegistrationAlert(err).fire({});
           return;
         }
 
         console.log('Success Registration: ', result);
-        Swal.fire({
-          title: 'Success!',
-          text: 'Your account was created! Awaiting admin approval.',
-          confirmButtonText: 'Okay',
-          confirmButtonColor: colors.theme,
-          iconColor: colors.success,
-          icon: 'success'
-        }).then((result) => {
-          this.router.navigate(['/auth/login']);
-        });
+        SuccessfulRegistrationAlert.fire({})
+          .then((result) => {
+            this.router.navigate(['/auth/login']);
+          });
       });
     } else {
       console.log('Invalid Input');
@@ -244,28 +230,15 @@ export class RegisterComponent implements OnInit {
         this.isLoading = false;
         if (err) {
           //alert(err.message || JSON.stringify(err));
-          Swal.fire({
-            title: 'Error',
-            text: err.message || JSON.stringify(err),
-            confirmButtonText: 'Okay',
-            confirmButtonColor: colors.theme,
-            iconColor: colors.error,
-            icon: 'error'
-          });
+          FailedRegistrationAlert(err).fire({});
           return;
         }
 
         console.log('Success Registration: ', result);
-        Swal.fire({
-          title: 'Success!',
-          text: 'Your account was created! Awaiting admin approval.',
-          confirmButtonText: 'Okay',
-          confirmButtonColor: colors.theme,
-          iconColor: colors.success,
-          icon: 'success'
-        }).then((result) => {
-          this.router.navigate(['/auth/login']);
-        });
+        SuccessfulRegistrationAlert.fire({})
+          .then((result) => {
+            this.router.navigate(['/auth/login']);
+          });
       });
     } else {
       console.log('Invalid Input');

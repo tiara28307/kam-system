@@ -52,6 +52,7 @@ import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user
 import { ContactFormComponent } from './views/contact-form/contact-form.component';
 import { EmailService } from "./services/email.service";
 import { AuthService } from "./auth/auth.service";
+import { ForgotPasswordComponent } from './views/auth/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { AuthService } from "./auth/auth.service";
     IndexComponent,
     LandingComponent,
     ProfileComponent,
-    ContactFormComponent
+    ContactFormComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule, 

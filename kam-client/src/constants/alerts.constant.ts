@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 
 let SuccessfulRegistrationAlert = Swal.mixin({
   title: 'Success!',
-  text: 'Your account was created! Awaiting admin approval.',
+  text: 'Your account was created! Awaiting user approval.',
   confirmButtonText: 'Okay',
   confirmButtonColor: colors.theme,
   iconColor: colors.success,

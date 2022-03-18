@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: "app-footer-admin",
-  templateUrl: "./footer-admin.component.html",
+  selector: "app-footer-user",
+  templateUrl: "./footer-user.component.html",
 })
-export class FooterAdminComponent implements OnInit {
+export class FooterUserComponent implements OnInit {
   date = new Date().getFullYear();
   constructor() {}
 

@@ -8,14 +8,14 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
 // layouts
-import { AdminComponent } from "./layouts/admin/admin.component";
+import { UserComponent } from "./layouts/user/user.component";
 import { AuthComponent } from "./layouts/auth/auth.component";
 
-// admin views
-import { DashboardComponent } from "./views/admin/dashboard/dashboard.component";
-import { MapsComponent } from "./views/admin/maps/maps.component";
-import { SettingsComponent } from "./views/admin/settings/settings.component";
-import { TablesComponent } from "./views/admin/tables/tables.component";
+// user views
+import { DashboardComponent } from "./views/user/dashboard/dashboard.component";
+import { MapsComponent } from "./views/user/maps/maps.component";
+import { SettingsComponent } from "./views/user/settings/settings.component";
+import { TablesComponent } from "./views/user/tables/tables.component";
 
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
@@ -27,7 +27,7 @@ import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
 
 // components for views and layouts
-import { AdminNavbarComponent } from "./components/navbars/admin-navbar/admin-navbar.component";
+import { UserNavbarComponent } from "./components/navbars/user-navbar/user-navbar.component";
 import { AuthNavbarComponent } from "./components/navbars/auth-navbar/auth-navbar.component";
 import { CardBarChartComponent } from "./components/cards/card-bar-chart/card-bar-chart.component";
 import { CardLineChartComponent } from "./components/cards/card-line-chart/card-line-chart.component";
@@ -37,7 +37,7 @@ import { CardSettingsComponent } from "./components/cards/card-settings/card-set
 import { CardSocialTrafficComponent } from "./components/cards/card-social-traffic/card-social-traffic.component";
 import { CardStatsComponent } from "./components/cards/card-stats/card-stats.component";
 import { CardTableComponent } from "./components/cards/card-table/card-table.component";
-import { FooterAdminComponent } from "./components/footers/footer-admin/footer-admin.component";
+import { FooterUserComponent } from "./components/footers/footer-user/footer-user.component";
 import { FooterComponent } from "./components/footers/footer/footer.component";
 import { FooterSmallComponent } from "./components/footers/footer-small/footer-small.component";
 import { HeaderStatsComponent } from "./components/headers/header-stats/header-stats.component";
@@ -68,7 +68,7 @@ import { ForgotPasswordComponent } from './views/auth/forgot-password/forgot-pas
     SidebarComponent,
     FooterComponent,
     FooterSmallComponent,
-    FooterAdminComponent,
+    FooterUserComponent,
     CardPageVisitsComponent,
     CardProfileComponent,
     CardSettingsComponent,
@@ -78,9 +78,9 @@ import { ForgotPasswordComponent } from './views/auth/forgot-password/forgot-pas
     HeaderStatsComponent,
     MapExampleComponent,
     AuthNavbarComponent,
-    AdminNavbarComponent,
+    UserNavbarComponent,
     IndexNavbarComponent,
-    AdminComponent,
+    UserComponent,
     AuthComponent,
     MapsComponent,
     SettingsComponent,

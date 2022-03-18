@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
       
       cognitoUser.authenticateUser(authDetails, {
         onSuccess: (result) => {
-          this.router.navigate(['/admin/dashboard']);
+          this.router.navigate(['/user/dashboard']);
         },
         onFailure: (err) => {
           alert(err.message || JSON.stringify(err));

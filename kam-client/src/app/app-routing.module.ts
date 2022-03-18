@@ -22,6 +22,7 @@ import { ProfileComponent } from "./views/profile/profile.component";
 
 // env config
 import { environment } from "src/environments/environment";
+import { AuthGuard } from "./auth/auth.guard";
 
 const routes: Routes = [
   // admin views
@@ -30,8 +31,8 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       // TODO: Add /:id for admin paths
-      { path: "dashboard", component: DashboardComponent },
-      { path: "settings", component: SettingsComponent },
+      { path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard] },
+      { path: "settings", component: SettingsComponent, canActivate: [AuthGuard] },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },
       { path: "", redirectTo: "dashboard", pathMatch: "full" },

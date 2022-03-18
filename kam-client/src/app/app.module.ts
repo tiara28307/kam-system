@@ -1,7 +1,8 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
+import { NgxLoadingModule } from 'ngx-loading';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -50,6 +51,7 @@ import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user-dropdown.component";
 import { ContactFormComponent } from './views/contact-form/contact-form.component';
 import { EmailService } from "./services/email.service";
+import { AuthService } from "./auth/auth.service";
 
 @NgModule({
   declarations: [
@@ -93,9 +95,11 @@ import { EmailService } from "./services/email.service";
     BrowserModule, 
     AppRoutingModule, 
     ReactiveFormsModule, 
-    HttpClientModule
+    HttpClientModule,
+    NgxLoadingModule
   ],
-  providers: [EmailService],
+  providers: [EmailService, AuthService],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

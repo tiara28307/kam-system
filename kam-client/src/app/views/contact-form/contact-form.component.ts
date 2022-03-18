@@ -27,7 +27,7 @@ export class ContactFormComponent implements OnInit {
     });
   }
 
-  sendMessage() {
+  onSendMessage() {
     this.loading = true;
     let fullName = this.nodeMailerForm.value.fullName;
     let email = this.nodeMailerForm.value.email;

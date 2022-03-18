@@ -11,7 +11,7 @@
           <hr class="mt-6 border-b-1 border-slate-300" />
         </div>
         <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-          <form>
+          <form [formGroup]="loginForm">
             <div class="relative w-full mb-3">
               <label
                 class="block uppercase text-slate-600 text-xs font-bold mb-2"
@@ -23,7 +23,17 @@
                 type="email"
                 class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
                 placeholder="Email"
+                formControlName="email"
               />
+              <div *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].touched)" 
+                class="text-sm text-red-500 mt-1">
+                <div *ngIf="loginForm.controls['email'].errors.required">
+                  Please enter email
+                </div>
+                <div *ngIf="loginForm.controls['email'].errors.email">
+                  Please use a valid email address
+                </div>
+              </div>
             </div>
 
             <div class="relative w-full mb-3">
@@ -37,25 +47,37 @@
                 type="password"
                 class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
                 placeholder="Password"
+                formControlName="password"
               />
+              <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].touched)" 
+                class="text-sm text-red-500 mt-1">
+                <div *ngIf="loginForm.controls['password'].errors.required">
+                  Please enter password
+                </div>
+              </div>
             </div>
+            <!--
+              Add Later
             <div>
               <label class="inline-flex items-center cursor-pointer">
                 <input
                   id="customCheckLogin"
                   type="checkbox"
                   class="form-checkbox border-0 focus:ring-0 text-slate-700 ml-1 w-5 h-5 ease-linear transition-all duration-150 rounded"
+                  formControlName="rememberMe"
                 />
                 <span class="ml-2 text-sm font-semibold text-slate-600">
                   Remember me
                 </span>
               </label>
-            </div>
+            </div> -->
 
             <div class="text-center mt-6">
               <button
-                class="bg-emerald-400 text-white active:bg-slate-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-1/2 ease-linear transition-all duration-150"
+                class="bg-emerald-400 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-1/2 ease-linear transition-all duration-150"
                 type="button"
+                (click)="onLogin()"
+                [disabled]="!loginForm.valid"
               >
                 Login
               </button>

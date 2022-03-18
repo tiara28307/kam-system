@@ -12,7 +12,8 @@ const targetPath = isProduction
    : `./src/environments/environment.ts`;
 
 if (!process.env.AWS_COGNITO_USER_POOL || !process.env.AWS_COGNITO_CLIENT_ID || !process.env.AWS_DEFAULT_REGION
-  || !process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+  || !process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.PRIVACY_POLICY_URI 
+  || !process.env.TERMS_CONDITIONS_URI || !process.env.WHITE_PAPER_URI) {
   console.error('All the required environment variables were not provided!');
   process.exit(-1);
 }

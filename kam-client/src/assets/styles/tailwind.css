@@ -1465,6 +1465,11 @@ select {
   border-collapse: separate;
 }
 
+.border-emerald-400 {
+  --tw-border-opacity: 1;
+  border-color: rgba(52, 211, 153, var(--tw-border-opacity));
+}
+
 .border-red-700 {
   --tw-border-opacity: 1;
   border-color: rgba(185, 28, 28, var(--tw-border-opacity));

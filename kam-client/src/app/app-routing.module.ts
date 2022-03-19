@@ -30,8 +30,8 @@ const routes: Routes = [
     path: "user",
     component: UserComponent,
     children: [
-      { path: "kyc/dashboard/:id", component: CustomerKycDashboardComponent },
-      { path: "settings/:id", component: SettingsComponent },
+      { path: "kyc/dashboard/:id", component: CustomerKycDashboardComponent, canActivate: [AuthGuard] },
+      { path: "settings/:id", component: SettingsComponent, canActivate: [AuthGuard] },
       { path: "tables", component: TablesComponent },
       { path: "", redirectTo: "", pathMatch: "full" },
     ],

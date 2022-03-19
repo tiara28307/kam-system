@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthenticationDetails, CognitoUser, CognitoUserPool } from "amazon-cognito-identity-js";
+import { FailedLoginAlert } from "src/constants/alerts.constant";
 import { environment } from "src/environments/environment";
 
 @Component({
@@ -51,16 +52,16 @@ export class LoginComponent implements OnInit {
         Pool: userPool
       };
       var cognitoUser = new CognitoUser(userData);
-
-      // cognitoUser.confirmRegistration()
       
       cognitoUser.authenticateUser(authDetails, {
         onSuccess: (result) => {
+          this.isLoading = false;
           this.router.navigate(['/user/kyc/dashboard/:id']);
+          console.log(result);
         },
         onFailure: (err) => {
-          alert(err.message || JSON.stringify(err));
           this.isLoading = false;
+          FailedLoginAlert(err).fire({});
         }
       });
     } else {

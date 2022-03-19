@@ -132,7 +132,7 @@ export class RegisterComponent implements OnInit {
         "name": customerFirstName,
         "family_name": customerLastName,
         "email": customerEmail,
-        "phone_number": customerPhone,
+        "custom:phone": customerPhone,
         "custom:role": 'CUSTOMER'
       }
 
@@ -202,7 +202,7 @@ export class RegisterComponent implements OnInit {
         "name": employeeFirstName,
         "family_name": employeeLastName,
         "email": employeeEmail,
-        "phone_number": employeePhone,
+        "custom:phone": employeePhone,
         "custom:role": 'COMPANY',
         "custom:company_name": companyName,
         "custom:company_phone": companyPhone,

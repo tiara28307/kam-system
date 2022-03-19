@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { DoNotHavePermissionToPageAlert } from 'src/constants/alerts.constant';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -17,7 +18,10 @@ export class AuthGuard implements CanActivate {
     let isAuth = this.authService.isLoggedIn()
     
     if(!isAuth) {
-      this.router.navigate(['/auth/login'])
+      DoNotHavePermissionToPageAlert.fire({})
+        .then((result) => {
+          this.router.navigate(['/auth/login'])
+        });
     }
 
     return isAuth;

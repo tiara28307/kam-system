@@ -1,6 +1,7 @@
 import { colors } from './colors.constant';
 import Swal from 'sweetalert2';
 
+// Registration Alerts
 let SuccessfulRegistrationAlert = Swal.mixin({
   title: 'Success!',
   text: 'Your account was created! Awaiting user approval.',
@@ -19,6 +20,17 @@ let FailedRegistrationAlert = (err: Error) => Swal.mixin({
   icon: 'error'
 });
 
+// Login Alerts
+let FailedLoginAlert = (err: Error) => Swal.mixin({
+  title: 'Error',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
+// Reset Password Alerts
 let EnterVerificationCodeAlert = Swal.mixin({
     title: 'Enter Verification Code',
     input: 'text',
@@ -61,6 +73,7 @@ let SuccessfulPasswordResetAlert = Swal.mixin({
   icon: 'success'
 });
 
+// Logout Alerts
 let LogoutAlert = Swal.mixin({
   title: 'Logout',
   text: 'Are you sure you want to logout?',
@@ -71,6 +84,16 @@ let LogoutAlert = Swal.mixin({
   icon: 'question'
 });
 
+// Permissions Alerts
+let DoNotHavePermissionToPageAlert = Swal.mixin({
+  title: 'Sorry',
+  text: 'You do not have permission to access this page',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.warning,
+  icon: 'warning'
+});
+
 export {
   SuccessfulRegistrationAlert,
   FailedRegistrationAlert,
@@ -78,5 +101,7 @@ export {
   FailedResetPasswordAlert,
   EnterNewPasswordAlert,
   SuccessfulPasswordResetAlert,
-  LogoutAlert
+  LogoutAlert,
+  DoNotHavePermissionToPageAlert,
+  FailedLoginAlert
 }

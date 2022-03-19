@@ -12,8 +12,7 @@ import { UserComponent } from "./layouts/user/user.component";
 import { AuthComponent } from "./layouts/auth/auth.component";
 
 // user views
-import { DashboardComponent } from "./views/user/dashboard/dashboard.component";
-import { MapsComponent } from "./views/user/maps/maps.component";
+import { CustomerKycDashboardComponent } from "./views/user/dashboards/customer-kyc-dashboard/customer-kyc-dashboard.component";
 import { SettingsComponent } from "./views/user/settings/settings.component";
 import { TablesComponent } from "./views/user/tables/tables.component";
 
@@ -53,11 +52,18 @@ import { ContactFormComponent } from './views/contact-form/contact-form.componen
 import { EmailService } from "./services/email.service";
 import { AuthService } from "./auth/auth.service";
 import { ForgotPasswordComponent } from './views/auth/forgot-password/forgot-password.component';
+import { CardApplicationStatsComponent } from './components/cards/card-application-stats/card-application-stats.component';
+import { CardApplicationTableComponent } from "./components/cards/card-application-table/card-application-table.component";
+import { CardRequestTableComponent } from './components/cards/card-request-table/card-request-table.component';
+import { CardApplicationFullTableComponent } from './components/cards/card-application-full-table/card-application-full-table.component';
+import { CardRequestFullTableComponent } from './components/cards/card-request-full-table/card-request-full-table.component';
+import { CardApplicationComponent } from './components/cards/card-application/card-application.component';
+import { CardRequestComponent } from './components/cards/card-request/card-request.component';
+import { HeaderDefaultComponent } from './components/headers/header-default/header-default.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     CardBarChartComponent,
     CardLineChartComponent,
     IndexDropdownComponent,
@@ -82,16 +88,24 @@ import { ForgotPasswordComponent } from './views/auth/forgot-password/forgot-pas
     IndexNavbarComponent,
     UserComponent,
     AuthComponent,
-    MapsComponent,
-    SettingsComponent,
-    TablesComponent,
     LoginComponent,
     RegisterComponent,
     IndexComponent,
     LandingComponent,
     ProfileComponent,
     ContactFormComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    CardApplicationStatsComponent,
+    CardApplicationTableComponent,
+    CustomerKycDashboardComponent,
+    SettingsComponent,
+    TablesComponent,
+    CardRequestTableComponent,
+    CardApplicationFullTableComponent,
+    CardRequestFullTableComponent,
+    CardApplicationComponent,
+    CardRequestComponent,
+    HeaderDefaultComponent
   ],
   imports: [
     BrowserModule, 

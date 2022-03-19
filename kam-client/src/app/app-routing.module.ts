@@ -6,8 +6,7 @@ import { UserComponent } from "./layouts/user/user.component";
 import { AuthComponent } from "./layouts/auth/auth.component";
 
 // user views
-import { DashboardComponent } from "./views/user/dashboard/dashboard.component";
-import { MapsComponent } from "./views/user/maps/maps.component";
+import { CustomerKycDashboardComponent } from "./views/user/dashboards/customer-kyc-dashboard/customer-kyc-dashboard.component";
 import { SettingsComponent } from "./views/user/settings/settings.component";
 import { TablesComponent } from "./views/user/tables/tables.component";
 
@@ -31,12 +30,10 @@ const routes: Routes = [
     path: "user",
     component: UserComponent,
     children: [
-      // TODO: Add /:id for user paths
-      { path: "dashboard/:id", component: DashboardComponent },
+      { path: "kyc/dashboard/:id", component: CustomerKycDashboardComponent },
       { path: "settings/:id", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
-      { path: "maps", component: MapsComponent },
-      { path: "", redirectTo: "dashboard", pathMatch: "full" },
+      { path: "", redirectTo: "", pathMatch: "full" },
     ],
   },
   // auth views

@@ -3265,6 +3265,10 @@ select {
   color: rgba(30, 41, 59, var(--tw-text-opacity));
 }
 
+.hover\:underline:hover {
+  text-decoration: underline;
+}
+
 .hover\:text-red-700:hover {
   --tw-text-opacity: 1;
   color: rgba(185, 28, 28, var(--tw-text-opacity));

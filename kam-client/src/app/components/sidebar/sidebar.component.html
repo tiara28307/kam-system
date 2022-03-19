@@ -76,12 +76,12 @@
       <ul class="md:flex-col md:min-w-full flex flex-col list-none">
         <li class="items-center">
           <a
-            [routerLink]="['/user/dashboard/:id']"
+            [routerLink]="['/user/kyc/dashboard/:id']"
             class="text-xs uppercase py-3 font-bold block"
             routerLinkActive
-            #userDashboard="routerLinkActive"
+            #userCustomerKycDashboard="routerLinkActive"
             [ngClass]="
-              userDashboard.isActive
+              userCustomerKycDashboard.isActive
                 ? 'text-red-600 hover:text-red-700'
                 : 'text-slate-700 hover:text-slate-500'
             "
@@ -89,32 +89,10 @@
             <i
               class="fas fa-house-chimney mr-2 text-lg"
               [ngClass]="
-                userDashboard.isActive ? 'opacity-75' : 'text-slate-300'
+                userCustomerKycDashboard.isActive ? 'opacity-75' : 'text-slate-300'
               "
             ></i>
             Dashboard
-          </a>
-        </li>
-
-        <li class="items-center">
-          <a
-            [routerLink]="['/user/settings/:id']"
-            class="text-xs uppercase py-3 font-bold block"
-            routerLinkActive
-            #userSettings="routerLinkActive"
-            [ngClass]="
-              userSettings.isActive
-                ? 'text-red-600 hover:text-red-700'
-                : 'text-slate-700 hover:text-slate-500'
-            "
-          >
-            <i
-              class="fas fa-user-gear mr-2 text-lg"
-              [ngClass]="
-                userSettings.isActive ? 'opacity-75' : 'text-slate-300'
-              "
-            ></i>
-            Settings
           </a>
         </li>
 
@@ -142,7 +120,7 @@
 
         <li class="items-center">
           <a
-            [routerLink]="['/user/maps']"
+            [routerLink]="['/user/settings/:id']"
             class="text-xs uppercase py-3 font-bold block"
             routerLinkActive
             #userMaps="routerLinkActive"

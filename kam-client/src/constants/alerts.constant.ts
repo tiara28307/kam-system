@@ -61,11 +61,22 @@ let SuccessfulPasswordResetAlert = Swal.mixin({
   icon: 'success'
 });
 
+let LogoutAlert = Swal.mixin({
+  title: 'Logout',
+  text: 'Are you sure you want to logout?',
+  confirmButtonText: 'Logout',
+  confirmButtonColor: colors.error,
+  showCancelButton: true,
+  iconColor: colors.theme,
+  icon: 'question'
+});
+
 export {
   SuccessfulRegistrationAlert,
   FailedRegistrationAlert,
   EnterVerificationCodeAlert,
   FailedResetPasswordAlert,
   EnterNewPasswordAlert,
-  SuccessfulPasswordResetAlert
+  SuccessfulPasswordResetAlert,
+  LogoutAlert
 }

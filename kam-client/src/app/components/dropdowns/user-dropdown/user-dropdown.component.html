@@ -6,12 +6,12 @@
 >
   <div class="items-center flex">
     <span
-      class="w-12 h-12 text-sm text-white bg-slate-200 inline-flex items-center justify-center rounded-full"
+      class="w-12 h-12 text-sm text-white bg-slate-100 inline-flex items-center justify-center rounded-full"
     >
       <img
         alt="..."
         class="w-full rounded-full align-middle border-none shadow-lg"
-        src="assets/img/team-1-800x800.jpg"
+        src="assets/img/avatar.png"
       />
     </span>
   </div>
@@ -22,29 +22,24 @@
     [ngClass]="dropdownPopoverShow ? 'block' : 'hidden'"
   >
     <a
-      href="#pablo"
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
+      [routerLink]="['/user/settings/:id']"
+      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700 hover:text-red-700"
     >
-      Action
+    <i class="fas fa-user-gear mr-2 text-md"></i>
+      Settings
     </a>
     <a
-      href="#pablo"
       class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
     >
-      Another action
+    <i class="fas fa-bell mr-2 text-md"></i>
+      Notifications
     </a>
-    <a
-      href="#pablo"
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
+    <button
+      class="text-sm py-2 px-4 font-normal text-left w-full whitespace-nowrap bg-transparent text-slate-700 hover:text-red-700"
+      (click)="onLogout()"
     >
-      Something else here
-    </a>
-    <div class="h-0 my-2 border border-solid border-slate-100"></div>
-    <a
-      href="#pablo"
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700"
-    >
-      Seprated link
-    </a>
+    <i class="fas fa-door-open mr-2 text-md"></i>
+      Logout
+    </button>
   </div>
 </div>

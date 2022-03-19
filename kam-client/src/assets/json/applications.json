@@ -1,0 +1,50 @@
+[
+  {
+    "applicationId": "K00000001",
+    "company": "Wells Fargo",
+    "startDate": "03.18.2022",
+    "status": "OPEN"
+  },
+  {
+    "applicationId": "K00000002",
+    "company": "Captial One",
+    "startDate": "02.06.2021",
+    "status": "APPROVED"
+  },
+  {
+    "applicationId": "K00000003",
+    "company": "Chase Mortgage",
+    "startDate": "01.12.2022",
+    "status": "SUBMITTED"
+  },
+  {
+    "applicationId": "K00000004",
+    "company": "Truist Bank",
+    "startDate": "12.05.2021",
+    "status": "REJECTED"
+  },
+  {
+    "applicationId": "K00000005",
+    "company": "Wells Fargo",
+    "startDate": "03.18.2022",
+    "status": "OPEN"
+  },
+  {
+    "applicationId": "K00000006",
+    "company": "Captial One",
+    "startDate": "02.06.2021",
+    "status": "APPROVED"
+  },
+  {
+    "applicationId": "K00000007",
+    "company": "Chase Mortgage",
+    "startDate": "01.12.2022",
+    "status": "SUBMITTED"
+  },
+  {
+    "applicationId": "K00000008",
+    "company": "Truist Bank",
+    "startDate": "12.05.2021",
+    "status": "REJECTED"
+  }
+]

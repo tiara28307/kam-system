@@ -21,7 +21,16 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": [ "chart.js" ],
+            "allowedCommonJsDependencies": [
+              "chart.js",
+              "crypto-js/sha256",
+              "isomorphic-unfetch",
+              "buffer",
+              "crypto-js/core",
+              "crypto-js/enc-base64",
+              "crypto-js/hmac-sha256",
+              "crypto-js/lib-typedarrays"
+            ],
             "outputPath": "dist/notus-angular",
             "index": "src/index.html",
             "main": "src/main.ts",

@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { CognitoUserAttribute, CognitoUserPool } from "amazon-cognito-identity-js";
 import { RegisterValidationService } from "src/app/services/register-validation.service";
 import { environment } from "src/environments/environment";
+import { FailedRegistrationAlert, SuccessfulRegistrationAlert } from "src/constants/alerts.constant";
 
 @Component({
   selector: "app-register",
@@ -13,16 +16,16 @@ export class RegisterComponent implements OnInit {
   isCompany = false;
   customerRegisterForm: FormGroup;
   companyRegisterForm: FormGroup;
+  isLoading = false;
   
   constructor(
     private formBuilder: FormBuilder,
-    private registerValidator: RegisterValidationService
+    private registerValidator: RegisterValidationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-
     // TODO: Disable Create new account button until valid input
-
     this.customerRegisterForm = this.formBuilder.group({
       customerFirstName: ['', [Validators.required]],
       customerLastName: ['', [Validators.required]],
@@ -105,27 +108,138 @@ export class RegisterComponent implements OnInit {
     console.log("Is Company User!");
   }
 
-  registerCustomerUser() {
-    // Connect to AWS Cognito
-    // Check if user already exists
-    // If exists return 'user already exists' error message suggest logging in
-    // If does not exist register new user
+  onRegisterCustomerUser() {
+
     if (this.customerRegisterForm.valid) {
-      alert('Customer form submitted succesfully!');
-      console.table(this.customerRegisterForm.value);
+      // alert('Customer form submitted succesfully!');
+      // console.table(this.customerRegisterForm.value);
+      this.isLoading = true;
+      
+      var poolData = {
+        UserPoolId: environment.AWS_COGNITO_USER_POOL,
+        ClientId: environment.AWS_COGNITO_CLIENT_ID
+      };
+      var userPool = new CognitoUserPool(poolData);
+      var attributeList = [];
+
+      let customerFirstName = this.customerRegisterForm.value.customerFirstName;
+      let customerLastName = this.customerRegisterForm.value.customerLastName;
+      let customerEmail = this.customerRegisterForm.value.customerEmail;
+      let customerPhone = this.customerRegisterForm.value.customerPhone;
+      let customerPass = this.customerRegisterForm.value.customerPass;
+      
+      let formData = {
+        "name": customerFirstName,
+        "family_name": customerLastName,
+        "email": customerEmail,
+        "custom:phone": customerPhone,
+        "custom:role": 'CUSTOMER'
+      }
+
+      for (let key in formData) {
+        let attrData = {
+          Name: key,
+          Value: formData[key]
+        }
+        let attribute = new CognitoUserAttribute(attrData);
+        attributeList.push(attribute);
+      }
+
+      userPool.signUp(customerEmail, customerPass, attributeList, [], (
+        err,
+        result
+      ) => {
+        this.isLoading = false;
+        if (err) {
+          //alert(err.message || JSON.stringify(err));
+          FailedRegistrationAlert(err).fire({});
+          return;
+        }
+
+        console.log('Success Registration: ', result);
+        SuccessfulRegistrationAlert.fire({})
+          .then((result) => {
+            this.router.navigate(['/auth/login']);
+          });
+      });
     } else {
       console.log('Invalid Input');
     }
   }
 
-  registerCompanyUser() {
-    // Connect to AWS Cognito
-    // Check if user already exists
-    // If exists return 'user already exists' error message suggest logging in
-    // If does not exist register new user
+  onRegisterCompanyUser() {
+
     if (this.companyRegisterForm.valid) {
-      alert('Company form submitted succesfully!');
-      console.table(this.companyRegisterForm.value);
+      // alert('Company form submitted succesfully!');
+      // console.table(this.companyRegisterForm.value);
+      this.isLoading = true;
+      
+      var poolData = {
+        UserPoolId: environment.AWS_COGNITO_USER_POOL,
+        ClientId: environment.AWS_COGNITO_CLIENT_ID
+      };
+      var userPool = new CognitoUserPool(poolData);
+      var attributeList = [];
+
+      // company details
+      let companyName = this.companyRegisterForm.value.companyName;
+      let companyPhone = this.companyRegisterForm.value.companyPhone;
+      let companyType = this.companyRegisterForm.value.companyType;
+      let companyWebsite = this.companyRegisterForm.value.companyWebsite;
+      let companyAddress = this.companyRegisterForm.value.companyAddress;
+      let companyCity = this.companyRegisterForm.value.companyCity;
+      let companyCountry = this.companyRegisterForm.value.companyCountry;
+      let companyPostal = this.companyRegisterForm.value.companyPostal;
+
+      // employee details
+      let employeeFirstName = this.companyRegisterForm.value.employeeFirstName;
+      let employeeLastName = this.companyRegisterForm.value.employeeLastName;
+      let employeeEmail = this.companyRegisterForm.value.employeeEmail;
+      let employeePhone = this.companyRegisterForm.value.employeePhone;
+      let employeePass = this.companyRegisterForm.value.employeePass;
+      
+      let formData = {
+        "name": employeeFirstName,
+        "family_name": employeeLastName,
+        "email": employeeEmail,
+        "custom:phone": employeePhone,
+        "custom:role": 'COMPANY',
+        "custom:company_name": companyName,
+        "custom:company_phone": companyPhone,
+        "custom:company_type": companyType,
+        "website": companyWebsite,
+        "address": companyAddress,
+        "custom:city": companyCity,
+        "custom:country": companyCountry,
+        "custom:postal_code": companyPostal
+      }
+
+      for (let key in formData) {
+        let attrData = {
+          Name: key,
+          Value: formData[key]
+        }
+        let attribute = new CognitoUserAttribute(attrData);
+        attributeList.push(attribute);
+      }
+
+      userPool.signUp(employeeEmail, employeePass, attributeList, [], (
+        err,
+        result
+      ) => {
+        this.isLoading = false;
+        if (err) {
+          //alert(err.message || JSON.stringify(err));
+          FailedRegistrationAlert(err).fire({});
+          return;
+        }
+
+        console.log('Success Registration: ', result);
+        SuccessfulRegistrationAlert.fire({})
+          .then((result) => {
+            this.router.navigate(['/auth/login']);
+          });
+      });
     } else {
       console.log('Invalid Input');
     }

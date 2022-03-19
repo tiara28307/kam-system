@@ -1,20 +1,20 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
+import { NgxLoadingModule } from 'ngx-loading';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
 // layouts
-import { AdminComponent } from "./layouts/admin/admin.component";
+import { UserComponent } from "./layouts/user/user.component";
 import { AuthComponent } from "./layouts/auth/auth.component";
 
-// admin views
-import { DashboardComponent } from "./views/admin/dashboard/dashboard.component";
-import { MapsComponent } from "./views/admin/maps/maps.component";
-import { SettingsComponent } from "./views/admin/settings/settings.component";
-import { TablesComponent } from "./views/admin/tables/tables.component";
+// user views
+import { CustomerKycDashboardComponent } from "./views/user/dashboards/customer-kyc-dashboard/customer-kyc-dashboard.component";
+import { SettingsComponent } from "./views/user/settings/settings.component";
+import { TablesComponent } from "./views/user/tables/tables.component";
 
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
@@ -26,7 +26,7 @@ import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
 
 // components for views and layouts
-import { AdminNavbarComponent } from "./components/navbars/admin-navbar/admin-navbar.component";
+import { UserNavbarComponent } from "./components/navbars/user-navbar/user-navbar.component";
 import { AuthNavbarComponent } from "./components/navbars/auth-navbar/auth-navbar.component";
 import { CardBarChartComponent } from "./components/cards/card-bar-chart/card-bar-chart.component";
 import { CardLineChartComponent } from "./components/cards/card-line-chart/card-line-chart.component";
@@ -36,7 +36,7 @@ import { CardSettingsComponent } from "./components/cards/card-settings/card-set
 import { CardSocialTrafficComponent } from "./components/cards/card-social-traffic/card-social-traffic.component";
 import { CardStatsComponent } from "./components/cards/card-stats/card-stats.component";
 import { CardTableComponent } from "./components/cards/card-table/card-table.component";
-import { FooterAdminComponent } from "./components/footers/footer-admin/footer-admin.component";
+import { FooterUserComponent } from "./components/footers/footer-user/footer-user.component";
 import { FooterComponent } from "./components/footers/footer/footer.component";
 import { FooterSmallComponent } from "./components/footers/footer-small/footer-small.component";
 import { HeaderStatsComponent } from "./components/headers/header-stats/header-stats.component";
@@ -50,11 +50,20 @@ import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user-dropdown.component";
 import { ContactFormComponent } from './views/contact-form/contact-form.component';
 import { EmailService } from "./services/email.service";
+import { AuthService } from "./auth/auth.service";
+import { ForgotPasswordComponent } from './views/auth/forgot-password/forgot-password.component';
+import { CardApplicationStatsComponent } from './components/cards/card-application-stats/card-application-stats.component';
+import { CardApplicationTableComponent } from "./components/cards/card-application-table/card-application-table.component";
+import { CardRequestTableComponent } from './components/cards/card-request-table/card-request-table.component';
+import { CardApplicationFullTableComponent } from './components/cards/card-application-full-table/card-application-full-table.component';
+import { CardRequestFullTableComponent } from './components/cards/card-request-full-table/card-request-full-table.component';
+import { CardApplicationComponent } from './components/cards/card-application/card-application.component';
+import { CardRequestComponent } from './components/cards/card-request/card-request.component';
+import { HeaderDefaultComponent } from './components/headers/header-default/header-default.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     CardBarChartComponent,
     CardLineChartComponent,
     IndexDropdownComponent,
@@ -65,7 +74,7 @@ import { EmailService } from "./services/email.service";
     SidebarComponent,
     FooterComponent,
     FooterSmallComponent,
-    FooterAdminComponent,
+    FooterUserComponent,
     CardPageVisitsComponent,
     CardProfileComponent,
     CardSettingsComponent,
@@ -75,27 +84,38 @@ import { EmailService } from "./services/email.service";
     HeaderStatsComponent,
     MapExampleComponent,
     AuthNavbarComponent,
-    AdminNavbarComponent,
+    UserNavbarComponent,
     IndexNavbarComponent,
-    AdminComponent,
+    UserComponent,
     AuthComponent,
-    MapsComponent,
-    SettingsComponent,
-    TablesComponent,
     LoginComponent,
     RegisterComponent,
     IndexComponent,
     LandingComponent,
     ProfileComponent,
-    ContactFormComponent
+    ContactFormComponent,
+    ForgotPasswordComponent,
+    CardApplicationStatsComponent,
+    CardApplicationTableComponent,
+    CustomerKycDashboardComponent,
+    SettingsComponent,
+    TablesComponent,
+    CardRequestTableComponent,
+    CardApplicationFullTableComponent,
+    CardRequestFullTableComponent,
+    CardApplicationComponent,
+    CardRequestComponent,
+    HeaderDefaultComponent
   ],
   imports: [
     BrowserModule, 
     AppRoutingModule, 
     ReactiveFormsModule, 
-    HttpClientModule
+    HttpClientModule,
+    NgxLoadingModule
   ],
-  providers: [EmailService],
+  providers: [EmailService, AuthService],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

@@ -5,6 +5,7 @@ import { CognitoUserAttribute, CognitoUserPool } from "amazon-cognito-identity-j
 import { RegisterValidationService } from "src/app/services/register-validation.service";
 import { environment } from "src/environments/environment";
 import { FailedRegistrationAlert, SuccessfulRegistrationAlert } from "src/constants/alerts.constant";
+import { RegisterService } from "src/app/services/register.service";
 
 @Component({
   selector: "app-register",
@@ -17,15 +18,20 @@ export class RegisterComponent implements OnInit {
   customerRegisterForm: FormGroup;
   companyRegisterForm: FormGroup;
   isLoading = false;
+  companyTypes = [];
+  countries = [];
   
   constructor(
     private formBuilder: FormBuilder,
     private registerValidator: RegisterValidationService,
-    private router: Router
+    private router: Router,
+    private registerService: RegisterService
   ) {}
 
   ngOnInit(): void {
-    // TODO: Disable Create new account button until valid input
+    this.setCompanyTypes();
+    this.setCountries();
+
     this.customerRegisterForm = this.formBuilder.group({
       customerFirstName: ['', [Validators.required]],
       customerLastName: ['', [Validators.required]],
@@ -59,6 +65,7 @@ export class RegisterComponent implements OnInit {
       ])],
       companyAddress: ['', [Validators.required]],
       companyCity: ['', [Validators.required]],
+      companyState: ['', [Validators.required]],
       companyCountry: ['', [Validators.required]],
       companyPostal: ['', Validators.compose([
         Validators.required,
@@ -87,8 +94,29 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  // Add some validation checker that enables and disables create new account button
-  // based on proper input values
+  setCompanyTypes() {
+    this.registerService.getCompanyTypes().subscribe(
+      res => {
+        this.companyTypes = [res];
+        this.companyTypes = this.companyTypes[0].companyTypesMap
+      },
+      error => {
+        console.error('Error with register service for company types: ', error);
+      }
+    );
+  }
+
+  setCountries() {
+    this.registerService.getCountries().subscribe(
+      res => {
+        this.countries = [res];
+        this.countries = this.countries[0].countriesMap;
+      },
+      error => {
+        console.error('Error with register service for countries: ', error);
+      }
+    );
+  }
 
   toggleIsCustomer(event) {
     event.preventDefault();
@@ -111,8 +139,6 @@ export class RegisterComponent implements OnInit {
   onRegisterCustomerUser() {
 
     if (this.customerRegisterForm.valid) {
-      // alert('Customer form submitted succesfully!');
-      // console.table(this.customerRegisterForm.value);
       this.isLoading = true;
       
       var poolData = {
@@ -122,6 +148,7 @@ export class RegisterComponent implements OnInit {
       var userPool = new CognitoUserPool(poolData);
       var attributeList = [];
 
+      // customer details
       let customerFirstName = this.customerRegisterForm.value.customerFirstName;
       let customerLastName = this.customerRegisterForm.value.customerLastName;
       let customerEmail = this.customerRegisterForm.value.customerEmail;
@@ -151,7 +178,6 @@ export class RegisterComponent implements OnInit {
       ) => {
         this.isLoading = false;
         if (err) {
-          //alert(err.message || JSON.stringify(err));
           FailedRegistrationAlert(err).fire({});
           return;
         }
@@ -170,8 +196,6 @@ export class RegisterComponent implements OnInit {
   onRegisterCompanyUser() {
 
     if (this.companyRegisterForm.valid) {
-      // alert('Company form submitted succesfully!');
-      // console.table(this.companyRegisterForm.value);
       this.isLoading = true;
       
       var poolData = {
@@ -188,6 +212,7 @@ export class RegisterComponent implements OnInit {
       let companyWebsite = this.companyRegisterForm.value.companyWebsite;
       let companyAddress = this.companyRegisterForm.value.companyAddress;
       let companyCity = this.companyRegisterForm.value.companyCity;
+      let companyState = this.companyRegisterForm.value.companyState;
       let companyCountry = this.companyRegisterForm.value.companyCountry;
       let companyPostal = this.companyRegisterForm.value.companyPostal;
 
@@ -210,6 +235,7 @@ export class RegisterComponent implements OnInit {
         "website": companyWebsite,
         "address": companyAddress,
         "custom:city": companyCity,
+        "custom:state": companyState,
         "custom:country": companyCountry,
         "custom:postal_code": companyPostal
       }
@@ -229,7 +255,6 @@ export class RegisterComponent implements OnInit {
       ) => {
         this.isLoading = false;
         if (err) {
-          //alert(err.message || JSON.stringify(err));
           FailedRegistrationAlert(err).fire({});
           return;
         }
@@ -244,4 +269,5 @@ export class RegisterComponent implements OnInit {
       console.log('Invalid Input');
     }
   }
+
 }

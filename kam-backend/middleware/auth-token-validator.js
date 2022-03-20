@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const config = require('config');
 
 const secretKey = getJwtSecretKey();
 
 function getJwtSecretKey() {
     try {
-        return process.env.JWT_SECRET_KEY;
+        return config.get('jwt.secretkey');
     } catch (err) {
-        console.error('\x1b[31mUnable to start application without JWT secret key. Please set JWT-secretkey in environment variable and try again.\x1b[0m');
+        console.error('\x1b[31mUnable to start application without JWT secret key.\x1b[0m');
         process.exit(0);
     }
 }

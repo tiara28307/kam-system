@@ -3,6 +3,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { NgxLoadingModule } from 'ngx-loading';
+import { NgPipesModule } from 'ngx-pipes';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -112,7 +113,8 @@ import { HeaderDefaultComponent } from './components/headers/header-default/head
     AppRoutingModule, 
     ReactiveFormsModule, 
     HttpClientModule,
-    NgxLoadingModule
+    NgxLoadingModule,
+    NgPipesModule
   ],
   providers: [EmailService, AuthService],
   bootstrap: [AppComponent],

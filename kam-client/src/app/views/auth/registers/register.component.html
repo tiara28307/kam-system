@@ -287,13 +287,16 @@
                       Company Type
                     </label>
                     <select 
-                    formControlName="companyType" 
-                    class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      formControlName="companyType" 
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
                     >
                       <option hidden value="" disabled selected>Select Company Type</option>
-                      <option>test</option>
-                      <option>bank</option>
-                      <option>company</option>
+                      <option 
+                        *ngFor="let type of companyTypes | orderBy: 'name'"
+                        [value]="type.code"
+                      >
+                      {{type.name}}
+                      </option>
                   </select>
                   </div>
                 </div>
@@ -342,7 +345,7 @@
                 
                   <div class="relative w-6/12 mb-3">
                     <label
-                      class="block uppercase text-slate-600 text-xs font-bold mb-2 ml-3"
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
                     >
                       City
                     </label>
@@ -359,6 +362,26 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="relative w-18 mb-3">
+                    <label
+                      class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                    >
+                      State
+                    </label>
+                    <input
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                      placeholder="ST"
+                      formControlName="companyState"
+                    />
+                    <div *ngIf="companyRegisterForm.controls['companyState'].invalid && (companyRegisterForm.controls['companyState'].touched)" 
+                      class="text-sm text-red-500 mt-1">
+                      <div *ngIf="companyRegisterForm.controls['companyState'].errors.required">
+                        Please enter state
+                      </div>
+                    </div>
+                  </div>
               
                   <div class="relative w-6/12 mb-3">
                     <label
@@ -371,9 +394,12 @@
                     class="border-0 px-3 py-3 placeholder-slate-300 text-slate-600 bg-white rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
                     >
                       <option hidden value="" disabled selected>Select Country</option>
-                      <option>USA</option>
-                      <option>Japan</option>
-                      <option>Germany</option>
+                      <option 
+                        *ngFor="let country of countries | orderBy: 'name'"
+                        [value]="country.code"
+                      >
+                      {{country.name}}
+                      </option>
                   </select>
                   </div>
               

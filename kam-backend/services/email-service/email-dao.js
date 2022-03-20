@@ -1,4 +1,4 @@
-const Logger = require('../logger/logger');
+const Logger = require('../../logger/logger');
 const log = new Logger('Email-Dao');
 var nodemailer = require('nodemailer');
 require('dotenv').config();

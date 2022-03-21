@@ -6,15 +6,16 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UserService {
+  private _currentService: string;
 
-  constructor() { }
+  constructor() {}
 
   set currentService(val: string) {
-    this.currentService = val;
+    this._currentService = val;
   }
 
   get currentService(): string {
-    return this.currentService;
+    return this._currentService;
   }
 
   getUserData(): any[] {

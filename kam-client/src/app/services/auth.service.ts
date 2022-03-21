@@ -27,14 +27,8 @@ export class AuthService {
         if (err) {
           alert(err.message || JSON.stringify(err));
         }
-        cognitoUser.getUserData((err: any, res: any) => {
-          if (err) {
-            alert(err.message || JSON.stringify(err));
-          }
-          var userData = res.UserAttributes;
-          userType = userData.filter(attr => attr.Name === 'custom:role')[0].Value;
-          isUser = userType === user;
-        })
+        userType = session.idToken.payload["custom:role"];
+        isUser = userType === user;
         isAuth = session.isValid() && isUser;
       })
     }

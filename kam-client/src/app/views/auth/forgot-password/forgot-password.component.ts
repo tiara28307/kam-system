@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { EnterNewPasswordAlert, EnterVerificationCodeAlert, FailedResetPasswordAlert, SuccessfulPasswordResetAlert } from 'src/constants/alerts.constant';
@@ -12,7 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private location: Location) { }
 
   ngOnInit(): void {
   }
@@ -42,10 +43,9 @@ export class ForgotPasswordComponent implements OnInit {
         cognitoUser.confirmPassword(verificationCode, newPassword, {
           onSuccess: (result) => {
             console.log('password reset: ', result);
-            return SuccessfulPasswordResetAlert.fire({})
-              .then((result) => {
-                this.router.navigate(['/auth/login']);
-              });
+            if (result === 'SUCCESS') {
+              return SuccessfulPasswordResetAlert.fire({});
+            }
           },
           onFailure: (err) => {
             return FailedResetPasswordAlert(err).fire({});
@@ -57,6 +57,10 @@ export class ForgotPasswordComponent implements OnInit {
 
   onSubmit(username) {
     this.resetPassword(username);
+  }
+
+  goBack() {
+    this.location.back();
   }
 
 }

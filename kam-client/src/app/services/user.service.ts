@@ -9,6 +9,14 @@ export class UserService {
 
   constructor() { }
 
+  set currentService(val: string) {
+    this.currentService = val;
+  }
+
+  get currentService(): string {
+    return this.currentService;
+  }
+
   getUserData(): any[] {
     var user: any[];
 

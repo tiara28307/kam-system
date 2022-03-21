@@ -84,6 +84,7 @@ import { ReportComponent } from './views/user/reports/report/report.component';
 import { ApplicationComponent } from './views/user/applications/application/application.component';
 import { TransactionComponent } from './views/user/transactions/transaction/transaction.component';
 import { ReviewApplicationComponent } from './views/user/applications/review-application/review-application.component';
+import { SelectServiceComponent } from './views/user/select-service/select-service.component';
 
 @NgModule({
   declarations: [
@@ -149,7 +150,8 @@ import { ReviewApplicationComponent } from './views/user/applications/review-app
     ReportComponent,
     ApplicationComponent,
     TransactionComponent,
-    ReviewApplicationComponent
+    ReviewApplicationComponent,
+    SelectServiceComponent
   ],
   imports: [
     BrowserModule, 

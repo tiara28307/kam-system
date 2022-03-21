@@ -36,6 +36,7 @@ import { TransactionComponent } from "./views/user/transactions/transaction/tran
 import { ReportComponent } from "./views/user/reports/report/report.component";
 import { CustomerSettingsComponent } from "./views/user/settings/customer-settings/customer-settings.component";
 import { CompanySettingsComponent } from "./views/user/settings/company-settings/company-settings.component";
+import { SelectServiceComponent } from "./views/user/select-service/select-service.component";
 
 const routes: Routes = [
   // user views
@@ -76,6 +77,7 @@ const routes: Routes = [
   // no layout views
   { path: "profile", component: ProfileComponent },
   { path: "landing", component: LandingComponent },
+  { path: "select/service", component: SelectServiceComponent, canActivate: [CompanyAuthGuard] },
   { path: "", component: IndexComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];

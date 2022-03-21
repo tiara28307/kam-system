@@ -21,8 +21,12 @@ app.use(function(req, res, next) {
 });
 
 // Email Service
-const emailserviceRouter = require('./email-service/emailRouter');
-app.use('/email', emailserviceRouter);
+const emailServiceRouter = require('./services/email-service/email-router');
+app.use('/email', emailServiceRouter);
+
+// Register Service
+const registerServiceRouter = require('./services/register-service/register-router');
+app.use('/register', registerServiceRouter);
 
 if(environment === 'development'){
     app.use(morgan('tiny'));

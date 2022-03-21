@@ -4,11 +4,11 @@ class Logger {
     }
 
     info(message){
-        console.log(`\x1b[32m[Logger: ${this.loggerName}: ${new Date()}] \nINFO: ${message}\x1b[0m`);
+        console.log(`\x1b[34m[Logger: ${this.loggerName}: ${new Date()}] \nINFO: ${message}\x1b[0m`);
     }
 
     warn(message){
-        console.log(`\x1b[36m[Logger: ${this.loggerName}: ${new Date()}] \nWARN: ${message}\x1b[0m`);
+        console.log(`\x1b[33m[Logger: ${this.loggerName}: ${new Date()}] \nWARN: ${message}\x1b[0m`);
     }
 
     error(message){
@@ -18,6 +18,8 @@ class Logger {
 
 
 /*
+Log Formatting in Console
+
 console.log('\x1b[36m%s\x1b[0m', 'I am cyan');  //cyan
 console.log('\x1b[33m%s\x1b[0m', stringToMakeYellow);  //yellow
 

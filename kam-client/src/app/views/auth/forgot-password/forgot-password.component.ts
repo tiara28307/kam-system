@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { EnterNewPasswordAlert, EnterVerificationCodeAlert, FailedResetPasswordAlert, SuccessfulPasswordResetAlert } from 'src/constants/alerts.constant';
 import { environment } from 'src/environments/environment';
@@ -11,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }

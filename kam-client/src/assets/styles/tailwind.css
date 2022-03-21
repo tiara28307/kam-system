@@ -3512,6 +3512,10 @@ select {
   width: 4rem;
 }
 
+.w-18 {
+  width: 10rem;
+}
+
 .w-auto {
   width: auto;
 }

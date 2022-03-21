@@ -31,8 +31,6 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     if (this.loginForm.valid) {
-      // alert('Customer form submitted succesfully!');
-      // console.table(this.loginForm.value);
       this.isLoading = true;
       let email = this.loginForm.value.email;
       let password = this.loginForm.value.password;
@@ -56,8 +54,7 @@ export class LoginComponent implements OnInit {
       cognitoUser.authenticateUser(authDetails, {
         onSuccess: (result) => {
           this.isLoading = false;
-          this.router.navigate(['/user/kyc/dashboard/:id']);
-          console.log(result);
+          this.router.navigate(['/user/kyc/onboarding/dashboard/:id']);
         },
         onFailure: (err) => {
           this.isLoading = false;

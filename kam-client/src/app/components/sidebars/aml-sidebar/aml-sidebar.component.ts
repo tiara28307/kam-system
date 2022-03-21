@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class AmlSidebarComponent implements OnInit {
-  dashboardLink = "['/user/aml/dashboard']";
-  transactionLink = "['/user/aml/transactions']";
-  alertLink = "['/user/aml/alerts']";
+  dashboardLink = '/user/aml/dashboard';
+  transactionLink = '/user/aml/transactions';
+  alertLink = '/user/aml/alerts';
 
   constructor() { }
 

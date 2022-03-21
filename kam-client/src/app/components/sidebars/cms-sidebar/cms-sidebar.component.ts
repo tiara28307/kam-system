@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class CmsSidebarComponent implements OnInit {
-  dashboardLink = "['/user/casemanagement/dashboard']";
-  reportLink = "['/user/casemanagement/reports']";
-  historyLink = "['/user/casemanagement/history']";
+  dashboardLink = '/user/casemanagement/dashboard';
+  reportLink = '/user/casemanagement/reports';
+  historyLink = '/user/casemanagement/history';
 
   constructor() { }
 

@@ -22,7 +22,7 @@
     [ngClass]="dropdownPopoverShow ? 'block' : 'hidden'"
   >
     <a
-      [routerLink]="['/user/settings/:id']"
+      [routerLink]="[settingsLink]"
       class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-slate-700 hover:text-red-700"
     >
     <i class="fas fa-user-gear mr-2 text-md"></i>
@@ -35,7 +35,7 @@
       Notifications
     </a>
     <button
-      class="text-sm py-2 px-4 font-normal text-left w-full whitespace-nowrap bg-transparent text-slate-700 hover:text-red-700"
+      class="text-sm py-2 px-4 font-normal text-left w-full whitespace-nowrap bg-transparent text-slate-700 hover:text-red-700 focus:outline-none"
       (click)="onLogout()"
     >
     <i class="fas fa-door-open mr-2 text-md"></i>

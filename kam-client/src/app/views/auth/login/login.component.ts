@@ -53,8 +53,15 @@ export class LoginComponent implements OnInit {
       
       cognitoUser.authenticateUser(authDetails, {
         onSuccess: (result) => {
+          console.log('Logged In');
+          var userType = this.getUserType(result);
           this.isLoading = false;
-          this.router.navigate(['/user/kyc/onboarding/dashboard/:id']);
+          
+          if (userType === 'CUSTOMER') {
+            this.router.navigate(['/user/kyc/onboarding/dashboard']);
+          } else if (userType === 'COMPANY') {
+            this.router.navigate(['/select/service']);
+          }
         },
         onFailure: (err) => {
           this.isLoading = false;

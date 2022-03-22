@@ -3190,9 +3190,19 @@ select {
   color: rgba(16, 185, 129, var(--tw-text-opacity));
 }
 
+.text-emerald-600 {
+  --tw-text-opacity: 1;
+  color: rgba(13, 134, 93, var(--tw-text-opacity));
+}
+
 .text-orange-500 {
   --tw-text-opacity: 1;
   color: rgba(249, 115, 22, var(--tw-text-opacity));
+}
+
+.text-orange-600 {
+  --tw-text-opacity: 1;
+  color: rgba(228, 104, 9, var(--tw-text-opacity));
 }
 
 .text-red-300 {

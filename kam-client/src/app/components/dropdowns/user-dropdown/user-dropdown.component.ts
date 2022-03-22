@@ -75,6 +75,8 @@ export class UserDropdownComponent implements AfterViewInit {
   }
 
   closeDropdown() {
-    this.dropdownPopoverShow = false;
+    if (this.dropdownPopoverShow) {
+      this.dropdownPopoverShow = false;
+    }
   }
 }

@@ -25,9 +25,9 @@ export class CardApplicationTableComponent implements OnInit {
   getStatusColor(status) {
     switch (status) {
       case 'APPROVED':
-        return 'text-emerald-500';
+        return 'text-emerald-600';
       case 'SUBMITTED':
-        return 'text-orange-500';
+        return 'text-orange-600';
       case 'REJECTED':
         return 'text-red-600';
       case 'OPEN':

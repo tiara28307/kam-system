@@ -9,6 +9,9 @@ import { environment } from "src/environments/environment";
 @Component({
   selector: "app-user-dropdown",
   templateUrl: "./user-dropdown.component.html",
+  host: {
+    "(window:click)": "closeDropdown()"
+  }
 })
 export class UserDropdownComponent implements AfterViewInit {
   dropdownPopoverShow = false;
@@ -39,6 +42,7 @@ export class UserDropdownComponent implements AfterViewInit {
     } else {
       this.dropdownPopoverShow = true;
     }
+    event.stopPropagation();
   }
 
   setSettingsLink() {
@@ -68,5 +72,9 @@ export class UserDropdownComponent implements AfterViewInit {
           this.logout();
         }
       });
+  }
+
+  closeDropdown() {
+    this.dropdownPopoverShow = false;
   }
 }

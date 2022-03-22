@@ -85,6 +85,8 @@ import { ApplicationComponent } from './views/user/applications/application/appl
 import { TransactionComponent } from './views/user/transactions/transaction/transaction.component';
 import { ReviewApplicationComponent } from './views/user/applications/review-application/review-application.component';
 import { SelectServiceComponent } from './views/user/select-service/select-service.component';
+import { CardServiceComponent } from './components/cards/card-service/card-service.component';
+import { AlertsComponent } from './views/user/alerts/alerts.component';
 
 @NgModule({
   declarations: [
@@ -151,7 +153,9 @@ import { SelectServiceComponent } from './views/user/select-service/select-servi
     ApplicationComponent,
     TransactionComponent,
     ReviewApplicationComponent,
-    SelectServiceComponent
+    SelectServiceComponent,
+    CardServiceComponent,
+    AlertsComponent
   ],
   imports: [
     BrowserModule, 

@@ -37,6 +37,7 @@ import { ReportComponent } from "./views/user/reports/report/report.component";
 import { CustomerSettingsComponent } from "./views/user/settings/customer-settings/customer-settings.component";
 import { CompanySettingsComponent } from "./views/user/settings/company-settings/company-settings.component";
 import { SelectServiceComponent } from "./views/user/select-service/select-service.component";
+import { AlertsComponent } from "./views/user/alerts/alerts.component";
 
 const routes: Routes = [
   // user views
@@ -55,9 +56,11 @@ const routes: Routes = [
       { path: "aml/dashboard", component: CompanyAmlDashboardComponent, canActivate: [CompanyAuthGuard] },
       { path: "aml/transactions", component: TransactionsComponent, canActivate: [CompanyAuthGuard] },
       { path: "aml/transaction/:id", component: TransactionComponent, canActivate: [CompanyAuthGuard] },
+      { path: "aml/alerts", component: AlertsComponent, canActivate: [CompanyAuthGuard] },
       { path: "casemanagement/dashboard", component: CompanyCaseManagementDashboardComponent, canActivate: [CompanyAuthGuard] },
       { path: "casemanagement/reports", component: ReportsComponent, canActivate: [CompanyAuthGuard] },
       { path: "casemanagement/report/:id", component: ReportComponent, canActivate: [CompanyAuthGuard] },
+      { path: "casemanagement/history", component: HistoryComponent, canActivate: [CompanyAuthGuard] },
       { path: "customer/settings", component: CustomerSettingsComponent, canActivate: [CustomerAuthGuard] },
       { path: "company/settings", component: CompanySettingsComponent, canActivate: [CompanyAuthGuard] },
       { path: "", redirectTo: "", pathMatch: "full" },

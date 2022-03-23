@@ -8,7 +8,7 @@
       </div>
     </div>
   </div>
-  <div class="block w-full overflow-x-auto overflow-y-auto h-600-px">
+  <div class="block w-full overflow-x-auto overflow-y-auto max-h-280-px">
     <table class="items-center w-full bg-transparent border-collapse">
       <thead>
         <tr>
@@ -42,13 +42,13 @@
       
       <tbody class="overflow-y-scroll">
         <tr *ngFor="let application of applications">
-          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left hover:underline">
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left hover:text-red-700 font-semibold">
             <a [routerLink]="['/user/kyc/onboarding/dashboard']">
               {{application.applicationId}}
             </a>
           </td>
           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-            
+            03.23.2022
           </td>
           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
             {{application.company}}
@@ -56,12 +56,8 @@
           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
             {{application.startDate}}
           </td>
-          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-            <span 
-              class="{{ getStatusColor(application.status) }} {{ getStatusBackgroundColor(application.status) }} text-xs font-semibold inline-block py-1 px-2 uppercase rounded uppercase last:mr-0 mr-1"
-            >
-              {{application.status}}
-            </span>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left lowercase font-semibold">
+            <i class="fas fa-circle {{getStatusColor(application.status)}} mr-2"></i>{{application.status}}
           </td>
         </tr>
       </tbody>

@@ -9,17 +9,20 @@ export class CardApplicationTableComponent implements OnInit {
   applications: string[];
 
   constructor(private http: HttpClient) {
+    this.getApplications();
+  }
+
+  ngOnInit(): void {
+  }
+
+  getApplications() {
     this.http.get('assets/json/applications.json').subscribe((res) => {
       this.applications = res as string[];
       this.applications = this.applications.slice(0, 5);
-      // console.log('result :: ', this.applications);
     },
     (err: HttpErrorResponse) => {
       console.log(err.message);
     })
-  }
-
-  ngOnInit(): void {
   }
 
   getStatusColor(status) {
@@ -27,25 +30,11 @@ export class CardApplicationTableComponent implements OnInit {
       case 'APPROVED':
         return 'text-emerald-600';
       case 'SUBMITTED':
-        return 'text-orange-600';
+        return 'text-orange-500';
       case 'REJECTED':
         return 'text-red-600';
       case 'OPEN':
-        return 'text-theme-500'
+        return 'text-sky-600'
     }
   }
-
-  getStatusBackgroundColor(status) {
-    switch (status) {
-      case 'APPROVED':
-        return 'bg-emerald-200';
-      case 'SUBMITTED':
-        return 'bg-orange-200';
-      case 'REJECTED':
-        return 'bg-red-200';
-      case 'OPEN':
-        return 'bg-sky-200'
-    }
-  }
-
 }

@@ -5,12 +5,12 @@
     <div class="flex flex-wrap items-center">
       <div class="relative w-full px-4 max-w-full flex-grow flex-1">
         <h3 class="font-semibold text-base text-slate-700">
-          Requests
+          Open Requests
         </h3>
       </div>
     </div>
   </div>
-  <div class="block w-full overflow-x-auto">
+  <div class="block w-full overflow-x-auto overflow-y-auto max-h-280-px">
     <!-- Projects table -->
     <table class="items-center w-full bg-transparent border-collapse">
       <thead class="thead-light">
@@ -25,38 +25,18 @@
           >
             Sender
           </th>
-          <th
-            class="px-6 bg-slate-100 text-slate-500 align-middle border border-solid border-slate-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Request Date
-          </th>
-          <th
-            class="px-6 bg-slate-100 text-slate-500 align-middle border border-solid border-slate-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-          >
-            Status
-          </th>
         </tr>
       </thead>
 
       <tbody>
         <tr *ngFor="let request of requests">
-          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left hover:underline">
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left hover:text-red-700 font-semibold">
             <a [routerLink]="['/user/kyc/onboarding/dashboard']">
               {{request.requestId}}
             </a>
           </td>
           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
             {{request.sender}}
-          </td>
-          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-            {{request.requestDate}}
-          </td>
-          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-            <span 
-              class="{{ getStatusColor(request.status) }} {{ getStatusBackgroundColor(request.status) }} text-xs font-semibold inline-block py-1 px-2 uppercase rounded uppercase last:mr-0 mr-1"
-            >
-              {{request.status}}
-            </span>
           </td>
         </tr>
       </tbody>

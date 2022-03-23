@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-card-request-table',
-  templateUrl: './card-request-table.component.html',
+  selector: 'app-card-request-full-table',
+  templateUrl: './card-request-full-table.component.html',
   styles: [
   ]
 })
-export class CardRequestTableComponent implements OnInit {
+export class CardRequestFullTableComponent implements OnInit {
   requests: string[];
 
   constructor(private http: HttpClient) {
@@ -35,5 +35,9 @@ export class CardRequestTableComponent implements OnInit {
       case 'UNDECIDED':
         return 'text-sky-600'
     }
+  }
+
+  openRequest(id) {
+    console.log('popup view for request: ', id);
   }
 }

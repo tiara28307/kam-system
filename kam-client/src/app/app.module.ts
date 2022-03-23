@@ -87,6 +87,7 @@ import { ReviewApplicationComponent } from './views/user/applications/review-app
 import { SelectServiceComponent } from './views/user/select-service/select-service.component';
 import { CardServiceComponent } from './components/cards/card-service/card-service.component';
 import { AlertsComponent } from './views/user/alerts/alerts.component';
+import { CardRequestFullTableComponent } from './components/cards/card-request-full-table/card-request-full-table.component';
 
 @NgModule({
   declarations: [
@@ -155,7 +156,8 @@ import { AlertsComponent } from './views/user/alerts/alerts.component';
     ReviewApplicationComponent,
     SelectServiceComponent,
     CardServiceComponent,
-    AlertsComponent
+    AlertsComponent,
+    CardRequestFullTableComponent
   ],
   imports: [
     BrowserModule, 

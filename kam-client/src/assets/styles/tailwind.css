@@ -1463,6 +1463,8 @@ select {
 
 .border-separate {
   border-collapse: separate;
+  border-radius: 25px;
+  border-spacing: 0 10px;
 }
 
 .border-emerald-400 {
@@ -1690,6 +1692,7 @@ select {
 
 .table {
   display: table;
+  border-spacing: 10px;
 }
 
 .table-caption {
@@ -2424,6 +2427,10 @@ select {
 
 .max-h-860-px {
   max-height: 860px;
+}
+
+.max-h-280-px {
+  max-height: 280px;
 }
 
 .max-w-md {
@@ -3287,6 +3294,11 @@ select {
 .hover\:text-red-700:hover {
   --tw-text-opacity: 1;
   color: rgba(185, 28, 28, var(--tw-text-opacity));
+}
+
+.hover\:bg-slate:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(248, 250, 252, var(--tw-bg-opacity));
 }
 
 .hover\:text-slate-300:hover {

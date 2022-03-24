@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { RequestService } from 'src/app/services/request.service';
+import { DialogService } from '@ngneat/dialog';
+import { CardRequestOverviewComponent } from '../card-request-overview/card-request-overview.component';
 
 @Component({
   selector: 'app-card-request-table',
@@ -10,7 +13,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 export class CardRequestTableComponent implements OnInit {
   requests: string[];
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient, 
+    private requestService: RequestService,
+    private dialog: DialogService
+  ) {
     this.getRequest();
   }
 
@@ -35,5 +42,11 @@ export class CardRequestTableComponent implements OnInit {
       case 'UNDECIDED':
         return 'text-sky-600'
     }
+  }
+
+  openRequest(id, status) {
+    this.requestService.requestId = id;
+    this.requestService.status = status;
+    this.dialog.open(CardRequestOverviewComponent);
   }
 }

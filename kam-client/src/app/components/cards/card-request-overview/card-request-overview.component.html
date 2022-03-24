@@ -1,1 +1,47 @@
-<p>card-request-overview works!</p>
+<div
+  class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg border-0"
+>
+  <div class="rounded-t mb-0 px-6 py-6 mt-3">
+    <div class="flex justify-between">
+      <h6 class="text-slate-500 font-semibold text-xl">RID: <span class="text-slate-700 font-bold">{{requestId}}</span></h6>
+      <h6 class="{{getStatusColor(status)}} font-semibold text-md" *ngIf="isDecided">{{status}}</h6>
+    </div>
+      <div class="block text-slate-600 text-sm font-bold mt-4">Sent: <span class="text-slate-600 font-normal text-sm">2018-10-29 10:02:48 AM</span></div>
+  </div>
+  <div class="flex-auto px-4 lg:px-10 py-10 pt-0 bg-slate-100">
+    
+    <h6 class="text-slate-400 text-sm mt-3 mb-3 font-bold uppercase">
+      Request
+    </h6>
+
+    <div class="flex flex-wrap px-4 block text-slate-600 text-sm font-bold mb-2">
+      Wells Fargo <span class="font-normal ml-1"> has requested access to your KYC application.</span>
+    </div>
+
+    <hr class="my-4 md:min-w-full" />
+
+    <h6 class="text-slate-400 text-sm mt-3 mb-3 font-bold uppercase">
+      Sender
+    </h6>
+
+    <div class="flex flex-wrap px-4 block text-slate-600 text-sm mb-2 font-bold">
+      <span>John Doe <br/><span class="font-normal">Compliance Coordinator <br/> j.doe@wellsfargo.com</span></span>
+    </div>
+  </div>
+</div>
+<div class="flex flex-wrap mb-3 justify-center" *ngIf="!isDecided">
+  <button
+  class="bg-emerald-400 text-white active:bg-emerald-500 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 mr-3"
+  type="button"
+  (click)="onAccept()"
+  >
+    Accept
+  </button>
+  <button
+    class="bg-red-600 text-white active:bg-red-700 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+    type="button"
+    (click)="onReject()"
+  >
+    Reject
+  </button>
+</div>

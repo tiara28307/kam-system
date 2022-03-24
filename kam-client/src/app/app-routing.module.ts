@@ -7,8 +7,6 @@ import { AuthComponent } from "./layouts/auth/auth.component";
 
 // user views
 import { CustomerKycDashboardComponent } from "./views/user/dashboards/customer-kyc-dashboard/customer-kyc-dashboard.component";
-import { SettingsComponent } from "./views/user/settings/settings.component";
-import { TablesComponent } from "./views/user/other-may-remove/tables/tables.component";
 import { CompanyAmlDashboardComponent } from "./views/user/dashboards/company-aml-dashboard/company-aml-dashboard.component";
 import { CompanyCaseManagementDashboardComponent } from "./views/user/dashboards/company-case-management-dashboard/company-case-management-dashboard.component";
 import { CompanyKycDashboardComponent } from "./views/user/dashboards/company-kyc-dashboard/company-kyc-dashboard.component";

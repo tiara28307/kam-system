@@ -5,7 +5,7 @@
     <div class="flex flex-wrap items-center">
       <div class="relative w-full px-4 max-w-full flex-grow flex-1">
         <h3 class="font-semibold text-base text-slate-700">
-          Open Requests
+          Recent Requests
         </h3>
       </div>
     </div>
@@ -25,19 +25,29 @@
           >
             Sender
           </th>
+          <th
+            class="px-6 bg-slate-100 text-slate-500 align-middle border border-solid border-slate-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Request Date
+          </th>
+          <th
+            class="px-6 bg-slate-100 text-slate-500 align-middle border border-solid border-slate-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+          >
+            Status
+          </th>
         </tr>
       </thead>
 
       <tbody>
-        <tr *ngFor="let request of requests">
-          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left hover:text-red-700 font-semibold">
-            <a [routerLink]="['/user/kyc/onboarding/dashboard']">
-              {{request.requestId}}
-            </a>
+        <tr *ngFor="let request of requests" class="bg-white">
+          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex table-cell hover:text-red-700">
+            <button (click)="openRequest(request.requestId, request.status)" class="ml-3 font-bold focus:outline-none">{{request.requestId}}</button></th>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 table-cell">{{request.sender}}</td>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+            <span class="mr-2">{{request.requestDate}}</span>
           </td>
-          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-            {{request.sender}}
-          </td>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 lowercase font-semibold">
+            <i class="fas fa-circle {{getStatusColor(request.status)}} mr-2"></i>{{request.status}}</td> 
         </tr>
       </tbody>
     </table>

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgPipesModule } from 'ngx-pipes';
+import { DialogModule } from "@ngneat/dialog";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -165,7 +166,8 @@ import { CardRequestFullTableComponent } from './components/cards/card-request-f
     ReactiveFormsModule, 
     HttpClientModule,
     NgxLoadingModule,
-    NgPipesModule
+    NgPipesModule,
+    DialogModule.forRoot()
   ],
   providers: [EmailService, AuthService, RegisterService],
   bootstrap: [AppComponent],

@@ -1367,6 +1367,11 @@ select {
   background-color: rgba(226, 232, 240, var(--tw-bg-opacity));
 }
 
+.bg-slate-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(210, 215, 222, var(--tw-bg-opacity));
+}
+
 .bg-slate-600 {
   --tw-bg-opacity: 1;
   background-color: rgba(71, 85, 105, var(--tw-bg-opacity));
@@ -1400,6 +1405,11 @@ select {
 .active\:bg-sky-500:active {
   --tw-bg-opacity: 1;
   background-color: rgba(14, 165, 233, var(--tw-bg-opacity));
+}
+
+.active\:bg-emerald-500:active {
+  --tw-bg-opacity: 1;
+  background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
 }
 
 .active\:bg-red-700:active {
@@ -2425,8 +2435,16 @@ select {
   margin-top: -1rem;
 }
 
+.max-h-950-px {
+  max-height: 950px;
+}
+
 .max-h-860-px {
   max-height: 860px;
+}
+
+.max-h-650-px {
+  max-height: 650px;
 }
 
 .max-h-280-px {
@@ -3298,7 +3316,7 @@ select {
 
 .hover\:bg-slate:hover {
   --tw-bg-opacity: 1;
-  background-color: rgba(248, 250, 252, var(--tw-bg-opacity));
+  background-color: rgba(210, 215, 222, var(--tw-bg-opacity));
 }
 
 .hover\:text-slate-300:hover {

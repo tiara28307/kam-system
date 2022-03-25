@@ -3,7 +3,7 @@
       "requestId": "R00000001",
       "sender": "Wells Fargo",
       "requestDate": "03.18.2022",
-      "status": "UNDECIDED"
+      "status": "PENDING"
     },
     {
       "requestId": "R00000002",
@@ -33,7 +33,7 @@
       "requestId": "R00000006",
       "sender": "Wells Fargo",
       "requestDate": "03.18.2022",
-      "status": "UNDECIDED"
+      "status": "PENDING"
     },
     {
       "requestId": "R00000007",

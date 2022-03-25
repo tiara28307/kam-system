@@ -30,7 +30,7 @@ export class CardRequestOverviewComponent implements OnInit {
         return 'text-emerald-500';
       case 'REJECTED':
         return 'text-red-600';
-      case 'UNDECIDED':
+      case 'PENDING':
         return 'text-sky-600'
     }
   }

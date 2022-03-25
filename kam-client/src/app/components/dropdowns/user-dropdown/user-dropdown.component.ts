@@ -18,11 +18,10 @@ export class UserDropdownComponent implements AfterViewInit {
   @ViewChild("btnDropdownRef", { static: false }) btnDropdownRef: ElementRef;
   @ViewChild("popoverDropdownRef", { static: false })
   popoverDropdownRef: ElementRef;
-  settingsLink: string;
+  settingsLink = '/user/settings';
 
   constructor(
-    private router: Router,
-    private userService: UserService
+    private router: Router
   ) {}
 
   ngAfterViewInit() {
@@ -33,7 +32,6 @@ export class UserDropdownComponent implements AfterViewInit {
         placement: "bottom-start",
       }
     );
-    this.setSettingsLink();
   }
   toggleDropdown(event) {
     event.preventDefault();
@@ -43,15 +41,6 @@ export class UserDropdownComponent implements AfterViewInit {
       this.dropdownPopoverShow = true;
     }
     event.stopPropagation();
-  }
-
-  setSettingsLink() {
-    var user = this.userService.getUserData();
-    var role = user[0].role;
-    var customerSettingsLink = '/user/customer/settings';
-    var companySettingsLink = '/user/company/settings';
-    this.settingsLink = role === 'CUSTOMER' ? customerSettingsLink : companySettingsLink;
-    console.log(this.settingsLink);
   }
 
   logout() {

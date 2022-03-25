@@ -1,14 +1,18 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: "app-card-application-table",
-  templateUrl: "./card-application-table.component.html",
+  selector: "app-card-application-overview",
+  templateUrl: "./card-application-overview.component.html",
 })
-export class CardApplicationTableComponent implements OnInit {
+export class CardApplicationOverviewComponent implements OnInit {
   applications: string[];
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {
     this.getApplications();
   }
 
@@ -36,5 +40,9 @@ export class CardApplicationTableComponent implements OnInit {
       case 'OPEN':
         return 'text-sky-600'
     }
+  }
+
+  openApplication(id: string) {
+    this.router.navigate(['/user/kyc/onboarding/application', id]);
   }
 }

@@ -14,33 +14,27 @@ import { UserComponent } from "./layouts/user/user.component";
 import { AuthComponent } from "./layouts/auth/auth.component";
 
 // user views
-import { CustomerKycDashboardComponent } from "./views/user/dashboards/customer-kyc-dashboard/customer-kyc-dashboard.component";
+import { CustomerKycDashboardComponent } from "./views/user/customer/dashboards/customer-kyc-dashboard/customer-kyc-dashboard.component";
 import { SettingsComponent } from "./views/user/settings/settings.component";
 import { CardDashboardStatsComponent } from './components/cards/card-dashboard-stats/card-dashboard-stats.component';
-import { CardApplicationTableComponent } from "./components/cards/card-application-table/card-application-table.component";
+import { CardApplicationOverviewComponent } from "./components/cards/customer/card-application-overview/card-application-overview.component";
 import { CardRequestTableComponent } from './components/cards/card-request-table/card-request-table.component';
 import { HeaderDefaultComponent } from './components/headers/header-default/header-default.component';
-import { CompanyKycDashboardComponent } from './views/user/dashboards/company-kyc-dashboard/company-kyc-dashboard.component';
+import { CompanyKycDashboardComponent } from './views/user/company/dashboards/company-kyc-dashboard/company-kyc-dashboard.component';
 import { ApplicationsComponent } from './views/user/applications/applications.component';
-import { CompanyAmlDashboardComponent } from './views/user/dashboards/company-aml-dashboard/company-aml-dashboard.component';
-import { TransactionsComponent } from './views/user/transactions/transactions.component';
+import { CompanyAmlDashboardComponent } from './views/user/company/dashboards/company-aml-dashboard/company-aml-dashboard.component';
+import { TransactionsComponent } from './views/user/company/transactions/transactions.component';
 import { RequestsComponent } from './views/user/requests/requests.component';
-import { ReportsComponent } from './views/user/reports/reports.component';
-import { CompanyCaseManagementDashboardComponent } from './views/user/dashboards/company-case-management-dashboard/company-case-management-dashboard.component';
-import { CompanySettingsComponent } from './views/user/settings/company-settings/company-settings.component';
-import { CustomerSettingsComponent } from './views/user/settings/customer-settings/customer-settings.component';
+import { ReportsComponent } from './views/user/company/reports/reports.component';
+import { CompanyCaseManagementDashboardComponent } from './views/user/company/dashboards/company-case-management-dashboard/company-case-management-dashboard.component';
+import { CompanySettingsComponent } from './views/user/company/company-settings/company-settings.component';
+import { CustomerSettingsComponent } from './views/user/customer/customer-settings/customer-settings.component';
 import { KycSidebarComponent } from './components/sidebars/kyc-sidebar/kyc-sidebar.component';
 import { AmlSidebarComponent } from './components/sidebars/aml-sidebar/aml-sidebar.component';
 import { CmsSidebarComponent } from './components/sidebars/cms-sidebar/cms-sidebar.component';
-import { CardCustomerRequestsComponent } from './components/cards/customer/card-customer-requests/card-customer-requests.component';
-import { CardCompanyRequestsComponent } from './components/cards/company/card-company-requests/card-company-requests.component';
-import { CardCompanyHistoryComponent } from './components/cards/company/card-company-history/card-company-history.component';
-import { CardCustomerHistoryComponent } from './components/cards/customer/card-customer-history/card-customer-history.component';
 import { CardCompanySettingsComponent } from './components/cards/company/card-company-settings/card-company-settings.component';
 import { CardCustomerSettingsComponent } from './components/cards/customer/card-customer-settings/card-customer-settings.component';
-import { HistoryComponent } from './views/user/history/history.component';
 import { CardRequestOverviewComponent } from './components/cards/card-request-overview/card-request-overview.component';
-import { CardApplicationOverviewComponent } from './components/cards/card-application-overview/card-application-overview.component';
 
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
@@ -81,14 +75,16 @@ import { CardTransactionTableComponent } from './components/cards/company/card-t
 import { CardTransactionOverviewComponent } from './components/cards/company/card-transaction-overview/card-transaction-overview.component';
 import { CardReportTableComponent } from './components/cards/company/card-report-table/card-report-table.component';
 import { CardReportOverviewComponent } from './components/cards/company/card-report-overview/card-report-overview.component';
-import { ReportComponent } from './views/user/reports/report/report.component';
-import { ApplicationComponent } from './views/user/applications/application/application.component';
-import { TransactionComponent } from './views/user/transactions/transaction/transaction.component';
-import { ReviewApplicationComponent } from './views/user/applications/review-application/review-application.component';
-import { SelectServiceComponent } from './views/user/select-service/select-service.component';
+import { ReportComponent } from './views/user/company/reports/report/report.component';
+import { ApplicationComponent } from './views/user/customer/application/application.component';
+import { TransactionComponent } from './views/user/company/transactions/transaction/transaction.component';
+import { ReviewApplicationComponent } from './views/user/company/review-application/review-application.component';
+import { SelectServiceComponent } from './views/user/company/select-service/select-service.component';
 import { CardServiceComponent } from './components/cards/card-service/card-service.component';
-import { AlertsComponent } from './views/user/alerts/alerts.component';
+import { AlertsComponent } from './views/user/company/alerts/alerts.component';
 import { CardRequestFullTableComponent } from './components/cards/card-request-full-table/card-request-full-table.component';
+import { ProgressbarApplicationComponent } from './components/progressbars/progressbar-application/progressbar-application.component';
+import { CardApplicationReviewComponent } from './components/cards/company/card-application-review/card-application-review.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +117,7 @@ import { CardRequestFullTableComponent } from './components/cards/card-request-f
     ContactFormComponent,
     ForgotPasswordComponent,
     CardDashboardStatsComponent,
-    CardApplicationTableComponent,
+    CardApplicationOverviewComponent,
     CustomerKycDashboardComponent,
     SettingsComponent,
     CardRequestTableComponent,
@@ -138,15 +134,9 @@ import { CardRequestFullTableComponent } from './components/cards/card-request-f
     KycSidebarComponent,
     AmlSidebarComponent,
     CmsSidebarComponent,
-    CardCustomerRequestsComponent,
-    CardCompanyRequestsComponent,
-    CardCompanyHistoryComponent,
-    CardCustomerHistoryComponent,
     CardCompanySettingsComponent,
     CardCustomerSettingsComponent,
-    HistoryComponent,
     CardRequestOverviewComponent,
-    CardApplicationOverviewComponent,
     CardTransactionTableComponent,
     CardTransactionOverviewComponent,
     CardReportTableComponent,
@@ -158,7 +148,9 @@ import { CardRequestFullTableComponent } from './components/cards/card-request-f
     SelectServiceComponent,
     CardServiceComponent,
     AlertsComponent,
-    CardRequestFullTableComponent
+    CardRequestFullTableComponent,
+    ProgressbarApplicationComponent,
+    CardApplicationReviewComponent
   ],
   imports: [
     BrowserModule, 

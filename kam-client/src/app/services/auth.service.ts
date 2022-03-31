@@ -9,7 +9,7 @@ export class AuthService {
 
   constructor() { }
 
-  isLoggedIn(user: string): boolean {
+  isAuthenticated(user: string): boolean {
     var isAuth = false;
     var isUser = false;
     var userType = '';

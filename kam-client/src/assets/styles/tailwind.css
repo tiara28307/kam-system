@@ -2897,6 +2897,16 @@ select {
   color: rgba(203, 213, 225, var(--tw-placeholder-opacity));
 }
 
+.placeholder-slate-400::-moz-placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgba(148, 163, 184, var(--tw-placeholder-opacity));
+}
+
+.placeholder-slate-400::placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgba(148, 163, 184, var(--tw-placeholder-opacity));
+}
+
 .pointer-events-none {
   pointer-events: none;
 }

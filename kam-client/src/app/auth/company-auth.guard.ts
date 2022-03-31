@@ -15,7 +15,7 @@ export class CompanyAuthGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let isAuth = this.authService.isLoggedIn('COMPANY');
+    let isAuth = this.authService.isAuthenticated('COMPANY');
     
     if(!isAuth) {
       DoNotHavePermissionToPageAlert.fire({})
@@ -28,5 +28,3 @@ export class CompanyAuthGuard implements CanActivate {
   }
   
 }
-
-// constructor(private router: Router, private authService: AuthService){

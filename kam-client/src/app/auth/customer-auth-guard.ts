@@ -15,7 +15,7 @@ export class CustomerAuthGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let isAuth = this.authService.isLoggedIn('CUSTOMER');
+    let isAuth = this.authService.isAuthenticated('CUSTOMER');
     
     if(!isAuth) {
       DoNotHavePermissionToPageAlert.fire({})

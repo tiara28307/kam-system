@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { NgxLoadingModule } from 'ngx-loading';
 import { NgPipesModule } from 'ngx-pipes';
-import { DialogModule } from "@ngneat/dialog";
+import { DialogModule } from '@ngneat/dialog';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -85,6 +85,8 @@ import { AlertsComponent } from './views/user/company/alerts/alerts.component';
 import { CardRequestFullTableComponent } from './components/cards/card-request-full-table/card-request-full-table.component';
 import { ProgressbarApplicationComponent } from './components/progressbars/progressbar-application/progressbar-application.component';
 import { CardApplicationReviewComponent } from './components/cards/company/card-application-review/card-application-review.component';
+import { CardIndividualApplicationComponent } from './components/cards/customer/card-application/card-individual-application.component';
+import { UserService } from "./services/user.service";
 
 @NgModule({
   declarations: [
@@ -150,7 +152,8 @@ import { CardApplicationReviewComponent } from './components/cards/company/card-
     AlertsComponent,
     CardRequestFullTableComponent,
     ProgressbarApplicationComponent,
-    CardApplicationReviewComponent
+    CardApplicationReviewComponent,
+    CardIndividualApplicationComponent
   ],
   imports: [
     BrowserModule, 
@@ -161,7 +164,7 @@ import { CardApplicationReviewComponent } from './components/cards/company/card-
     NgPipesModule,
     DialogModule.forRoot()
   ],
-  providers: [EmailService, AuthService, RegisterService],
+  providers: [EmailService, AuthService, RegisterService, UserService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

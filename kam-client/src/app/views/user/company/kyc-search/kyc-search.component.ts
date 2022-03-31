@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
+  selector: 'app-kyc-search',
+  templateUrl: './kyc-search.component.html',
   styles: [
   ]
 })
-export class ReportComponent implements OnInit {
+export class KycSearchComponent implements OnInit {
 
   constructor() { }
 

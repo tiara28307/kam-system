@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApplicationValidationService } from 'src/app/services/kyc/application-validation.service';
-import { KycOnboardingService } from 'src/app/services/kyc/kyc-onboarding.service';
+import { ApplicationValidationService } from 'src/app/services/kyc-onboarding/application-validation.service';
+import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 
 @Component({
   selector: 'app-card-individual-application',

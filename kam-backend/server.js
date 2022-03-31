@@ -3,9 +3,6 @@ const app = express();
 const morgan = require('morgan');
 require('dotenv').config()
 
-// NODE_ENV is a standard variable name for node applicaion environment variable. [cmd: set NODE_ENV=production]
-// const environment = process.env.NODE_ENV; //Environment variable can also be accessed using process object by variable name.
-// app.get('env'); //If environment variable not set, returns 'development' as default environment. 
 const environment = process.env.NODE_ENV
 
 app.use(express.json());
@@ -29,7 +26,7 @@ const registerServiceRouter = require('./services/register-service/register-rout
 app.use('/register', registerServiceRouter);
 
 // KYC Onboarding Service
-const kycOnboardingServiceRouter = require('./services/kyc/kyc-onboarding-service/kyc-onboarding-router');
+const kycOnboardingServiceRouter = require('./services/kyc-onboarding-service/kyc-onboarding-router');
 app.use('/kyc/onboarding', kycOnboardingServiceRouter);
 
 if(environment === 'development'){

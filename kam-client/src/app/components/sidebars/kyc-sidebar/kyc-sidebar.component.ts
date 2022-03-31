@@ -13,7 +13,6 @@ export class KycSidebarComponent implements OnInit {
   url: string;
   currentService: string;
   dashboardLink: string;
-  historyLink: string;
   applicationLink: string;
   requestLink: string;
   kycServices = [
@@ -40,7 +39,7 @@ export class KycSidebarComponent implements OnInit {
       this.requestLink = '/user/kyc/onboarding/requests';
     } else if (this.currentService === this.kycServices[1]) {
       this.dashboardLink = '/user/kyc/screening/dashboard';
-      this.historyLink = '/user/kyc/screening/history';
+      this.applicationLink = '/user/kyc/screening/application/:id';
       this.requestLink = '/user/kyc/screening/requests';
     }
   }

@@ -55,4 +55,8 @@ export class SidebarComponent implements OnInit {
   isCmsSidebar(): boolean {
     return this.url.includes('casemanagement');
   }
+
+  isCompany(): boolean {
+    return this.user[0].role === 'COMPANY';
+  }
 }

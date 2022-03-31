@@ -2,20 +2,27 @@ import { Component, AfterViewInit, ViewChild, ElementRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { createPopper } from "@popperjs/core";
 import { CognitoUserPool } from "amazon-cognito-identity-js";
+import { UserService } from "src/app/services/user.service";
 import { LogoutAlert } from "src/constants/alerts.constant";
 import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-user-dropdown",
   templateUrl: "./user-dropdown.component.html",
+  host: {
+    "(window:click)": "closeDropdown()"
+  }
 })
 export class UserDropdownComponent implements AfterViewInit {
   dropdownPopoverShow = false;
   @ViewChild("btnDropdownRef", { static: false }) btnDropdownRef: ElementRef;
   @ViewChild("popoverDropdownRef", { static: false })
   popoverDropdownRef: ElementRef;
+  settingsLink = '/user/settings';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router
+  ) {}
 
   ngAfterViewInit() {
     createPopper(
@@ -33,6 +40,7 @@ export class UserDropdownComponent implements AfterViewInit {
     } else {
       this.dropdownPopoverShow = true;
     }
+    event.stopPropagation();
   }
 
   logout() {
@@ -49,7 +57,15 @@ export class UserDropdownComponent implements AfterViewInit {
   onLogout(): void {
     LogoutAlert.fire({})
       .then((result) => {
-        this.logout();
+        if (result.isConfirmed === true) {
+          this.logout();
+        }
       });
+  }
+
+  closeDropdown() {
+    if (this.dropdownPopoverShow) {
+      this.dropdownPopoverShow = false;
+    }
   }
 }

@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 // Registration Alerts
 let SuccessfulRegistrationAlert = Swal.mixin({
   title: 'Success!',
-  text: 'Your account was created! Awaiting user approval.',
+  text: 'Your account was created! Awaiting admin approval.',
   confirmButtonText: 'Okay',
   confirmButtonColor: colors.theme,
   iconColor: colors.success,
@@ -87,7 +87,16 @@ let LogoutAlert = Swal.mixin({
 // Permissions Alerts
 let DoNotHavePermissionToPageAlert = Swal.mixin({
   title: 'Sorry',
-  text: 'You do not have permission to access this page',
+  text: 'You do not have access to this page',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.warning,
+  icon: 'warning'
+});
+
+let DoNotHavePermissionToServiceAlert = Swal.mixin({
+  title: 'Sorry',
+  text: 'You do not have access to this service',
   confirmButtonText: 'Okay',
   confirmButtonColor: colors.theme,
   iconColor: colors.warning,
@@ -103,5 +112,6 @@ export {
   SuccessfulPasswordResetAlert,
   LogoutAlert,
   DoNotHavePermissionToPageAlert,
-  FailedLoginAlert
+  FailedLoginAlert,
+  DoNotHavePermissionToServiceAlert
 }

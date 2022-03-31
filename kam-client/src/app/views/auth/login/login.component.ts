@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthenticationDetails, CognitoUser, CognitoUserPool } from "amazon-cognito-identity-js";
+import { UserService } from "src/app/services/user.service";
 import { FailedLoginAlert } from "src/constants/alerts.constant";
 import { environment } from "src/environments/environment";
 
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -27,6 +29,10 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
       // rememberMe: ['']
     });
+  }
+
+  getUserType(res) {
+    return res.idToken.payload["custom:role"];
   }
 
   onLogin() {
@@ -53,8 +59,15 @@ export class LoginComponent implements OnInit {
       
       cognitoUser.authenticateUser(authDetails, {
         onSuccess: (result) => {
+          console.log('Logged In');
+          var userType = this.getUserType(result);
           this.isLoading = false;
-          this.router.navigate(['/user/kyc/onboarding/dashboard/:id']);
+          
+          if (userType === 'CUSTOMER') {
+            this.router.navigate(['/user/kyc/onboarding/dashboard']);
+          } else if (userType === 'COMPANY') {
+            this.router.navigate(['/select/service']);
+          }
         },
         onFailure: (err) => {
           this.isLoading = false;

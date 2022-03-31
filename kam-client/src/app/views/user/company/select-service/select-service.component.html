@@ -1,0 +1,53 @@
+<div>
+  <nav
+    class="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4"
+  >
+    <div
+      class="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-10 px-4"
+    >
+      <a></a>
+      <a
+        class="text-slate-700 text-2xl text-center uppercase hidden lg:inline-block font-semibold outline-none focus:outline-none"
+        >Select a Service
+      </a>
+      <ul class="flex-col md:flex-row list-none items-center hidden md:flex">
+        <app-user-dropdown class="block"></app-user-dropdown>
+      </ul>
+    </div>
+  </nav>
+  <main>
+    <section class="relative w-full h-full py-40 min-h-screen">
+      <div
+        class="absolute top-0 w-full h-full bg-register-bt bg-no-repeat bg-full bg-slate-100"
+      >
+        <div class="container mx-auto px-18 h-full mt-32">
+          <app-card-service
+            serviceTitle="KYC Screening Service"
+            serviceSubtitle="ID Verification & CDD"
+            serviceIcon="fas fa-user-check"
+            serviceLink="/user/kyc/screening/dashboard"
+          ></app-card-service>
+          <div class="mt-16">
+            <app-card-service
+            serviceTitle="AML Transaction Service"
+            serviceSubtitle="Money Laundering Detection"
+            serviceIcon="fas fa-magnifying-glass-dollar"
+            serviceLink="/user/aml/dashboard"
+            ></app-card-service>
+          </div>
+          <div class="mt-16">
+            <app-card-service
+            serviceTitle="Case Management Service"
+            serviceSubtitle="Risk Analysis & Reporting"
+            serviceIcon="fas fa-folder-tree"
+            serviceLink="/user/casemanagement/dashboard"
+            ></app-card-service>
+          </div>
+        </div>
+  
+      </div>  
+      <app-footer-small [absolute]="true"></app-footer-small>
+    </section>
+  </main>
+</div>
+

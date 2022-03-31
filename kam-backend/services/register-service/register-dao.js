@@ -3,7 +3,6 @@ const log = new Logger('Register-Dao');
 const mongoose = require('mongoose');
 const CompanyType = require('./register-schema-model').CompanyType;
 const Country = require('./register-schema-model').Country;
-// const config = require('config');
 
 const dbUrl = process.env.MONGODB_KAM_URL;
 

@@ -1,7 +1,7 @@
 <ul class="md:flex-col md:min-w-full flex flex-col list-none">
   <li class="items-center">
     <a
-      [routerLink]={{dashboardLink}}
+      [routerLink]="[dashboardLink]"
       class="text-xs uppercase py-3 font-bold block"
       routerLinkActive
       #userKycDashboard="routerLinkActive"
@@ -23,7 +23,7 @@
 
   <li class="items-center">
     <a
-      [routerLink]={{requestLink}}
+      [routerLink]="[requestLink]"
       class="text-xs uppercase py-3 font-bold block"
       routerLinkActive
       #userRequests="routerLinkActive"
@@ -45,23 +45,23 @@
 
   <li class="items-center">
     <a
-      [routerLink]={{historyLink}}
+      [routerLink]="[applicationLink]"
       class="text-xs uppercase py-3 font-bold block"
       routerLinkActive
-      #userKycHistory="routerLinkActive"
+      #userKycApplication="routerLinkActive"
       [ngClass]="
-        userKycHistory.isActive
+        userKycApplication.isActive
           ? 'text-red-600 hover:text-red-700'
           : 'text-slate-700 hover:text-slate-500'
       "
     >
       <i
-        class="fas fa-clock-rotate-left mr-2 text-lg"
+        class="fas fa-file-lines mr-2 text-lg"
         [ngClass]="
-          userKycHistory.isActive ? 'opacity-75' : 'text-slate-300'
+          userKycApplication.isActive ? 'opacity-75' : 'text-slate-300'
         "
       ></i>
-      History
+      Application
     </a>
   </li>
 </ul>

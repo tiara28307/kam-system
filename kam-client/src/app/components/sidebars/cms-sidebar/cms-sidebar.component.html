@@ -1,7 +1,7 @@
 <ul class="md:flex-col md:min-w-full flex flex-col list-none">
   <li class="items-center">
     <a
-      [routerLink]={{dashboardLink}}
+      [routerLink]="[dashboardLink]"
       class="text-xs uppercase py-3 font-bold block"
       routerLinkActive
       #userCMSDashboard="routerLinkActive"
@@ -23,7 +23,7 @@
 
   <li class="items-center">
     <a
-      [routerLink]={{reportLink}}
+      [routerLink]="[reportLink]"
       class="text-xs uppercase py-3 font-bold block"
       routerLinkActive
       #userReports="routerLinkActive"
@@ -45,7 +45,7 @@
 
   <li class="items-center">
     <a
-      [routerLink]={{historyLink}}
+      [routerLink]="[historyLink]"
       class="text-xs uppercase py-3 font-bold block"
       routerLinkActive
       #userCMSHistory="routerLinkActive"

@@ -1,4 +1,4 @@
-const Logger = require('../../logger/logger');
+const Logger = require('../logger/logger');
 const log = new Logger('KYC-Onboarding-Dao');
 const mongoose = require('mongoose');
 const PepType = require('./kyc-onboarding-schema-model').PepType;

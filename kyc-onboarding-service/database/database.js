@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const closeConnection = () => {
   return mongoose.disconnect()
     .then(() => {
+      log.info('disconnected from KAM database....')
       return true
     })
     .catch((err) => {

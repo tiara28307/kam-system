@@ -1,7 +1,7 @@
 {
-  "name": "kam-backend",
+  "name": "kyc-onboarding-service",
   "version": "1.0.0",
-  "description": "Node JS server for KAM System microservices",
+  "description": "Node JS server for KYC Onboarding Microservice",
   "scripts": {
     "start": "nodemon server.js"
   },

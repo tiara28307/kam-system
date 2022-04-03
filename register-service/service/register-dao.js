@@ -1,4 +1,4 @@
-const Logger = require('../../logger/logger');
+const Logger = require('../logger/logger');
 const log = new Logger('Register-Dao');
 const mongoose = require('mongoose');
 const CompanyType = require('./register-schema-model').CompanyType;

@@ -1,6 +1,6 @@
 var express = require('express');
-var cors = require('../../cors');
-const Logger = require('../../logger/logger');
+var cors = require('../cors');
+const Logger = require('../logger/logger');
 const log = new Logger('Register-Service');
 const registerRouter = express.Router();
 const registerDao = require('./register-dao');

@@ -18,16 +18,8 @@ app.use(function(req, res, next) {
 });
 
 // Email Service
-const emailServiceRouter = require('./services/email-service/email-router');
+const emailServiceRouter = require('./service/email-router');
 app.use('/email', emailServiceRouter);
-
-// Register Service
-const registerServiceRouter = require('./services/register-service/register-router');
-app.use('/register', registerServiceRouter);
-
-// KYC Onboarding Service
-const kycOnboardingServiceRouter = require('./services/kyc-onboarding-service/kyc-onboarding-router');
-app.use('/kyc/onboarding', kycOnboardingServiceRouter);
 
 if(environment === 'development'){
     app.use(morgan('tiny'));
@@ -35,7 +27,7 @@ if(environment === 'development'){
 }
 
 // PORT can be set in environment variable
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8080;
 
 app.listen(port, ()=>{
     console.log(`Application running in ${environment} environment, listening to port ${port}....`);

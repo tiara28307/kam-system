@@ -29,7 +29,6 @@ import { SettingsComponent } from "./views/user/settings/settings.component";
 
 const routes: Routes = [
   // user views
-  // TODO: add back Auth Guards for each user page
   {
     path: "user",
     component: UserComponent,
@@ -39,14 +38,14 @@ const routes: Routes = [
       { path: "company/settings", component: SettingsComponent, canActivate: [CompanyAuthGuard] },
 
       // KYC Onboarding Service Routes
-      { path: "kyc/onboarding/dashboard", component: CustomerKycDashboardComponent},
-      { path: "kyc/onboarding/requests", component: RequestsComponent},
-      { path: "kyc/onboarding/application/:id", component: ApplicationComponent},
+      { path: "kyc/onboarding/dashboard", component: CustomerKycDashboardComponent, canActivate: [CustomerAuthGuard] },
+      { path: "kyc/onboarding/requests", component: RequestsComponent, canActivate: [CustomerAuthGuard] },
+      { path: "kyc/onboarding/application", component: ApplicationComponent, canActivate: [CustomerAuthGuard] },
       
       // KYC Screening Service Routes
       { path: "kyc/screening/dashboard", component: CompanyKycDashboardComponent, canActivate: [CompanyAuthGuard] },
       { path: "kyc/screening/requests", component: RequestsComponent, canActivate: [CompanyAuthGuard] },
-      { path: "kyc/screening/application/:id", component: ReviewApplicationComponent, canActivate: [CompanyAuthGuard] },
+      { path: "kyc/screening/application", component: ReviewApplicationComponent, canActivate: [CompanyAuthGuard] },
 
       { path: "", redirectTo: "", pathMatch: "full" },
     ],

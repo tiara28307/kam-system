@@ -6,9 +6,18 @@
       <div class="relative w-full px-4 max-w-full flex-grow flex-1">
         <div class="flex flex-row justify-between">
           <h3 class="font-normal text-base text-slate-700 mb-2 text-xl">KYC Application: 
-            <span class="text-slate-800 text-md font-semibold">K00000001</span></h3>
+            <span class="text-slate-800 text-md font-semibold">{{applicationId}}</span></h3>
           <i class="fas fa-user-check fa-lg mt-3 pl-4"></i>
         </div>
+
+        <app-progressbar-application
+          stepOne="{{steps[0].progress}}"
+          stepTwo="{{steps[1].progress}}"
+          stepThree="{{steps[2].progress}}"
+          stepFour="{{steps[3].progress}}"
+          stepFive="{{steps[4].progress}}"
+          stepSix="{{steps[5].progress}}"
+        ></app-progressbar-application>
         
         <hr class="mt-6 border-b-1 border-slate-300" />
         
@@ -377,12 +386,95 @@
           </div>
         </div>
 
-          <div class="text-right mt-6">
+        <div *ngIf="step === 2">
+          <h6 class="text-slate-400 text-sm mt-3 font-bold uppercase">
+            Proof of Identity
+          </h6>
+          <p class="text-slate-600 text-sm mt-1 mb-6 font-semibold">Must provide document for individual identification</p>
+         
+          <div class="flex flex-wrap">
+            <div class="relative w-full mt-3 mb-3 justify-between">
+              <label
+                class="block text-slate-600 text-sm font-bold mb-2"
+              >
+                Choose your document type
+              </label>
+
+              <div class="form-check inline-block ml-3">
+                <input 
+                  class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none focus:ring-0 transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" 
+                  type="radio" 
+                  name="poiType" 
+                  id="radioPassport" 
+                  value="PP"
+                  formControlName="poiType"
+                >
+                <label class="form-check-label inline-block text-sm text-slate-700" for="radioPassport">Passport</label>
+              </div>
+              <div class="form-check inline-block ml-3">
+                <input 
+                  class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none focus:ring-0 transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" 
+                  type="radio" 
+                  name="poiType" 
+                  id="radioDL" 
+                  value="DL"
+                  formControlName="poiType"
+                >
+                <label class="form-check-label inline-block text-sm text-slate-700" for="radioDL">Driver's License</label>
+              </div>
+              <div class="form-check inline-block ml-3">
+                <input 
+                  class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none focus:ring-0 transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" 
+                  type="radio" 
+                  name="poiType" 
+                  id="radioIDCard" 
+                  value="ID"
+                  formControlName="poiType"
+                >
+                <label class="form-check-label inline-block text-sm text-slate-700" for="radioIDCard">ID Card</label>
+              </div>
+              <div class="form-check inline-block ml-3">
+                <input 
+                  class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none focus:ring-0 transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" 
+                  type="radio" 
+                  name="poiType" 
+                  id="radioRP" 
+                  value="RP"
+                  formControlName="poiType"
+                >
+                <label class="form-check-label inline-block text-sm text-slate-700" for="radioRP">Residence Permit</label>
+              </div>
+            </div>
+          </div>
+          <p class="text-center text-sm mt-6 mb-6 font-semibold">Upload a photo of your document that is bright and clear (good quality) and fully visible.</p>
+          <div class='flex items-center justify-center w-full'>
+            <label class="flex flex-col border-4 border-slate-100 border-dashed w-full h-32 hover:bg-slate-50 hover:border-sky-200">
+                <div class='flex flex-col items-center pt-8'>
+                  <i class="fas fa-id-card fa-2xl mt-3 mb-3"></i>
+                  <p class='lowercase text-sm text-slate-500 group-hover:text-red-600 pt-2 tracking-wide'>Select a photo</p>
+                </div>
+              <input type='file' class="hidden" formControlName="poi" />
+            </label>
+        </div>
+        </div>
+
+          <div class="{{ showPreviousButton() ? 'flex justify-between' : 'text-right' }} mt-6">
+            <button
+              *ngIf="showPreviousButton()"
+              class="bg-sky-500 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button"
+              (click)="previousStep()"
+            >
+            <i class="fas fa-arrow-left fa-lg mt-3 mr-2"></i>
+              Previous
+            </button>
+
             <button
               class="bg-sky-500 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button"
+              (click)="nextStep()"
             >
-              Next
+              {{forwardButtonText}}
               <i class="fas fa-arrow-right fa-lg mt-3 ml-2"></i>
             </button>
           </div>

@@ -35,12 +35,16 @@ export class KycSidebarComponent implements OnInit {
   setLinks() {
     if (this.currentService === this.kycServices[0]) {
       this.dashboardLink = '/user/kyc/onboarding/dashboard';
-      this.applicationLink = '/user/kyc/onboarding/application/:id';
+      this.applicationLink = '/user/kyc/onboarding/application';
       this.requestLink = '/user/kyc/onboarding/requests';
     } else if (this.currentService === this.kycServices[1]) {
       this.dashboardLink = '/user/kyc/screening/dashboard';
-      this.applicationLink = '/user/kyc/screening/application/:id';
+      this.applicationLink = '/user/kyc/screening/application';
       this.requestLink = '/user/kyc/screening/requests';
     }
+  }
+
+  getApplicationLink() {
+    // TODO: get application id for applicationLink
   }
 }

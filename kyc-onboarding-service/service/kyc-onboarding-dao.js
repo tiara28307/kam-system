@@ -3,10 +3,10 @@ const log = new Logger('KYC-Onboarding-Dao');
 const mongoose = require('mongoose');
 const PepType = require('./kyc-onboarding-schema-model').PepType;
 
-const dbUrl = process.env.MONGODB_KSS_URL;
+const dbUrl = process.env.MONGODB_KOS_URL;
 
 mongoose.connect(dbUrl)
-        .then(log.info('connected to mongo kss database....'))
+        .then(log.info('connected to mongo kos database....'))
         .catch(err => log.error('unable to connect, please check your connection....' + err));
 
 const getAllPepTypes = async (res) => {

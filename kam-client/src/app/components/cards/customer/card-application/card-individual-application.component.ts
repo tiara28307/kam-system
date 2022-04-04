@@ -12,10 +12,11 @@ import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboar
 export class CardIndividualApplicationComponent implements OnInit {
   individualApplicationForm: FormGroup;
   step: number;
-  stepTitle: string;
   isLoading = false;
   proofOfIdentity: File;
   proofOfAddress: File;
+  applicationId: String;
+  forwardButtonText = 'Next';
   pepTypes = [];
   citizenshipTypes = [
     { code: 1, name: 'U.S. Citizen or U.S. National' },
@@ -25,12 +26,12 @@ export class CardIndividualApplicationComponent implements OnInit {
     { code: 5, name: 'Other (Non-U.S.)' }
   ];
   steps = [
-    { step: 1, title: 'Personal' },
-    { step: 2, title: 'ID Proof' },
-    { step: 3, title: 'Address' },
-    { step: 4, title: 'Proof of Address' },
-    { step: 5, title: 'Contact' },
-    { step: 6, title: 'Declaration' },
+    { step: 1, progress: 'NS' },
+    { step: 2, progress: 'NS' },
+    { step: 3, progress: 'NS' },
+    { step: 4, progress: 'NS' },
+    { step: 5, progress: 'NS' },
+    { step: 6, progress: 'NS' },
   ];
   
   constructor(
@@ -40,9 +41,10 @@ export class CardIndividualApplicationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.step = this.steps[0].step;
-    this.stepTitle = this.steps[0].title;
     this.setPepTypes();
+    this.step = this.steps[1].step;
+    this.steps[0].progress = 'IP';
+    this.applicationId = 'K00000001';
 
     this.individualApplicationForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
@@ -59,7 +61,8 @@ export class CardIndividualApplicationComponent implements OnInit {
       occupation: ['', [Validators.required]],
       isPEP: [false, [Validators.required]],
       isRcaPEP: [false, [Validators.required]],
-      pepExposure: ['', [Validators.required]], 
+      pepExposure: ['', [Validators.required]],
+      poiType: ['', [Validators.required]], 
       poi: [this.proofOfIdentity, Validators.compose([
         Validators.required,
         Validators.pattern(this.applicationValidator.poiFilePattern)
@@ -72,6 +75,7 @@ export class CardIndividualApplicationComponent implements OnInit {
         Validators.pattern(this.applicationValidator.postalCodePattern)
       ])],
       country: ['', [Validators.required]],
+      poaType: ['', [Validators.required]],
       poa: [this.proofOfAddress, Validators.compose([
         Validators.required,
         Validators.pattern(this.applicationValidator.poaFilePattern)
@@ -84,7 +88,7 @@ export class CardIndividualApplicationComponent implements OnInit {
         Validators.required,
         Validators.email
       ])],
-      isConfirmed: [false, [Validators.required]],
+      isDeclared: [false, [Validators.required]],
     });
   }
 
@@ -93,12 +97,6 @@ export class CardIndividualApplicationComponent implements OnInit {
 
     dobVal = dobVal.replace(/^(\d\d)(\d)$/g,'$1/$2').replace(/^(\d\d\/\d\d)(\d+)$/g,'$1/$2').replace(/[^\d\/]/g,'');
     this.individualApplicationForm.controls['dob'].setValue(dobVal);
-  }
-
-  nextStep() {
-  }
-
-  previousStep() {
   }
 
   setPepTypes() {
@@ -111,6 +109,108 @@ export class CardIndividualApplicationComponent implements OnInit {
         console.error('Error with onboarding service for pep types: ', error);
       }
     )
+  }
+
+  getApplicationData() {
+    // from mongodb based on user applicationId
+  }
+
+  isStepComplete(currentStep): boolean {
+    if (currentStep === 1) {
+      let isFirstNameValid = this.individualApplicationForm.controls['firstName'].valid;
+      let isLastNameValid = this.individualApplicationForm.controls['lastName'].valid;
+      let isMaidenNameValid = this.individualApplicationForm.controls['maidenName'].valid;
+      let isFatherNameValid = this.individualApplicationForm.controls['fatherName'].valid;
+      let isMotherNameValid = this.individualApplicationForm.controls['motherName'].valid;
+      let isMotherMaidenNameValid = this.individualApplicationForm.controls['motherMaidenName'].valid;
+      let isSpouseNameValid = this.individualApplicationForm.controls['spouseName'].valid;
+      let isMaritalStatusValid = this.individualApplicationForm.controls['maritalStatus'].valid;
+      let isGenderValid = this.individualApplicationForm.controls['gender'].valid;
+      let isDobValid = this.individualApplicationForm.controls['dob'].valid;
+      let isCitizenshipStatusValid = this.individualApplicationForm.controls['citizenshipStatus'].valid;
+      let isOccupationValid = this.individualApplicationForm.controls['occupation'].valid;
+      let isPepValid = this.individualApplicationForm.controls['isPEP'].valid;
+      let isRcaPepValid = this.individualApplicationForm.controls['isRcaPEP'].valid;
+      let isPepExposureValid = this.individualApplicationForm.controls['pepExposure'].valid;
+      return isFirstNameValid && isLastNameValid && isMaidenNameValid && isFatherNameValid && isMotherNameValid && isMotherMaidenNameValid && isSpouseNameValid
+        && isMaritalStatusValid && isGenderValid && isDobValid && isCitizenshipStatusValid && isOccupationValid && isPepValid && isRcaPepValid && isPepExposureValid;
+    }
+    else if (currentStep === 2) {
+      let isPoiValid = this.individualApplicationForm.controls['poi'].valid;
+      return isPoiValid;
+    }
+    else if (currentStep === 3) {
+      let isAddressValid = this.individualApplicationForm.controls['address'].valid;
+      let isCityValid = this.individualApplicationForm.controls['city'].valid;
+      let isStateValid = this.individualApplicationForm.controls['state'].valid;
+      let isPostalCodeValid = this.individualApplicationForm.controls['postalCode'].valid;
+      let isCountryValid = this.individualApplicationForm.controls['country'].valid;
+      return isAddressValid && isCityValid && isStateValid && isPostalCodeValid && isCountryValid;
+    }
+    else if (currentStep === 4) {
+      let isPoaValid = this.individualApplicationForm.controls['poa'].valid;
+      return isPoaValid;
+    }
+    else if (currentStep === 5) {
+      let isEmailValid = this.individualApplicationForm.controls['email'].valid;
+      let isPhoneValid = this.individualApplicationForm.controls['phone'].valid;
+      return isEmailValid && isPhoneValid;
+    }
+    else if (currentStep === 6) {
+      let isDeclaredValid = this.individualApplicationForm.value.isDeclared === true;
+      return isDeclaredValid;
+    }
+  }
+
+  nextStep() {
+    var step = this.step;
+    if (step === 6) {
+      var isComplete = this.isStepComplete(1) && this.isStepComplete(2) && this.isStepComplete(3) && this.isStepComplete(4) && this.isStepComplete(5) && this.isStepComplete(6);
+      
+      if (isComplete) {
+        this.viewSummary();
+      }
+      else {
+        // show error message that application is not complete
+      }
+    }
+    else {
+      this.currentStep(step);
+      step = step + 1;
+      this.steps[step - 1].progress = 'IP';
+
+      if (step === 6) {
+        this.forwardButtonText = 'Review';
+      }
+    }
+    this.step = step;
+  }
+
+  currentStep(step) {
+    var isComplete = this.isStepComplete(step);
+    this.steps[step - 1].progress = isComplete ? 'C' : 'IC';
+  }
+
+  showPreviousButton(): boolean {
+    return this.step != 1;
+  }
+
+  previousStep() {
+    var step = this.step;
+    this.currentStep(step)
+    step = step - 1;
+    this.steps[step - 1].progress = 'IP';
+
+    this.forwardButtonText = 'Next';
+    this.step = step;
+  }
+
+  viewSummary() {
+    console.log('summary page before submission');
+  }
+
+  onSubmit() {
+    console.log('on submit clicked');
   }
 
 }

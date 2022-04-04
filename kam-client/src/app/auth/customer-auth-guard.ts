@@ -26,5 +26,4 @@ export class CustomerAuthGuard implements CanActivate {
 
     return isAuth;
   }
-  
 }

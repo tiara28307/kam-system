@@ -27,7 +27,7 @@ export class KycOnboardingService {
     let isValidUser = this.canAccess();
 
     if (isValidUser) {
-      return this.httpreq.get("http://localhost:8080/kyc/onboarding/peptypes", {
+      return this.httpreq.get("http://localhost:8082/kyc/onboarding/peptypes", {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'json'
       });

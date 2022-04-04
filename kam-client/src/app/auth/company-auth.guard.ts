@@ -26,5 +26,4 @@ export class CompanyAuthGuard implements CanActivate {
 
     return isAuth;
   }
-  
 }

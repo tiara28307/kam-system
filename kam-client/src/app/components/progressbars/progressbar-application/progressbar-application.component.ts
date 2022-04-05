@@ -38,12 +38,15 @@ export class ProgressbarApplicationComponent implements OnInit {
     if (this._stepOne === 'NS') {
       this.steps[0].stepIcon = 'far fa-1';
       this.steps[0].stepColor = this.textNotStartedColor;
+      this.steps[0].progressColor = this.bgNotCompleteColor;
     } else if (this._stepOne === 'IP') {
       this.steps[0].stepIcon = 'far fa-1';
       this.steps[0].stepColor = this.textInProgressColor;
+      this.steps[0].progressColor = this.bgNotCompleteColor;
     } else if (this._stepOne === 'IC') {
       this.steps[0].stepIcon = 'far fa-1';
       this.steps[0].stepColor = this.textIncompleteColor;
+      this.steps[0].progressColor = this.bgNotCompleteColor;
     } else if (this._stepOne === 'C') {
       this.steps[0].stepIcon = this.successIcon;
       this.steps[0].stepColor = this.textCompleteColor;
@@ -62,12 +65,15 @@ export class ProgressbarApplicationComponent implements OnInit {
     if (this._stepTwo === 'NS') {
       this.steps[1].stepIcon = 'far fa-2';
       this.steps[1].stepColor = this.textNotStartedColor;
+      this.steps[1].progressColor = this.bgNotCompleteColor;
     } else if (this._stepTwo === 'IP') {
       this.steps[1].stepIcon = 'far fa-2';
       this.steps[1].stepColor = this.textInProgressColor;
+      this.steps[1].progressColor = this.bgNotCompleteColor;
     } else if (this._stepTwo === 'IC') {
       this.steps[1].stepIcon = 'far fa-2';
       this.steps[1].stepColor = this.textIncompleteColor;
+      this.steps[1].progressColor = this.bgNotCompleteColor;
     } else if (this._stepTwo === 'C') {
       this.steps[1].stepIcon = this.successIcon;
       this.steps[1].stepColor = this.textCompleteColor;
@@ -86,12 +92,15 @@ export class ProgressbarApplicationComponent implements OnInit {
     if (this._stepThree === 'NS') {
       this.steps[2].stepIcon = 'far fa-3';
       this.steps[2].stepColor = this.textNotStartedColor;
+      this.steps[2].progressColor = this.bgNotCompleteColor;
     } else if (this._stepThree === 'IP') {
       this.steps[2].stepIcon = 'far fa-3';
       this.steps[2].stepColor = this.textInProgressColor;
+      this.steps[2].progressColor = this.bgNotCompleteColor;
     } else if (this._stepThree === 'IC') {
       this.steps[2].stepIcon = 'far fa-3';
       this.steps[2].stepColor = this.textIncompleteColor;
+      this.steps[2].progressColor = this.bgNotCompleteColor;
     } else if (this._stepThree === 'C') {
       this.steps[2].stepIcon = this.successIcon;
       this.steps[2].stepColor = this.textCompleteColor;
@@ -110,12 +119,15 @@ export class ProgressbarApplicationComponent implements OnInit {
     if (this._stepFour === 'NS') {
       this.steps[3].stepIcon = 'far fa-4';
       this.steps[3].stepColor = this.textNotStartedColor;
+      this.steps[3].progressColor = this.bgNotCompleteColor;
     } else if (this._stepFour === 'IP') {
       this.steps[3].stepIcon = 'far fa-4';
       this.steps[3].stepColor = this.textInProgressColor;
+      this.steps[3].progressColor = this.bgNotCompleteColor;
     } else if (this._stepFour === 'IC') {
       this.steps[3].stepIcon = 'far fa-4';
       this.steps[3].stepColor = this.textIncompleteColor;
+      this.steps[3].progressColor = this.bgNotCompleteColor;
     } else if (this._stepFour === 'C') {
       this.steps[3].stepIcon = this.successIcon;
       this.steps[3].stepColor = this.textCompleteColor;
@@ -134,12 +146,15 @@ export class ProgressbarApplicationComponent implements OnInit {
     if (this._stepFive === 'NS') {
       this.steps[4].stepIcon = 'far fa-5';
       this.steps[4].stepColor = this.textNotStartedColor;
+      this.steps[4].progressColor = this.bgNotCompleteColor;
     } else if (this._stepFive === 'IP') {
       this.steps[4].stepIcon = 'far fa-5';
       this.steps[4].stepColor = this.textInProgressColor;
+      this.steps[4].progressColor = this.bgNotCompleteColor;
     } else if (this._stepFive === 'IC') {
       this.steps[4].stepIcon = 'far fa-5';
       this.steps[4].stepColor = this.textIncompleteColor;
+      this.steps[4].progressColor = this.bgNotCompleteColor;
     } else if (this._stepFive === 'C') {
       this.steps[4].stepIcon = this.successIcon;
       this.steps[4].stepColor = this.textCompleteColor;
@@ -158,12 +173,15 @@ export class ProgressbarApplicationComponent implements OnInit {
     if (this._stepSix === 'NS') {
       this.steps[5].stepIcon = 'far fa-6';
       this.steps[5].stepColor = this.textNotStartedColor;
+      this.steps[5].progressColor = this.bgNotCompleteColor;
     } else if (this._stepSix === 'IP') {
       this.steps[5].stepIcon = 'far fa-6';
       this.steps[5].stepColor = this.textInProgressColor;
+      this.steps[5].progressColor = this.bgNotCompleteColor;
     } else if (this._stepSix === 'IC') {
       this.steps[5].stepIcon = 'far fa-6';
       this.steps[5].stepColor = this.textIncompleteColor;
+      this.steps[5].progressColor = this.bgNotCompleteColor;
     } else if (this._stepSix === 'C') {
       this.steps[5].stepIcon = this.successIcon;
       this.steps[5].stepColor = this.textCompleteColor;

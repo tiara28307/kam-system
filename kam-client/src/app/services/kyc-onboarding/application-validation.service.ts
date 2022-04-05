@@ -11,4 +11,49 @@ export class ApplicationValidationService {
   poaFilePattern = RegExp(`^.*\.(jpg|JPG|jpeg|JPEG|png|PNG|doc|DOC|pdf|PDF)$`);
 
   constructor() { }
+
+  checkPermanentAddress: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
+    let isSame = group.get('isSameAddress').value;
+    
+    if (isSame == 'NO') {
+      return Validators.required(group.get('permanentAddress')) ? { addressRequired: true } : null;
+    }
+    return null;
+  }
+
+  checkPermanentCity: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
+    let isSame = group.get('isSameAddress').value;
+    
+    if (isSame == 'NO') {
+      return Validators.required(group.get('permanentCity')) ? { cityRequired: true } : null;
+    }
+    return null;
+  }
+
+  checkPermanentState: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
+    let isSame = group.get('isSameAddress').value;
+    
+    if (isSame == 'NO') {
+      return Validators.required(group.get('permanentState')) ? { stateRequired: true } : null;
+    }
+    return null;
+  }
+
+  checkPermanentPostalCode: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
+    let isSame = group.get('isSameAddress').value;
+    
+    if (isSame == 'NO') {
+      return Validators.required(group.get('permanentPostalCode')) ? { postalCodeRequired: true } : null;
+    }
+    return null;
+  }
+
+  checkPermanentCountry: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
+    let isSame = group.get('isSameAddress').value;
+    
+    if (isSame == 'NO') {
+      return Validators.required(group.get('permanentCountry')) ? { countryRequired: true } : null;
+    }
+    return null;
+  }
 }

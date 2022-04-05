@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationValidationService } from 'src/app/services/kyc-onboarding/application-validation.service';
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
+import { RegisterService } from 'src/app/services/register.service';
+import { ApplicationNotCompleteAlert } from 'src/constants/alerts.constant';
 
 @Component({
   selector: 'app-card-individual-application',
@@ -78,8 +80,8 @@ export class CardIndividualApplicationComponent implements OnInit {
       dob: ['', [Validators.required]],
       citizenshipStatus: ['', [Validators.required]],
       occupation: ['', [Validators.required]],
-      isPEP: [false, [Validators.required]],
-      isRcaPEP: [false, [Validators.required]],
+      isPEP: ['', [Validators.required]],
+      isRcaPEP: ['', [Validators.required]],
       pepExposure: ['', [Validators.required]],
       poiType: ['', [Validators.required]], 
       poi: [this.proofOfIdentity, Validators.compose([
@@ -94,6 +96,14 @@ export class CardIndividualApplicationComponent implements OnInit {
         Validators.pattern(this.applicationValidator.postalCodePattern)
       ])],
       country: ['', [Validators.required]],
+      isSameAddress: ['', [Validators.required]],
+      permanentAddress: [''],
+      permanentCity: [''],
+      permanentState: [''],
+      permanentPostalCode: ['', Validators.compose([
+        Validators.pattern(this.applicationValidator.postalCodePattern)
+      ])],
+      permanentCountry: [''],
       poaType: ['', [Validators.required]],
       poa: [this.proofOfAddress, Validators.compose([
         Validators.required,
@@ -108,9 +118,20 @@ export class CardIndividualApplicationComponent implements OnInit {
         Validators.email
       ])],
       isDeclared: [false, [Validators.required]],
-    });
+    },
+    {
+      validators: [
+        this.applicationValidator.checkPermanentAddress,
+        this.applicationValidator.checkPermanentCity,
+        this.applicationValidator.checkPermanentState,
+        this.applicationValidator.checkPermanentPostalCode,
+        this.applicationValidator.checkPermanentCountry
+      ]
+    }
+    );
   }
 
+  // Set format for date of birth field on change
   onDateKey(event: KeyboardEvent) {
     let dobVal = this.individualApplicationForm.controls['dob'].value;
 
@@ -131,10 +152,43 @@ export class CardIndividualApplicationComponent implements OnInit {
     )
   }
 
-  getApplicationData() {
-    // from mongodb based on user applicationId
+  // Set countries
+  setCountries() {
+    this.registerService.getCountries().subscribe(
+      res => {
+        this.countries = [res];
+        this.countries = this.countries[0].countriesMap;
+      },
+      error => {
+        console.error('Error with register service for countries: ', error);
+      }
+    );
   }
 
+  // Assign selected input file(s) to variables passed into FormGroup
+  handlePoiFileInput(files: FileList) {
+    this.proofOfIdentity = files[0];
+    this.poiLabel = files[0].name;
+  }
+
+  handlePoaFileInput(files: FileList) {
+    this.proofOfAddress = files[0];
+    this.poaLabel = files[0].name;
+  }
+  
+  // TODO: File check function for size and type
+  // TODO: Look at FormData opt for File Input instead of assign variable
+
+  // TODO: getApplication(username, id) -> return application data 
+  // - GET application data from cloud db based on username and appId
+
+  // Check if current address and permanent address are the same
+  isAddressSame() {
+    let sameAddress = this.individualApplicationForm.value.isSameAddress;
+    return sameAddress === 'YES' ? true : false;
+  }
+
+  // Check if current step is complete
   isStepComplete(currentStep): boolean {
     if (currentStep === 1) {
       let isFirstNameValid = this.individualApplicationForm.controls['firstName'].valid;
@@ -165,7 +219,15 @@ export class CardIndividualApplicationComponent implements OnInit {
       let isStateValid = this.individualApplicationForm.controls['state'].valid;
       let isPostalCodeValid = this.individualApplicationForm.controls['postalCode'].valid;
       let isCountryValid = this.individualApplicationForm.controls['country'].valid;
-      return isAddressValid && isCityValid && isStateValid && isPostalCodeValid && isCountryValid;
+      let isSameAddressValid = this.individualApplicationForm.controls['isSameAddress'].valid;
+      let isPAddressValid = !this.individualApplicationForm.hasError('addressRequired');
+      let isPCityValid = !this.individualApplicationForm.hasError('cityRequired');
+      let isPStateValid = !this.individualApplicationForm.hasError('stateRequired');
+      let isPPostalCodeValid = !this.individualApplicationForm.hasError('postalCodeRequired');
+      let isPCountryValid = !this.individualApplicationForm.hasError('countryRequired');
+
+      return isAddressValid && isCityValid && isStateValid && isPostalCodeValid && isCountryValid && isSameAddressValid && isPAddressValid && isPCityValid && isPStateValid
+        && isPPostalCodeValid && isPCountryValid;
     }
     else if (currentStep === 4) {
       let isPoaValid = this.individualApplicationForm.controls['poa'].valid;
@@ -182,16 +244,40 @@ export class CardIndividualApplicationComponent implements OnInit {
     }
   }
 
+  // Go to next step in application
   nextStep() {
     var step = this.step;
+
+    // Step 6 is final step in application. Go to application summary if completed else show alert message.
     if (step === 6) {
       var isComplete = this.isStepComplete(1) && this.isStepComplete(2) && this.isStepComplete(3) && this.isStepComplete(4) && this.isStepComplete(5) && this.isStepComplete(6);
       
       if (isComplete) {
-        this.viewSummary();
+        this.viewApplicationSummary();
       }
       else {
-        // show error message that application is not complete
+        var incompleteSteps = '';
+        var stepNames = {
+          1: 'Personal Details',
+          2: 'ID Proof',
+          3: 'Address Details',
+          4: 'Proof of Address',
+          5: 'Contact'
+        }
+        for(var i = 1; i < 6; i++) {
+          if (!this.isStepComplete(i)) {
+            var str = '<p>' + i + '. ' + stepNames[i] + '</p>'
+            incompleteSteps += str;
+          }
+        }
+        ApplicationNotCompleteAlert.fire({
+          html:
+            '<style> p{text-align: left}</style>' +
+            '<p>Following steps are incomplete: ' +
+            '</br></br>' +
+            incompleteSteps +
+            '</p>'
+        });
       }
     }
     else {

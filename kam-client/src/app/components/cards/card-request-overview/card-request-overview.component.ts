@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogService, DialogRef } from '@ngneat/dialog';
-import { RequestService } from 'src/app/services/kyc/request.service';
+import { DialogRef } from '@ngneat/dialog';
+import { RequestService } from 'src/app/services/request.service';
 
 @Component({
   selector: 'app-card-request-overview',

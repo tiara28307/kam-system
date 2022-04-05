@@ -14,27 +14,28 @@ import { UserComponent } from "./layouts/user/user.component";
 import { AuthComponent } from "./layouts/auth/auth.component";
 
 // user views
-import { CustomerKycDashboardComponent } from "./views/user/customer/dashboards/customer-kyc-dashboard/customer-kyc-dashboard.component";
+import { CustomerKycDashboardComponent } from "./views/user/customer/customer-kyc-dashboard/customer-kyc-dashboard.component";
 import { SettingsComponent } from "./views/user/settings/settings.component";
 import { CardDashboardStatsComponent } from './components/cards/card-dashboard-stats/card-dashboard-stats.component';
 import { CardApplicationOverviewComponent } from "./components/cards/customer/card-application-overview/card-application-overview.component";
 import { CardRequestTableComponent } from './components/cards/card-request-table/card-request-table.component';
 import { HeaderDefaultComponent } from './components/headers/header-default/header-default.component';
-import { CompanyKycDashboardComponent } from './views/user/company/dashboards/company-kyc-dashboard/company-kyc-dashboard.component';
-import { ApplicationsComponent } from './views/user/applications/applications.component';
-import { CompanyAmlDashboardComponent } from './views/user/company/dashboards/company-aml-dashboard/company-aml-dashboard.component';
-import { TransactionsComponent } from './views/user/company/transactions/transactions.component';
+import { CompanyKycDashboardComponent } from './views/user/company/company-kyc-dashboard/company-kyc-dashboard.component';
 import { RequestsComponent } from './views/user/requests/requests.component';
-import { ReportsComponent } from './views/user/company/reports/reports.component';
-import { CompanyCaseManagementDashboardComponent } from './views/user/company/dashboards/company-case-management-dashboard/company-case-management-dashboard.component';
 import { CompanySettingsComponent } from './views/user/company/company-settings/company-settings.component';
 import { CustomerSettingsComponent } from './views/user/customer/customer-settings/customer-settings.component';
 import { KycSidebarComponent } from './components/sidebars/kyc-sidebar/kyc-sidebar.component';
-import { AmlSidebarComponent } from './components/sidebars/aml-sidebar/aml-sidebar.component';
-import { CmsSidebarComponent } from './components/sidebars/cms-sidebar/cms-sidebar.component';
 import { CardCompanySettingsComponent } from './components/cards/company/card-company-settings/card-company-settings.component';
 import { CardCustomerSettingsComponent } from './components/cards/customer/card-customer-settings/card-customer-settings.component';
 import { CardRequestOverviewComponent } from './components/cards/card-request-overview/card-request-overview.component';
+import { KycSearchComponent } from './views/user/company/kyc-search/kyc-search.component';
+import { CardRequestFullTableComponent } from './components/cards/card-request-full-table/card-request-full-table.component';
+import { ProgressbarApplicationComponent } from './components/progressbars/progressbar-application/progressbar-application.component';
+import { CardApplicationReviewComponent } from './components/cards/company/card-application-review/card-application-review.component';
+import { CardIndividualApplicationComponent } from './components/cards/customer/card-application/card-individual-application.component';
+import { ApplicationComponent } from './views/user/customer/application/application.component';
+import { ReviewApplicationComponent } from './views/user/company/review-application/review-application.component';
+import { CardServiceComponent } from './components/cards/card-service/card-service.component';
 
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
@@ -71,22 +72,8 @@ import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user
 import { EmailService } from "./services/email.service";
 import { AuthService } from "./services/auth.service";
 import { RegisterService } from "./services/register.service";
-import { CardTransactionTableComponent } from './components/cards/company/card-transaction-table/card-transaction-table.component';
-import { CardTransactionOverviewComponent } from './components/cards/company/card-transaction-overview/card-transaction-overview.component';
-import { CardReportTableComponent } from './components/cards/company/card-report-table/card-report-table.component';
-import { CardReportOverviewComponent } from './components/cards/company/card-report-overview/card-report-overview.component';
-import { ReportComponent } from './views/user/company/reports/report/report.component';
-import { ApplicationComponent } from './views/user/customer/application/application.component';
-import { TransactionComponent } from './views/user/company/transactions/transaction/transaction.component';
-import { ReviewApplicationComponent } from './views/user/company/review-application/review-application.component';
-import { SelectServiceComponent } from './views/user/company/select-service/select-service.component';
-import { CardServiceComponent } from './components/cards/card-service/card-service.component';
-import { AlertsComponent } from './views/user/company/alerts/alerts.component';
-import { CardRequestFullTableComponent } from './components/cards/card-request-full-table/card-request-full-table.component';
-import { ProgressbarApplicationComponent } from './components/progressbars/progressbar-application/progressbar-application.component';
-import { CardApplicationReviewComponent } from './components/cards/company/card-application-review/card-application-review.component';
-import { CardIndividualApplicationComponent } from './components/cards/customer/card-application/card-individual-application.component';
 import { UserService } from "./services/user.service";
+
 
 @NgModule({
   declarations: [
@@ -125,35 +112,21 @@ import { UserService } from "./services/user.service";
     CardRequestTableComponent,
     HeaderDefaultComponent,
     CompanyKycDashboardComponent,
-    ApplicationsComponent,
-    CompanyAmlDashboardComponent,
-    TransactionsComponent,
     RequestsComponent,
-    ReportsComponent,
-    CompanyCaseManagementDashboardComponent,
     CompanySettingsComponent,
     CustomerSettingsComponent,
     KycSidebarComponent,
-    AmlSidebarComponent,
-    CmsSidebarComponent,
     CardCompanySettingsComponent,
     CardCustomerSettingsComponent,
     CardRequestOverviewComponent,
-    CardTransactionTableComponent,
-    CardTransactionOverviewComponent,
-    CardReportTableComponent,
-    CardReportOverviewComponent,
-    ReportComponent,
     ApplicationComponent,
-    TransactionComponent,
     ReviewApplicationComponent,
-    SelectServiceComponent,
     CardServiceComponent,
-    AlertsComponent,
     CardRequestFullTableComponent,
     ProgressbarApplicationComponent,
     CardApplicationReviewComponent,
-    CardIndividualApplicationComponent
+    CardIndividualApplicationComponent,
+    KycSearchComponent
   ],
   imports: [
     BrowserModule, 

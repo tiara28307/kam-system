@@ -9,6 +9,7 @@ export class AuthService {
 
   constructor() { }
 
+  // Check user authentication before gaining access to services in KAM
   isAuthenticated(user: string): boolean {
     var isAuth = false;
     var isUser = false;

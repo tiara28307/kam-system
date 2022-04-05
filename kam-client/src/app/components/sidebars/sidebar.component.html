@@ -58,19 +58,8 @@
 
       <hr class="my-4 md:min-w-full" />
       
-      <app-kyc-sidebar *ngIf="isKycSidebar()"></app-kyc-sidebar>
-      <app-aml-sidebar *ngIf="isAmlSidebar()"></app-aml-sidebar>
-      <app-cms-sidebar *ngIf="isCmsSidebar()"></app-cms-sidebar>
+      <app-kyc-sidebar></app-kyc-sidebar>
       
-      <div *ngIf="isCompany()">
-        <hr class="my-4 md:min-w-full" />
-          <a
-          [routerLink]="['/select/service']"
-          class="md:block text-left text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0 hover:text-slate-800 mt-2"
-        >
-          <span class="block"> Switch Service </span>
-        </a>
-      </div>
     </div>
   </div>
 </nav>

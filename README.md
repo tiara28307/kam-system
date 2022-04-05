@@ -6,7 +6,7 @@
 <!-- ABOUT THE PROJECT -->
 ## Project Details
 
-The KAM System is a type of regulatory technology (RegTech) built for handling AML and KYC compliance processes for the financial industry. This system enables financial institutions to protect their financial services and products from money laundering activities. KAM offers prevention, detection, and reporting for AML compliance that is consistent with the latest regulations in the United States. KAM employs cutting-edge technology in AI and blockchain to provide efficient and reliable software for financial businesses. For further details on this project refer to the [White Paper](https://github.com/kam-regtech/kam-system/files/7991298/Master.s.Project.Report.pdf)
+The KAM System is a type of regulatory technology (RegTech) built for handling KYC compliance processes for the financial industry. This system enables financial institutions to protect their financial services and products from money laundering activities. KAM offers frictionless onboarding, ongoing customer screening, and secure recordkeeping of customer identification information for KYC compliance that is consistent with the latest regulations in the United States. KAM employs cutting-edge technology in AI and blockchain to provide efficient and reliable software for financial businesses. For further details on this project refer to the [White Paper](https://github.com/kam-regtech/kam-system/files/7991298/Master.s.Project.Report.pdf)
 
 **DISCLAIMER:** This software is to complete my Master's Project in the Computer Science Department at Texas Tech University. 
 

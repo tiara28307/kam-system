@@ -1,22 +1,105 @@
-<ul class="cdt-step-progressbar horizontal">
-  <li>
-    <span class="indicator">1</span>
-    <span class="title">Item1</span>
-  </li>
-  <li>
-    <span class="indicator">2</span>
-    <span class="title">Item 2</span>
-  </li>
-  <li>
-    <span class="indicator">3</span>
-    <span class="title">Item 3</span>
-  </li>
-  <li>
-    <span class="indicator">4</span>
-    <span class="title">Item 4</span>
-  </li>
-  <li>
-    <span class="indicator">5</span>
-    <span class="title">Item 5</span>
-  </li>
-</ul>
+<div class="w-full py-6">
+  <div class="flex">
+    <div class="w-6/12">
+      <div class="relative mb-2">
+        <div class="w-10 h-10 mx-auto rounded-full text-lg text-white flex items-center">
+          <span class="text-center text-white w-full">
+            <i class="{{steps[0].stepIcon}} fa-xl mt-3 {{steps[0].stepColor}}"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="text-xs text-center md:text-base">Personal</div>
+    </div>
+
+    <div class="w-6/12">
+      <div class="relative mb-2">
+        <div class="absolute flex align-center items-center align-middle content-center" style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)">
+          <div class="w-full bg-slate-200 rounded items-center align-middle align-center flex-1">
+            <div class="w-0 {{steps[0].progressColor}} py-1 rounded w-full"></div>
+          </div>
+        </div>
+
+        <div class="w-12 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+          <span class="text-center text-white w-full">
+            <i class="{{steps[1].stepIcon}} fa-xl mt-3 {{steps[1].stepColor}}"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="text-xs text-center md:text-base">ID Proof</div>
+    </div>
+
+    <div class="w-6/12">
+      <div class="relative mb-2">
+        <div class="absolute flex align-center items-center align-middle content-center" style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)">
+          <div class="w-full bg-slate-200 rounded items-center align-middle align-center flex-1">
+            <div class="w-0 {{steps[1].progressColor}} py-1 rounded w-full"></div>
+          </div>
+        </div>
+
+        <div class="w-12 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+          <span class="text-center text-white w-full">
+            <i class="{{steps[2].stepIcon}} fa-xl mt-3 {{steps[2].stepColor}}"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="text-xs text-center md:text-base">Address</div>
+    </div>
+
+    <div class="w-6/12">
+      <div class="relative mb-2">
+        <div class="absolute flex align-center items-center align-middle content-center" style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)">
+          <div class="w-full bg-slate-200 rounded items-center align-middle align-center flex-1">
+            <div class="w-0 {{steps[2].progressColor}} py-1 rounded w-full"></div>
+          </div>
+        </div>
+
+        <div class="w-12 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+          <span class="text-center text-white w-full">
+            <i class="{{steps[3].stepIcon}} fa-xl mt-3 {{steps[3].stepColor}}"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="text-xs text-center md:text-base">Proof of Address</div>
+    </div>
+
+    <div class="w-6/12">
+      <div class="relative mb-2">
+        <div class="absolute flex align-center items-center align-middle content-center" style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)">
+          <div class="w-full bg-slate-200 rounded items-center align-middle align-center flex-1">
+            <div class="w-0 {{steps[3].progressColor}} py-1 rounded w-full"></div>
+          </div>
+        </div>
+
+        <div class="w-12 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+          <span class="text-center text-white w-full">
+            <i class="{{steps[4].stepIcon}} fa-xl mt-3 {{steps[4].stepColor}}"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="text-xs text-center md:text-base">Contact</div>
+    </div>
+
+    <div class="w-6/12">
+      <div class="relative mb-2">
+        <div class="absolute flex align-center items-center align-middle content-center" style="width: calc(100% - 2.5rem - 1rem); top: 50%; transform: translate(-50%, -50%)">
+          <div class="w-full bg-slate-200 rounded items-center align-middle align-center flex-1">
+            <div class="w-0 {{steps[4].progressColor}} py-1 rounded w-full"></div>
+          </div>
+        </div>
+
+        <div class="w-12 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+          <span class="text-center text-white w-full">
+            <i class="{{steps[5].stepIcon}} fa-xl mt-3 {{steps[5].stepColor}}"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="text-xs text-center md:text-base">Declaration</div>
+    </div>
+  </div>
+</div>

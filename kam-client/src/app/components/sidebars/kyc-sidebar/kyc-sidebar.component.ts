@@ -13,7 +13,6 @@ export class KycSidebarComponent implements OnInit {
   url: string;
   currentService: string;
   dashboardLink: string;
-  historyLink: string;
   applicationLink: string;
   requestLink: string;
   kycServices = [
@@ -33,15 +32,20 @@ export class KycSidebarComponent implements OnInit {
     this.setLinks();
   }
 
+  // Set route paths for user based on current service enabled
   setLinks() {
     if (this.currentService === this.kycServices[0]) {
       this.dashboardLink = '/user/kyc/onboarding/dashboard';
-      this.applicationLink = '/user/kyc/onboarding/application/:id';
+      this.applicationLink = '/user/kyc/onboarding/application';
       this.requestLink = '/user/kyc/onboarding/requests';
     } else if (this.currentService === this.kycServices[1]) {
       this.dashboardLink = '/user/kyc/screening/dashboard';
-      this.historyLink = '/user/kyc/screening/history';
+      this.applicationLink = '/user/kyc/screening/application';
       this.requestLink = '/user/kyc/screening/requests';
     }
+  }
+
+  getApplicationLink() {
+    // TODO: get application id for applicationLink
   }
 }

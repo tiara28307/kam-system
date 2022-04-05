@@ -29,9 +29,11 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Set select field data in registration form
     this.setCompanyTypes();
     this.setCountries();
 
+    // Build customer registration form with input validation scheme
     this.customerRegisterForm = this.formBuilder.group({
       customerFirstName: ['', [Validators.required]],
       customerLastName: ['', [Validators.required]],
@@ -54,6 +56,7 @@ export class RegisterComponent implements OnInit {
     }
     );
 
+    // Build company registration form with input validation scheme
     this.companyRegisterForm = this.formBuilder.group({
       companyName: ['', [Validators.required]],
       companyPhone: ['', Validators.compose([
@@ -137,7 +140,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterCustomerUser() {
-
     if (this.customerRegisterForm.valid) {
       this.isLoading = true;
       
@@ -194,7 +196,6 @@ export class RegisterComponent implements OnInit {
   }
 
   onRegisterCompanyUser() {
-
     if (this.companyRegisterForm.valid) {
       this.isLoading = true;
       

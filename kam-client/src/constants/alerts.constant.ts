@@ -103,6 +103,15 @@ let DoNotHavePermissionToServiceAlert = Swal.mixin({
   icon: 'warning'
 });
 
+// Application Alerts
+let ApplicationNotCompleteAlert = Swal.mixin({
+  title: 'Application Not Complete',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
 export {
   SuccessfulRegistrationAlert,
   FailedRegistrationAlert,
@@ -113,5 +122,6 @@ export {
   LogoutAlert,
   DoNotHavePermissionToPageAlert,
   FailedLoginAlert,
-  DoNotHavePermissionToServiceAlert
+  DoNotHavePermissionToServiceAlert,
+  ApplicationNotCompleteAlert
 }

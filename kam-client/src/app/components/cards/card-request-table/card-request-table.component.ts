@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { RequestService } from 'src/app/services/kyc/request.service';
+import { RequestService } from 'src/app/services/request.service';
 import { DialogService } from '@ngneat/dialog';
 import { CardRequestOverviewComponent } from '../card-request-overview/card-request-overview.component';
 

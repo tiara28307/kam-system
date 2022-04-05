@@ -11,6 +11,7 @@ export class PagesDropdownComponent implements OnInit {
   @ViewChild("popoverDropdownRef", { static: false })
   popoverDropdownRef: ElementRef;
   ngOnInit() {}
+
   toggleDropdown(event) {
     event.preventDefault();
     if (this.dropdownPopoverShow) {
@@ -20,6 +21,7 @@ export class PagesDropdownComponent implements OnInit {
       this.createPoppper();
     }
   }
+  
   createPoppper() {
     createPopper(
       this.btnDropdownRef.nativeElement,

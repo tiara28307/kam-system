@@ -1,10 +1,10 @@
 const { writeFile } = require('fs');
 const { argv } = require('yargs');
 
-// read environment variables from .env file
+// Read environment variables from .env file
 require('dotenv').config();
 
-// read the command line arguments passed with yargs
+// Read the command line arguments passed with yargs
 const environment = argv.environment;
 const isProduction = environment === 'prod';
 const targetPath = isProduction
@@ -17,8 +17,6 @@ if (!process.env.AWS_COGNITO_USER_POOL || !process.env.AWS_COGNITO_CLIENT_ID || 
   process.exit(-1);
 }
 
-// we have access to our environment variables
-// in the process.env object thanks to dotenv
 const environmentFileContent = `
 export const environment = {
    production: ${isProduction},
@@ -30,7 +28,8 @@ export const environment = {
    AWS_DEFAULT_REGION: "${process.env.AWS_DEFAULT_REGION}"
 };
 `;
-// write the content to the respective file
+
+// Write the content to the target file
 writeFile(targetPath, environmentFileContent, function (err) {
    if (err) {
       console.log(err);

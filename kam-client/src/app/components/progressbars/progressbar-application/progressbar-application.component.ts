@@ -26,7 +26,7 @@ export class ProgressbarApplicationComponent implements OnInit {
     { stepIcon: 'far fa-6', stepColor: this.textNotStartedColor, progressColor: this.bgNotCompleteColor }
   ]
 
-  // Step Progress States: NS - not started, IP - in progress, IC - incomplete, C - complete
+  // Step progress states: NS - not started, IP - in progress, IC - incomplete, C - complete
 
   // Step One
   @Input()

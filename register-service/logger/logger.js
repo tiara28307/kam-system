@@ -1,3 +1,4 @@
+// Console log format across service for log messages
 class Logger {
     constructor(loggerName) {
         this.loggerName = loggerName;

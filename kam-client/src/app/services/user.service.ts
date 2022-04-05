@@ -18,6 +18,7 @@ export class UserService {
     return this._currentService;
   }
 
+  // Based on current user type return user data from AWS Cognito
   getUserData(): any[] {
     var user: any[];
 

@@ -13,7 +13,8 @@ export class CompanyAuthGuard implements CanActivate {
     private router: Router,
     private authService: AuthService
   ) {}
-
+  
+  // Route guard interface for company user route paths
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     let isAuth = this.authService.isAuthenticated('COMPANY');
     

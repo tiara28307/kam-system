@@ -6,10 +6,12 @@ const Country = require('./register-schema-model').Country;
 
 const dbUrl = process.env.MONGODB_KAM_URL;
 
+// Connect to Register Service Database
 mongoose.connect(dbUrl)
         .then(log.info('connected to mongo kam database....'))
         .catch(err => log.error('unable to connect, please check your connection....' + err));
 
+// DAO to get company types list
 const getAllCompanyTypes = async (res) => {
   var companyTypesMap = [];
   return await CompanyType.find({})
@@ -27,6 +29,7 @@ const getAllCompanyTypes = async (res) => {
     });
 }
 
+// DAO to get countries list
 const getAllCountries = async (res) => {
   var countriesMap = [];
   return await Country.find({})

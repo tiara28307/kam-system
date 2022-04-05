@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Close connection to cloud database mongoDB
 const closeConnection = () => {
   return mongoose.disconnect()
     .then(() => {

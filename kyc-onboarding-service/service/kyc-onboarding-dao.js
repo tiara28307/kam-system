@@ -5,10 +5,12 @@ const PepType = require('./kyc-onboarding-schema-model').PepType;
 
 const dbUrl = process.env.MONGODB_KOS_URL;
 
+// Connect to KYC Onboarding Service (KOS) Database
 mongoose.connect(dbUrl)
         .then(log.info('connected to mongo kos database....'))
         .catch(err => log.error('unable to connect, please check your connection....' + err));
 
+// DAO to get all politically exposed person types
 const getAllPepTypes = async (res) => {
   var pepTypesMap = [];
   return await PepType.find({})

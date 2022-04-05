@@ -9,15 +9,24 @@ import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboar
   styles: [
   ]
 })
+/* 
+  Component for Individual Customer Application Form
+*/
 export class CardIndividualApplicationComponent implements OnInit {
-  individualApplicationForm: FormGroup;
-  step: number;
   isLoading = false;
-  proofOfIdentity: File;
-  proofOfAddress: File;
+  
+  individualApplicationForm: FormGroup;
   applicationId: String;
+  step: number;
   forwardButtonText = 'Next';
+  proofOfIdentity: File;
+  poiLabel = 'Select a photo';
+  proofOfAddress: File;
+  poaLabel = 'Select a document';
+  
   pepTypes = [];
+  countries = [];
+
   citizenshipTypes = [
     { code: 1, name: 'U.S. Citizen or U.S. National' },
     { code: 2, name: 'U.S. Dual Citizen' },
@@ -25,6 +34,8 @@ export class CardIndividualApplicationComponent implements OnInit {
     { code: 4, name: 'U.S. Refugee or Asylee' },
     { code: 5, name: 'Other (Non-U.S.)' }
   ];
+
+  // Step progress states: NS - not started, IP - in progress, IC - incomplete, C - complete
   steps = [
     { step: 1, progress: 'NS' },
     { step: 2, progress: 'NS' },
@@ -37,15 +48,23 @@ export class CardIndividualApplicationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private applicationValidator: ApplicationValidationService,
-    private onboardingService: KycOnboardingService
+    private onboardingService: KycOnboardingService,
+    private registerService: RegisterService
   ) {}
 
   ngOnInit(): void {
+    // Select field data in application
     this.setPepTypes();
-    this.step = this.steps[1].step;
+    this.setCountries();
+
+    // Initial application start at Step 1
+    this.step = this.steps[0].step;
     this.steps[0].progress = 'IP';
+
+    // TODO: set application id based on db
     this.applicationId = 'K00000001';
 
+    // Build form for individual application with input validation scheme
     this.individualApplicationForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
@@ -99,6 +118,7 @@ export class CardIndividualApplicationComponent implements OnInit {
     this.individualApplicationForm.controls['dob'].setValue(dobVal);
   }
 
+  // Set politically exposed person types
   setPepTypes() {
     this.onboardingService.getPepTypes().subscribe(
       res => {
@@ -186,6 +206,7 @@ export class CardIndividualApplicationComponent implements OnInit {
     this.step = step;
   }
 
+  // Set current step progress to complete if valid completion
   currentStep(step) {
     var isComplete = this.isStepComplete(step);
     this.steps[step - 1].progress = isComplete ? 'C' : 'IC';
@@ -195,6 +216,7 @@ export class CardIndividualApplicationComponent implements OnInit {
     return this.step != 1;
   }
 
+  // Go to previous step in application
   previousStep() {
     var step = this.step;
     this.currentStep(step)
@@ -205,12 +227,16 @@ export class CardIndividualApplicationComponent implements OnInit {
     this.step = step;
   }
 
-  viewSummary() {
-    console.log('summary page before submission');
+  // After applicaiton is complete user must review information before submission
+  viewApplicationSummary() {
+    // TODO: add var to enable view of information. maybe component variable.
   }
 
+  // Submit application to blockchain
   onSubmit() {
-    console.log('on submit clicked');
+    // TODO: show alert message stating where application will go ask again for assurance of submission
+    // TODO: submit application to web3.storage
+    // TODO: save CID for application on blockchain to KOS db
   }
 
 }

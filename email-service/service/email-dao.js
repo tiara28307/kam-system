@@ -3,6 +3,7 @@ const log = new Logger('Email-Dao');
 var nodemailer = require('nodemailer');
 require('dotenv').config();
 
+// DAO to send email via Nodemailer Transport
 const sendEmail = (body, res) => {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -13,8 +14,8 @@ const sendEmail = (body, res) => {
   }); 
 
   var mailOptions = {
-    from: `New user: ${body.fullName}`, //replace with your email
-    to: 'tncarroll99@gmail.com', //replace with your email
+    from: `New user: ${body.fullName}`,
+    to: 'tncarroll99@gmail.com',
     subject: `KAM System Consultation`,
     html:`<ul>
         <li>Name: ${body.fullName}</li>

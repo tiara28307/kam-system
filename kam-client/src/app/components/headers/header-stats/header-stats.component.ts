@@ -5,6 +5,8 @@ import { Component, OnInit } from "@angular/core";
   selector: "app-header-stats",
   templateUrl: "./header-stats.component.html",
 })
+
+// TODO: change header stats for Dashboard to request information
 export class HeaderStatsComponent implements OnInit {
   applications: any[];
 

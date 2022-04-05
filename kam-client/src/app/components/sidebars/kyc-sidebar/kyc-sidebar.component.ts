@@ -32,6 +32,7 @@ export class KycSidebarComponent implements OnInit {
     this.setLinks();
   }
 
+  // Set route paths for user based on current service enabled
   setLinks() {
     if (this.currentService === this.kycServices[0]) {
       this.dashboardLink = '/user/kyc/onboarding/dashboard';

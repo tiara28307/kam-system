@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
         Validators.email
       ])],
       password: ['', Validators.required]
-      // rememberMe: ['']
     });
   }
 
@@ -63,6 +62,7 @@ export class LoginComponent implements OnInit {
           var userType = this.getUserType(result);
           this.isLoading = false;
           
+          // Redirect after successful login based on user type (role)
           if (userType === 'CUSTOMER') {
             this.router.navigate(['/user/kyc/onboarding/dashboard']);
           } else if (userType === 'COMPANY') {

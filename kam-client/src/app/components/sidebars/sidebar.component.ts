@@ -22,9 +22,11 @@ export class SidebarComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+    // Get current user information
     this.user = this.userService.getUserData();
     this.url = this.router.url;
 
+    // Set sidebar based on current user type
     if (this.user[0].role === 'CUSTOMER') {
       this.userService.currentService = this.services[0];
     } else if (this.user[0].role === 'COMPANY') {
@@ -32,6 +34,7 @@ export class SidebarComponent implements OnInit {
     }
     this.currentService = this.userService.currentService;
   }
+
   toggleCollapseShow(classes) {
     this.collapseShow = classes;
   }

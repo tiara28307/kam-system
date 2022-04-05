@@ -13,6 +13,7 @@ export class KycOnboardingService {
     private authService: AuthService
   ) { }
 
+  // Check authentication again before accessing backend services for KOS
   canAccess(): boolean {
     let isAuth = this.authService.isAuthenticated('CUSTOMER');
     

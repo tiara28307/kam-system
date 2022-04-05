@@ -33,7 +33,7 @@ const routes: Routes = [
     path: "user",
     component: UserComponent,
     children: [
-      // Settings
+      // Setting Routes
       { path: "customer/settings", component: SettingsComponent, canActivate: [CustomerAuthGuard] },
       { path: "company/settings", component: SettingsComponent, canActivate: [CompanyAuthGuard] },
 

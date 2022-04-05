@@ -28,6 +28,14 @@ import { KycSidebarComponent } from './components/sidebars/kyc-sidebar/kyc-sideb
 import { CardCompanySettingsComponent } from './components/cards/company/card-company-settings/card-company-settings.component';
 import { CardCustomerSettingsComponent } from './components/cards/customer/card-customer-settings/card-customer-settings.component';
 import { CardRequestOverviewComponent } from './components/cards/card-request-overview/card-request-overview.component';
+import { KycSearchComponent } from './views/user/company/kyc-search/kyc-search.component';
+import { CardRequestFullTableComponent } from './components/cards/card-request-full-table/card-request-full-table.component';
+import { ProgressbarApplicationComponent } from './components/progressbars/progressbar-application/progressbar-application.component';
+import { CardApplicationReviewComponent } from './components/cards/company/card-application-review/card-application-review.component';
+import { CardIndividualApplicationComponent } from './components/cards/customer/card-application/card-individual-application.component';
+import { ApplicationComponent } from './views/user/customer/application/application.component';
+import { ReviewApplicationComponent } from './views/user/company/review-application/review-application.component';
+import { CardServiceComponent } from './components/cards/card-service/card-service.component';
 
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
@@ -64,15 +72,8 @@ import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user
 import { EmailService } from "./services/email.service";
 import { AuthService } from "./services/auth.service";
 import { RegisterService } from "./services/register.service";
-import { ApplicationComponent } from './views/user/customer/application/application.component';
-import { ReviewApplicationComponent } from './views/user/company/review-application/review-application.component';
-import { CardServiceComponent } from './components/cards/card-service/card-service.component';
-import { CardRequestFullTableComponent } from './components/cards/card-request-full-table/card-request-full-table.component';
-import { ProgressbarApplicationComponent } from './components/progressbars/progressbar-application/progressbar-application.component';
-import { CardApplicationReviewComponent } from './components/cards/company/card-application-review/card-application-review.component';
-import { CardIndividualApplicationComponent } from './components/cards/customer/card-application/card-individual-application.component';
 import { UserService } from "./services/user.service";
-import { KycSearchComponent } from './views/user/company/kyc-search/kyc-search.component';
+
 
 @NgModule({
   declarations: [

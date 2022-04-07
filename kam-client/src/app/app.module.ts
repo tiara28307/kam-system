@@ -73,6 +73,7 @@ import { EmailService } from "./services/email.service";
 import { AuthService } from "./services/auth.service";
 import { RegisterService } from "./services/register.service";
 import { UserService } from "./services/user.service";
+import { CardReviewApplicationComponent } from './components/cards/customer/card-review-application/card-review-application.component';
 
 
 @NgModule({
@@ -126,7 +127,8 @@ import { UserService } from "./services/user.service";
     ProgressbarApplicationComponent,
     CardApplicationReviewComponent,
     CardIndividualApplicationComponent,
-    KycSearchComponent
+    KycSearchComponent,
+    CardReviewApplicationComponent
   ],
   imports: [
     BrowserModule, 

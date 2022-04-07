@@ -112,6 +112,15 @@ let ApplicationNotCompleteAlert = Swal.mixin({
   icon: 'error'
 });
 
+let FailedFileUploadAlert = (err: string) => Swal.mixin({
+  title: 'Failed to Upload File',
+  text: err,
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
 export {
   SuccessfulRegistrationAlert,
   FailedRegistrationAlert,
@@ -123,5 +132,6 @@ export {
   DoNotHavePermissionToPageAlert,
   FailedLoginAlert,
   DoNotHavePermissionToServiceAlert,
-  ApplicationNotCompleteAlert
+  ApplicationNotCompleteAlert,
+  FailedFileUploadAlert
 }

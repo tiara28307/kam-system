@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationValidationService } from 'src/app/services/kyc-onboarding/application-validation.service';
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { RegisterService } from 'src/app/services/register.service';
-import { ApplicationNotCompleteAlert } from 'src/constants/alerts.constant';
+import { ApplicationNotCompleteAlert, FailedFileUploadAlert } from 'src/constants/alerts.constant';
 
 @Component({
   selector: 'app-card-individual-application',
@@ -21,9 +21,10 @@ export class CardIndividualApplicationComponent implements OnInit {
   applicationId: String;
   step: number;
   forwardButtonText = 'Next';
-  proofOfIdentity: File;
+  showApplicationReview = false;
+  forwardButtonColor = 'bg-sky-500';
+
   poiLabel = 'Select a photo';
-  proofOfAddress: File;
   poaLabel = 'Select a document';
   
   pepTypes = [];
@@ -84,10 +85,7 @@ export class CardIndividualApplicationComponent implements OnInit {
       isRcaPEP: ['', [Validators.required]],
       pepExposure: ['', [Validators.required]],
       poiType: ['', [Validators.required]], 
-      poi: [this.proofOfIdentity, Validators.compose([
-        Validators.required,
-        Validators.pattern(this.applicationValidator.poiFilePattern)
-      ])],
+      poiFile: [null, [Validators.required]],
       address: ['', [Validators.required]],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
@@ -105,10 +103,7 @@ export class CardIndividualApplicationComponent implements OnInit {
       ])],
       permanentCountry: [''],
       poaType: ['', [Validators.required]],
-      poa: [this.proofOfAddress, Validators.compose([
-        Validators.required,
-        Validators.pattern(this.applicationValidator.poaFilePattern)
-      ])],
+      poaFile: [null, [Validators.required]],
       phone: ['', Validators.compose([
         Validators.required,
         Validators.pattern(this.applicationValidator.phonePattern)
@@ -167,17 +162,66 @@ export class CardIndividualApplicationComponent implements OnInit {
 
   // Assign selected input file(s) to variables passed into FormGroup
   handlePoiFileInput(files: FileList) {
-    this.proofOfIdentity = files[0];
-    this.poiLabel = files[0].name;
+    let tenMBs = 10000000;
+    let file = files[0];
+    
+    let isCorrectFileType = this.applicationValidator.poiFilePattern.test(file.name);
+    let isCorrectFileSize = file.size < tenMBs;
+
+    if (isCorrectFileType && isCorrectFileSize) {
+      this.individualApplicationForm.controls.poiFile.setValue(file);
+      this.poiLabel = file.name;
+    } else {
+      this.showFileUploadError(isCorrectFileType, isCorrectFileSize);
+    }
+    console.log('poiFile:', this.individualApplicationForm.controls['poiFile'].value);
   }
 
   handlePoaFileInput(files: FileList) {
-    this.proofOfAddress = files[0];
-    this.poaLabel = files[0].name;
+    let tenMBs = 10000000;
+    let file = files[0];
+    
+    let isCorrectFileType = this.applicationValidator.poaFilePattern.test(file.name);
+    let isCorrectFileSize = file.size < tenMBs;
+
+    if (isCorrectFileType && isCorrectFileSize) {
+      this.individualApplicationForm.controls.poaFile.setValue(file);
+      this.poaLabel = file.name;
+    } else {
+      this.showFileUploadError(isCorrectFileType, isCorrectFileSize);
+    }
+    console.log('poaFile:', this.individualApplicationForm.controls['poaFile'].value);
   }
-  
-  // TODO: File check function for size and type
-  // TODO: Look at FormData opt for File Input instead of assign variable
+
+  removeFile(fileType) {
+    if (fileType === 'poi') {
+      this.individualApplicationForm.controls.poiFile.setValue(null);
+    } else if (fileType === 'poa') {
+      this.individualApplicationForm.controls.poaFile.setValue(null);
+    }
+  }
+
+  showFileUploadError(correctType, correctSize) {
+    var error = '';
+      if (!correctType) {
+        error += 'Incorrect file type.';
+      }
+      if (!correctSize) {
+        error += ' File is too large for data storage. Must be under 10 MB.';
+      }
+      FailedFileUploadAlert(error).fire({});
+  }
+
+  showRemoveFileButton() {
+    let poiFile = this.individualApplicationForm.controls['poiFile'].value;
+    let poaFile = this.individualApplicationForm.controls['poaFile'].value;
+
+    if (this.step === 2) {
+      return poiFile != null;
+    } else if (this.step === 4) {
+      return poaFile != null;
+    }
+  }
 
   // TODO: getApplication(username, id) -> return application data 
   // - GET application data from cloud db based on username and appId
@@ -210,8 +254,9 @@ export class CardIndividualApplicationComponent implements OnInit {
         && isMaritalStatusValid && isGenderValid && isDobValid && isCitizenshipStatusValid && isOccupationValid && isPepValid && isRcaPepValid && isPepExposureValid;
     }
     else if (currentStep === 2) {
-      let isPoiValid = this.individualApplicationForm.controls['poi'].valid;
-      return isPoiValid;
+      let isPoiTypeValid = this.individualApplicationForm.controls['poiType'].valid;
+      let isPoiFileValid = this.individualApplicationForm.controls['poiFile'].valid;
+      return isPoiTypeValid && isPoiFileValid;
     }
     else if (currentStep === 3) {
       let isAddressValid = this.individualApplicationForm.controls['address'].valid;
@@ -230,8 +275,9 @@ export class CardIndividualApplicationComponent implements OnInit {
         && isPPostalCodeValid && isPCountryValid;
     }
     else if (currentStep === 4) {
-      let isPoaValid = this.individualApplicationForm.controls['poa'].valid;
-      return isPoaValid;
+      let isPoaTypeValid = this.individualApplicationForm.controls['poaType'].valid;
+      let isPoaFileValid = this.individualApplicationForm.controls['poaFile'].valid;
+      return isPoaTypeValid && isPoaFileValid;
     }
     else if (currentStep === 5) {
       let isEmailValid = this.individualApplicationForm.controls['email'].valid;
@@ -250,8 +296,13 @@ export class CardIndividualApplicationComponent implements OnInit {
 
     // Step 6 is final step in application. Go to application summary if completed else show alert message.
     if (step === 6) {
+      if (this.forwardButtonText === 'Submit') {
+        this.onSubmit();
+        return;
+      }
       var isComplete = this.isStepComplete(1) && this.isStepComplete(2) && this.isStepComplete(3) && this.isStepComplete(4) && this.isStepComplete(5) && this.isStepComplete(6);
-      
+      this.currentStep(step);
+
       if (isComplete) {
         this.viewApplicationSummary();
       }
@@ -306,20 +357,31 @@ export class CardIndividualApplicationComponent implements OnInit {
   previousStep() {
     var step = this.step;
     this.currentStep(step)
-    step = step - 1;
-    this.steps[step - 1].progress = 'IP';
 
-    this.forwardButtonText = 'Next';
-    this.step = step;
+    if (this.showApplicationReview) {
+      this.showApplicationReview = false;
+      this.forwardButtonColor = 'bg-sky-500';
+      this.forwardButtonText = 'Review';
+      this.step = step;
+    } else {
+      step = step - 1;
+      this.steps[step - 1].progress = 'IP';
+
+      this.forwardButtonText = 'Next';
+      this.step = step;
+    }
   }
 
-  // After applicaiton is complete user must review information before submission
+  // After applicaiton is complete user may review information before submission
   viewApplicationSummary() {
-    // TODO: add var to enable view of information. maybe component variable.
+    this.showApplicationReview = true;
+    this.forwardButtonText = 'Submit';
+    this.forwardButtonColor = 'bg-red-500';
   }
 
   // Submit application to blockchain
   onSubmit() {
+    console.log('submit');
     // TODO: show alert message stating where application will go ask again for assurance of submission
     // TODO: submit application to web3.storage
     // TODO: save CID for application on blockchain to KOS db

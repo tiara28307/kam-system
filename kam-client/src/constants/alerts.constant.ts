@@ -42,7 +42,7 @@ let EnterVerificationCodeAlert = Swal.mixin({
 });
 
 let FailedResetPasswordAlert = (err: Error) => Swal.mixin({
-  title: 'Error',
+  title: 'Reset Password Error',
   text: err.message || JSON.stringify(err),
   confirmButtonText: 'Okay',
   confirmButtonColor: colors.theme,
@@ -121,6 +121,32 @@ let FailedFileUploadAlert = (err: string) => Swal.mixin({
   icon: 'error'
 });
 
+let FailedCreateApplicationAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Create Application',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
+let ApplicationSavedAlert = Swal.mixin({
+  title: 'Application Saved',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
+let FailedSaveApplicationAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Save Application',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
 export {
   SuccessfulRegistrationAlert,
   FailedRegistrationAlert,
@@ -133,5 +159,8 @@ export {
   FailedLoginAlert,
   DoNotHavePermissionToServiceAlert,
   ApplicationNotCompleteAlert,
-  FailedFileUploadAlert
+  FailedFileUploadAlert,
+  FailedCreateApplicationAlert,
+  ApplicationSavedAlert,
+  FailedSaveApplicationAlert
 }

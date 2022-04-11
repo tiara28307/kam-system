@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 
 @Component({
   selector: 'app-card-review-application',
@@ -7,63 +8,29 @@ import { Component, Input, OnInit } from '@angular/core';
   ]
 })
 export class CardReviewApplicationComponent implements OnInit {
-  @Input()
-  get personalDetails(): any[] {
-    return this._personalDetails;
-  }
-  set personalDetails(personalDetails: any[]) {
-    this._personalDetails = personalDetails === [] ? [] : personalDetails;
-  }
-  private _personalDetails = [];
+  appDetails: any[];
 
   @Input()
-  get proofOfIdentity(): any[] {
-    return this._proofOfIdentity;
+  get isIndividual(): boolean {
+    return this._isIndividual;
   }
-  set proofOfIdentity(poi: any[]) {
-    this._proofOfIdentity = poi === [] ? [] : poi;
+  set isIndividual(isIndividual: boolean) {
+    this._isIndividual = isIndividual;
   }
-  private _proofOfIdentity = [];
+  private _isIndividual = false;
 
   @Input()
-  get addressDetails(): any[] {
-    return this._addressDetails;
+  get applicationDetails(): string {
+    return this._applicationDetails;
   }
-  set addressDetails(addressDetails: any[]) {
-    this._addressDetails = addressDetails === [] ? [] : addressDetails;
+  set applicationDetails(applicationDetails: string) {
+    this._applicationDetails = applicationDetails === '' ? '' : applicationDetails;
   }
-  private _addressDetails = [];
-
-  @Input()
-  get proofOfAddress(): any[] {
-    return this._proofOfAddress;
-  }
-  set proofOfAddress(poa: any[]) {
-    this._proofOfAddress = poa === [] ? [] : poa;
-  }
-  private _proofOfAddress = [];
-
-  @Input()
-  get contactInfo(): any[] {
-    return this._contactInfo;
-  }
-  set contactInfo(contactInfo: any[]) {
-    this._contactInfo = contactInfo === [] ? [] : contactInfo;
-  }
-  private _contactInfo = [];
-
-  @Input()
-  get declaration(): any[] {
-    return this._declaration;
-  }
-  set declaration(declaration: any[]) {
-    this._declaration = declaration === [] ? [] : declaration;
-  }
-  private _declaration = [];
+  private _applicationDetails = '';
 
   constructor() { }
 
   ngOnInit(): void {
+    this.appDetails = (JSON.parse(this.applicationDetails));
   }
-
 }

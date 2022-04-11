@@ -2089,6 +2089,14 @@ select {
   height: 5rem;
 }
 
+.h-45 {
+  height: 28rem;
+}
+
+.h-40 {
+  height: 12rem;
+}
+
 .h-32 {
   height: 8rem;
 }
@@ -3591,6 +3599,10 @@ select {
 
 .w-auto {
   width: auto;
+}
+
+.w-1\/4 {
+  width: 45%;
 }
 
 .w-1\/2 {

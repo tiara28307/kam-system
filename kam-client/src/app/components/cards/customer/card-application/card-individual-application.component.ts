@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApplicationValidationService } from 'src/app/services/kyc-onboarding/application-validation.service';
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { RegisterService } from 'src/app/services/register.service';
-import { ApplicationNotCompleteAlert, FailedFileUploadAlert } from 'src/constants/alerts.constant';
+import { UserService } from 'src/app/services/user.service';
+import { ApplicationNotCompleteAlert, ApplicationSavedAlert, FailedFileUploadAlert, FailedSaveApplicationAlert } from 'src/constants/alerts.constant';
 
 @Component({
   selector: 'app-card-individual-application',
@@ -16,6 +17,7 @@ import { ApplicationNotCompleteAlert, FailedFileUploadAlert } from 'src/constant
 */
 export class CardIndividualApplicationComponent implements OnInit {
   isLoading = false;
+  user: any[];
   
   individualApplicationForm: FormGroup;
   applicationId: String;
@@ -29,6 +31,12 @@ export class CardIndividualApplicationComponent implements OnInit {
   
   pepTypes = [];
   countries = [];
+
+  isIndividual = true;
+  applicationDetails = [];
+
+  // Array for existing application from mongodb
+  applicationData = [];
 
   citizenshipTypes = [
     { code: 1, name: 'U.S. Citizen or U.S. National' },
@@ -52,10 +60,14 @@ export class CardIndividualApplicationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private applicationValidator: ApplicationValidationService,
     private onboardingService: KycOnboardingService,
-    private registerService: RegisterService
+    private registerService: RegisterService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
+    // Get user to get application data
+    this.user = this.userService.getUserData();
+
     // Select field data in application
     this.setPepTypes();
     this.setCountries();
@@ -63,9 +75,6 @@ export class CardIndividualApplicationComponent implements OnInit {
     // Initial application start at Step 1
     this.step = this.steps[0].step;
     this.steps[0].progress = 'IP';
-
-    // TODO: set application id based on db
-    this.applicationId = 'K00000001';
 
     // Build form for individual application with input validation scheme
     this.individualApplicationForm = this.formBuilder.group({
@@ -124,6 +133,8 @@ export class CardIndividualApplicationComponent implements OnInit {
       ]
     }
     );
+
+    this.getApplication();
   }
 
   // Set format for date of birth field on change
@@ -174,7 +185,6 @@ export class CardIndividualApplicationComponent implements OnInit {
     } else {
       this.showFileUploadError(isCorrectFileType, isCorrectFileSize);
     }
-    console.log('poiFile:', this.individualApplicationForm.controls['poiFile'].value);
   }
 
   handlePoaFileInput(files: FileList) {
@@ -190,7 +200,6 @@ export class CardIndividualApplicationComponent implements OnInit {
     } else {
       this.showFileUploadError(isCorrectFileType, isCorrectFileSize);
     }
-    console.log('poaFile:', this.individualApplicationForm.controls['poaFile'].value);
   }
 
   removeFile(fileType) {
@@ -222,9 +231,6 @@ export class CardIndividualApplicationComponent implements OnInit {
       return poaFile != null;
     }
   }
-
-  // TODO: getApplication(username, id) -> return application data 
-  // - GET application data from cloud db based on username and appId
 
   // Check if current address and permanent address are the same
   isAddressSame() {
@@ -285,7 +291,7 @@ export class CardIndividualApplicationComponent implements OnInit {
       return isEmailValid && isPhoneValid;
     }
     else if (currentStep === 6) {
-      let isDeclaredValid = this.individualApplicationForm.value.isDeclared === true;
+      let isDeclaredValid = this.individualApplicationForm.controls['isDeclared'].value === true;
       return isDeclaredValid;
     }
   }
@@ -374,16 +380,160 @@ export class CardIndividualApplicationComponent implements OnInit {
 
   // After applicaiton is complete user may review information before submission
   viewApplicationSummary() {
-    this.showApplicationReview = true;
     this.forwardButtonText = 'Submit';
     this.forwardButtonColor = 'bg-red-500';
+
+    let form = this.individualApplicationForm.controls;
+
+    let pepExposure = this.pepTypes.filter(type => type.code === Number(form.pepExposure.value))[0].name;
+    let citizenshipStatus = this.citizenshipTypes.filter(type => type.code === Number(form.citizenshipStatus.value))[0].name;
+
+    let poiFileName = form.poiFile.value.name;
+    let poaFileName = form.poaFile.value.name;
+
+    let address2 = form.city.value + ' ' + form.state.value + ', ' + form.postalCode.value;
+    let address3 = form.permanentCity.value + ' ' + form.permanentState.value + ', ' + form.permanentPostalCode.value;
+    let permanentAddress = form.isSameAddress.value ? form.address.value : form.permanentAddress.value;
+    let permanentAddress2 = form.isSameAddress.value ? address2 : address3;
+    let permanentCountry = form.isSameAddress.value ? form.country.value : form.permanentCountry.value;
+
+    let formDetails = {
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      maidenName: form.maidenName.value,
+      fatherName: form.fatherName.value,
+      motherName: form.motherName.value,
+      motherMaidenName: form.motherMaidenName.value,
+      spouseName: form.spouseName.value,
+      maritalStatus: form.maritalStatus.value,
+      gender: form.gender.value,
+      dob: form.dob.value,
+      citizenshipStatus: citizenshipStatus,
+      occupation: form.occupation.value,
+      isPEP: form.isPEP.value,
+      isRcaPEP: form.isRcaPEP.value,
+      pepExposure: pepExposure,
+      poiType: form.poiType.value,
+      poiFile: poiFileName,
+      address: form.address.value,
+      address2: address2,
+      country: form.country.value,
+      permanentAddress: permanentAddress,
+      permanentAddress2: permanentAddress2,
+      permanentCountry: permanentCountry,
+      poaType: form.poaType.value,
+      poaFile: poaFileName,
+      phone: form.phone.value,
+      email: form.email.value,
+      isDeclared: form.isDeclared.value
+    };
+
+    this.applicationDetails.push(formDetails);
+    this.showApplicationReview = true;
+  }
+
+  setApplicationFields() {
+    // let data = this.applicationData[0].details;
+    // this.individualApplicationForm.controls.fieldName.setValue(value);
+    let applicationDetails = this.applicationData[0].applicationDetails
+    console.log(applicationDetails);
+    this.applicationId = applicationDetails.application_id;
+    let details = applicationDetails.details;
+
+    if (details != []) {
+      let individualForm = this.individualApplicationForm.controls;
+      individualForm.firstName.setValue(details[0].first_name);
+      individualForm.lastName.setValue(details[0].last_name);
+      individualForm.maidenName.setValue(details[0].maiden_name);
+      individualForm.fatherName.setValue(details[0].father_name);
+      individualForm.motherName.setValue(details[0].mother_name);
+      individualForm.motherMaidenName.setValue(details[0].mother_maidenname);
+      individualForm.spouseName.setValue(details[0].spouse_name);
+      individualForm.maritalStatus.setValue(details[0].marital_status);
+      individualForm.gender.setValue(details[0].gender);
+      individualForm.dob.setValue(details[0].dob);
+      individualForm.citizenshipStatus.setValue(details[0].citizenship_status);
+      individualForm.occupation.setValue(details[0].occupation);
+      individualForm.isPEP.setValue(details[0].is_pep);
+      individualForm.isRcaPEP.setValue(details[0].is_rcapep);
+      individualForm.pepExposure.setValue(details[0].pep_exposure);
+      
+      individualForm.poiType.setValue(details[0].poi_type);
+      individualForm.poiFile.setValue(details[0].poi_file);
+      
+      individualForm.address.setValue(details[0].current_address[0].address);
+      individualForm.city.setValue(details[0].current_address[0].city);
+      individualForm.state.setValue(details[0].current_address[0].state);
+      individualForm.postalCode.setValue(details[0].current_address[0].postal_code);
+      individualForm.country.setValue(details[0].current_address[0].country);
+      individualForm.permanentAddress.setValue(details[0].permanent_address[0].address);
+      individualForm.permanentCity.setValue(details[0].permanent_address[0].city);
+      individualForm.permanentState.setValue(details[0].permanent_address[0].state);
+      individualForm.permanentPostalCode.setValue(details[0].permanent_address[0].postal_code);
+      individualForm.permanentCountry.setValue(details[0].permanent_address[0].country);
+      
+      individualForm.poaType.setValue(details[0].poa_type);
+      individualForm.poaFile.setValue(details[0].poa_file);
+
+      
+    }
+  }
+
+  // TODO: getApplication(username, id) -> return application data 
+  // - GET application data from cloud db based on username and appId
+  // Pass in existing vars to form fields onSave
+  getApplication() {
+    this.isLoading = true;
+    let customerId = 'C' + this.user[0].username.slice(-12); 
+
+    this.onboardingService.getApplication(customerId).subscribe(
+      res => {
+        this.isLoading = false;
+        this.applicationData = [res];
+        // this.setApplicationFields();
+      },
+      error => {
+        this.isLoading = false;
+        console.error('Error getting application data for customer: ', error);
+      }
+    );
+  }
+
+  onSave() {
+    this.isLoading = true;
+    
+    let detailsObj = {
+      applicationId: this.applicationId,
+      details: [{
+        test: 'newtest'
+      }]
+    }
+
+    this.onboardingService.updateApplicationDetails(detailsObj).subscribe(
+      res => {
+        this.isLoading = false;
+        ApplicationSavedAlert.fire({});
+        console.log('response: ', res);
+      },
+      error => {
+        this.isLoading = false;
+        FailedSaveApplicationAlert(error).fire({});
+      }
+    );
+  }
+
+  onDelete() {
+    // Alert check are you sure you want to delete applicaton
+    // Delete application
   }
 
   // Submit application to blockchain
   onSubmit() {
-    console.log('submit');
     // TODO: show alert message stating where application will go ask again for assurance of submission
+    // TODO: loading wheel for page true
+    // TODO: save application to cloudDB
     // TODO: submit application to web3.storage
+    // TODO: submit documents to web3.storage
     // TODO: save CID for application on blockchain to KOS db
   }
 

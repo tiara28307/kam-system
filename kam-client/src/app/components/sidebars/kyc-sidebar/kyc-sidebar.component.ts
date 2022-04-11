@@ -26,7 +26,9 @@ export class KycSidebarComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    // Get current user data
     this.user = this.userService.getUserData();
+    
     this.url = this.router.url;
     this.currentService = this.userService.currentService;
     this.setLinks();

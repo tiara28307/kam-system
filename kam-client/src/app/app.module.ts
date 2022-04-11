@@ -74,6 +74,7 @@ import { AuthService } from "./services/auth.service";
 import { RegisterService } from "./services/register.service";
 import { UserService } from "./services/user.service";
 import { CardReviewApplicationComponent } from './components/cards/customer/card-review-application/card-review-application.component';
+import { StringifyPipe } from './pipes/stringify.pipe';
 
 
 @NgModule({
@@ -128,7 +129,8 @@ import { CardReviewApplicationComponent } from './components/cards/customer/card
     CardApplicationReviewComponent,
     CardIndividualApplicationComponent,
     KycSearchComponent,
-    CardReviewApplicationComponent
+    CardReviewApplicationComponent,
+    StringifyPipe
   ],
   imports: [
     BrowserModule, 

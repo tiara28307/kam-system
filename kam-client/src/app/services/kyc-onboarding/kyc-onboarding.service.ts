@@ -35,37 +35,57 @@ export class KycOnboardingService {
   }
 
   createNewApplication(body) {
-    return this.httpreq.post("http://localhost:8082/kyc/onboarding/create/application", body, {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post("http://localhost:8082/kyc/onboarding/create/application", body, {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'text'
-    });
+      });
+    }
   }
 
   getApplication(customerId) {
-    return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/application`, {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/application`, {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'json'
-    });
+      }); 
+    }
   }
 
   updateApplicationDetails(body) {
-    return this.httpreq.post(`http://localhost:8082/kyc/onboarding/update/applicationdetails`, body, {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post(`http://localhost:8082/kyc/onboarding/update/applicationdetails`, body, {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'text'
-    });
+      });
+    }
   }
 
   getApplicationExist(customerId) {
-    return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/application/exist`, {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/application/exist`, {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'json'
-    });
+      });
+    }
   }
 
   deleteApplication(applicationId) {
-    return this.httpreq.post(`http://localhost:8082/kyc/onboarding/delete/application/${applicationId}`, {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post(`http://localhost:8082/kyc/onboarding/delete/application/${applicationId}`, {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'text'
-    });
+      });
+    }
   }
 }

@@ -7,34 +7,46 @@
         <div class="flex flex-row justify-between">
           <h3 class="font-semibold text-base text-slate-700">KYC Application</h3>
           <i class="fas fa-user-check fa-lg mt-3 pl-4"></i>
-        </div>  
-        <div class="block text-slate-600 text-sm font-bold mt-4">
-          ID <button class="font-semibold mb-2 pl-3 hover:text-red-700 focus:outline-none" (click)="openApplication('K00000001')">K00000001</button>
+        </div> 
+        <div *ngIf="!hasApplication" class="flex flex-row justify-center mt-6">
+          <button
+              class="bg-emerald-400 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-3 ease-linear transition-all duration-150"
+              type="button"
+              (click)="openApplication(applicationId)"
+            >
+              Start Application
+            </button>
         </div>
-        <hr class="mt-1 border-b-1 border-slate-300" />
-        <div class="block text-slate-600 text-sm font-bold mt-4">
-          <i class="fas fa-circle-check fa-lg mt-3 text-emerald-500"></i>
-          <span class="text-slate-600 font-normal mb-2 pl-3">Personal Details</span>
-        </div>
-        <div class="block text-slate-600 text-sm font-bold mt-4">
-          <i class="fas fa-circle-check fa-lg mt-3 text-emerald-500"></i>
-          <span class="text-slate-600 font-normal mb-2 pl-3">ID Proof</span>
-        </div>
-        <div class="block text-slate-600 text-sm font-bold mt-4">
-          <i class="fas fa-circle-check fa-lg mt-3 text-emerald-500"></i>
-          <span class="text-slate-600 font-normal mb-2 pl-3">Address Details</span>
-        </div>
-        <div class="block text-slate-600 text-sm font-bold mt-4">
-          <i class="fas fa-circle-xmark fa-lg mt-3 text-red-600"></i>
-          <span class="text-slate-600 font-normal mb-2 pl-3">Proof of Address</span>
-        </div>
-        <div class="block text-slate-600 text-sm font-bold mt-4">
-          <i class="fas fa-circle-check fa-lg mt-3 text-emerald-500"></i>
-          <span class="text-slate-600 font-normal mb-2 pl-3">Contact Information</span>
-        </div>
-        <div class="block text-slate-600 text-sm font-bold mt-4">
-          <i class="fas fa-circle-xmark fa-lg mt-3 text-red-600"></i>
-          <span class="text-slate-600 font-normal mb-2 pl-3">Declaration</span>
+        
+        <div *ngIf="hasApplication">
+          <div class="block text-slate-600 text-sm font-bold mt-4">
+            ID <button class="font-semibold mb-2 pl-3 hover:text-red-700 focus:outline-none" (click)="openApplication(applicationId)">{{applicationId}}</button>
+          </div>
+          <hr class="mt-1 border-b-1 border-slate-300" />
+          <div class="block text-slate-600 text-sm font-bold mt-4">
+            <i class="fas {{getStatusIcon(stepStatusComplete.personalDetails)}} fa-lg mt-3 {{getStatusColor(stepStatusComplete.personalDetails)}}"></i>
+            <span class="text-slate-600 font-normal mb-2 pl-3">Personal Details</span>
+          </div>
+          <div class="block text-slate-600 text-sm font-bold mt-4">
+            <i class="fas {{getStatusIcon(stepStatusComplete.idProof)}} fa-lg mt-3 {{getStatusColor(stepStatusComplete.idProof)}}"></i>
+            <span class="text-slate-600 font-normal mb-2 pl-3">ID Proof</span>
+          </div>
+          <div class="block text-slate-600 text-sm font-bold mt-4">
+            <i class="fas {{getStatusIcon(stepStatusComplete.addressDetails)}} fa-lg mt-3 {{getStatusColor(stepStatusComplete.addressDetails)}}"></i>
+            <span class="text-slate-600 font-normal mb-2 pl-3">Address Details</span>
+          </div>
+          <div class="block text-slate-600 text-sm font-bold mt-4">
+            <i class="fas {{getStatusIcon(stepStatusComplete.proofOfAddress)}} fa-lg mt-3 {{getStatusColor(stepStatusComplete.proofOfAddress)}}"></i>
+            <span class="text-slate-600 font-normal mb-2 pl-3">Proof of Address</span>
+          </div>
+          <div class="block text-slate-600 text-sm font-bold mt-4">
+            <i class="fas {{getStatusIcon(stepStatusComplete.contact)}} fa-lg mt-3 {{getStatusColor(stepStatusComplete.contact)}}"></i>
+            <span class="text-slate-600 font-normal mb-2 pl-3">Contact Information</span>
+          </div>
+          <div class="block text-slate-600 text-sm font-bold mt-4">
+            <i class="fas {{getStatusIcon(stepStatusComplete.declaration)}} fa-lg mt-3 {{getStatusColor(stepStatusComplete.declaration)}}"></i>
+            <span class="text-slate-600 font-normal mb-2 pl-3">Declaration</span>
+          </div>
         </div>
       </div>
     </div>

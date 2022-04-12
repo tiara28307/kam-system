@@ -40,7 +40,7 @@ const routes: Routes = [
       // KYC Onboarding Service Routes
       { path: "kyc/onboarding/dashboard", component: CustomerKycDashboardComponent, canActivate: [CustomerAuthGuard] },
       { path: "kyc/onboarding/requests", component: RequestsComponent, canActivate: [CustomerAuthGuard] },
-      { path: "kyc/onboarding/application", component: ApplicationComponent, canActivate: [CustomerAuthGuard] },
+      { path: "kyc/onboarding/application/:id", component: ApplicationComponent, canActivate: [CustomerAuthGuard] },
       
       // KYC Screening Service Routes
       { path: "kyc/screening/dashboard", component: CompanyKycDashboardComponent, canActivate: [CompanyAuthGuard] },

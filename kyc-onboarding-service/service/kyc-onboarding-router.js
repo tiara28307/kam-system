@@ -44,8 +44,18 @@ kycOnboardingRouter
       });
   })
 
-  .post('/delete/application', cors.cors, (req, res, next) => {
-    let applicationId = req.body;
+  .get('/customer/:customerId/application/exist', cors.cors, (req, res, next) => {
+    let customerId = req.params.customerId;
+
+    kycOnboardingDao.applicationExist(customerId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in checking existence of application: ' + err);
+      })
+  })
+
+  .post('/delete/application/:applicationId', cors.cors, (req, res, next) => {
+    let applicationId = req.params.applicationId;
 
     kycOnboardingDao.deleteApplication(applicationId, res)
       .then()

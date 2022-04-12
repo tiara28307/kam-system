@@ -49,8 +49,7 @@ export class UserService {
               firstName: userData.filter(attr => attr.Name === 'name')[0].Value,
               lastName: userData.filter(attr => attr.Name === 'family_name')[0].Value,
               phone: userData.filter(attr => attr.Name === 'custom:phone')[0].Value,
-              role: userData.filter(attr => attr.Name === 'custom:role')[0].Value,
-              hasApplication: userData.filter(attr => attr.Name === 'custom:hasApp')[0].Value
+              role: userData.filter(attr => attr.Name === 'custom:role')[0].Value
             }];
           } else if (userType === 'COMPANY') {
             user = [{

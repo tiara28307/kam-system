@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CognitoUserAttribute, CognitoUserPool } from 'amazon-cognito-identity-js';
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { UserService } from 'src/app/services/user.service';
 import { FailedCreateApplicationAlert } from 'src/constants/alerts.constant';
-import { environment } from "src/environments/environment";
 
 @Component({
   selector: 'app-application',
@@ -14,10 +12,10 @@ import { environment } from "src/environments/environment";
 export class ApplicationComponent implements OnInit {
   isLoading = false;
   applicationType: String;
-  applicationCreated = true;
   user: any[];
   isIndividual = false;
   isBusiness = false;
+  hasApplication = false;
 
   constructor(
     private userService: UserService,
@@ -27,7 +25,8 @@ export class ApplicationComponent implements OnInit {
   ngOnInit(): void {
     // Get user data to create application
     this.user = this.userService.getUserData();
-    this.applicationType = 'INDIVIDUAL';
+    this.userHasApplication();
+    this.getApplicationType();
   }
 
   toggleIsIndividual(event) {
@@ -50,30 +49,23 @@ export class ApplicationComponent implements OnInit {
 
   // Check if customer already has application created
   userHasApplication() {
-    let hasApplication = this.user[0].hasApplication;
-    this.applicationCreated = hasApplication === 1 ? true : false;
+    this.isLoading = true;
+    let customerId = 'C' + this.user[0].username.slice(-12); 
+
+    this.onboardingService.getApplicationExist(customerId).subscribe(
+      res => {
+        this.isLoading = false;
+        this.setHasApplication([res]);
+      },
+      error => {
+        this.isLoading = false;
+        console.error('Error getting application data for customer: ', error);
+      }
+    );
   }
 
-  // Update user has application attribute
-  updateUserApplicationStatus() {
-    let poolData = {
-      UserPoolId: environment.AWS_COGNITO_USER_POOL,
-      ClientId: environment.AWS_COGNITO_CLIENT_ID
-    };
-    let userPool = new CognitoUserPool(poolData);
-    let cognitoUser = userPool.getCurrentUser();
-
-    const hasApplication = new CognitoUserAttribute({
-      Name: "custom:hasApp",
-      Value: '1'
-    });
-
-    cognitoUser.updateAttributes([hasApplication], (err, result) => {
-      if (err) {
-        console.error('Update has application error: ', err);
-      }
-      console.log('Update has application successful: ', result);
-    })
+  setHasApplication(res) {
+    this.hasApplication = res[0].exists
   }
 
   // Create new application on start application
@@ -97,9 +89,8 @@ export class ApplicationComponent implements OnInit {
     this.onboardingService.createNewApplication(newApplication).subscribe(
       res => {
         this.isLoading = false;
-        this.applicationCreated = true;
-        this.updateUserApplicationStatus();
-        this.setApplicationType(applicationType);
+        this.userHasApplication();
+        this.getApplicationType();
         console.log('response: ', res);
       },
       error => {
@@ -109,7 +100,24 @@ export class ApplicationComponent implements OnInit {
     );
   }
 
-  setApplicationType(type) {
+  getApplicationType() {
+    this.isLoading = true;
+    let customerId = 'C' + this.user[0].username.slice(-12); 
+
+    this.onboardingService.getApplication(customerId).subscribe(
+      res => {
+        this.isLoading = false;
+        this.setApplicationType([res]);
+      },
+      error => {
+        this.isLoading = false;
+        console.error('Error getting application data for customer: ', error);
+      }
+    );
+  }
+
+  setApplicationType(res) {
+    let type = res[0].applicationDetails.application_type;
     this.applicationType = type;
   }
 

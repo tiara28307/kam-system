@@ -23,6 +23,89 @@ function generateApplicationId() {
   return appId;
 }
 
+function setApplicationDetails(applicationType) {
+  if (applicationType === 'INDIVIDUAL') {
+    return {
+      first_name: '',
+      last_name: '',
+      maiden_name: '',
+      father_name: '',
+      mother_name: '',
+      mother_maidenname: '',
+      spouse_name: '',
+      marital_status: '',
+      gender: '',
+      dob: '',
+      citizenship_status: '',
+      occupation: '',
+      pep: '',
+      rca_pep: '',
+      pep_exposure: '',
+      poi_type: '',
+      poi_file: '', // change
+      current_address: {
+        address: '',
+        city: '',
+        state: '',
+        postal_code: '',
+        country: ''
+      },
+      permanent_address: {
+        address: '',
+        city: '',
+        state: '',
+        postal_code: '',
+        country: ''
+      },
+      poa_type: '',
+      poa_file: '', // change
+      email: '',
+      phone: '',
+      declared: false
+    }
+  } else if (applicationType === 'BUSINESS') {
+    // TODO: update detail fields for business application
+    return {
+      first_name: '',
+      last_name: '',
+      maiden_name: '',
+      father_name: '',
+      mother_name: '',
+      mother_maidenname: '',
+      spouse_name: '',
+      marital_status: '',
+      gender: '',
+      dob: '',
+      citizenship_status: '',
+      occupation: '',
+      pep: '',
+      rca_pep: '',
+      pep_exposure: '',
+      poi_type: '',
+      poi_file: '', // change
+      current_address: {
+        address: '',
+        city: '',
+        state: '',
+        postal_code: '',
+        country: ''
+      },
+      permanent_address: {
+        address: '',
+        city: '',
+        state: '',
+        postal_code: '',
+        country: ''
+      },
+      poa_type: '',
+      poa_file: '', // change
+      email: '',
+      phone: '',
+      declared: false
+    }
+  }
+}
+
 // DAO to get all politically exposed person types
 const getAllPepTypes = async (res) => {
   var pepTypesMap = [];
@@ -46,6 +129,7 @@ const getAllPepTypes = async (res) => {
 const createNewApplication = async (applicationDetails, res) => {
   let date = getCurrentDateTime();
   let applicationId = generateApplicationId();
+  let appDetails = setApplicationDetails(applicationDetails.type);
   
   let newApplication = new Application({
     application_id: applicationId,
@@ -54,7 +138,7 @@ const createNewApplication = async (applicationDetails, res) => {
     creation_date: date,
     last_modified: date,
     application_type: applicationDetails.type,
-    details: [],
+    details: [appDetails],
     submitted: false,
     submission_date: null
   });
@@ -98,6 +182,26 @@ const getApplication = async (customerId, res) => {
   }
 }
 
+const applicationExist = async (customerId, res) => {
+  try {
+    const result = await Application.findOne({ customer_id: customerId }).count();
+    log.info(`Check if application exist successful: `, result);
+
+    return res.send({
+      messageCode: 'APPEXI',
+      message: 'Check if application exist for customer.',
+      exists: result > 0
+    });
+  } catch (err) {
+    log.error(`Error checking if application exist: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'APPEXIERR',
+      message: 'Unable to check if application exist'
+    });
+  }
+}
+
 // DAO - update exisintg application by application ID
 const updateApplicationDetails = async (detailsObj, res) => {
   let date = getCurrentDateTime();
@@ -128,7 +232,7 @@ const deleteApplication = async (applicationId, res) => {
     
     return res.send({
       messageCode: 'DELAPP',
-      message: `Application has been successfully deleted.`
+      message: `Application ${result.application_id} has been successfully deleted`,
     });
   } catch (err) {
     log.error(`Error in deleting application ${applicationId}: ` + err);
@@ -170,5 +274,6 @@ module.exports = {
     submitApplication,
     addApplicationCID,
     getApplicationCID,
-    getAllApplicationCID
+    getAllApplicationCID,
+    applicationExist
 }

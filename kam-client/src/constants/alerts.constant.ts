@@ -132,14 +132,43 @@ let FailedCreateApplicationAlert = (err: Error) => Swal.mixin({
 
 let ApplicationSavedAlert = Swal.mixin({
   title: 'Application Saved',
-  confirmButtonText: 'Okay',
-  confirmButtonColor: colors.theme,
+  toast: true,
+  position: 'top-end',
+  showCloseButton: true,
+  showConfirmButton: false,
   iconColor: colors.success,
   icon: 'success'
 });
 
 let FailedSaveApplicationAlert = (err: Error) => Swal.mixin({
   title: 'Failed to Save Application',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
+let DeleteApplicationAlert = Swal.mixin({
+  title: 'Delete Application',
+  text: 'Are you sure you want to delete your application?',
+  confirmButtonText: 'Yes',
+  confirmButtonColor: colors.error,
+  showCancelButton: true,
+  iconColor: colors.theme,
+  icon: 'question'
+});
+
+let ApplicationDeletedAlert = Swal.mixin({
+  title: 'Application Deleted',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
+let FailedDeleteApplicationAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Delete Application',
   text: err.message || JSON.stringify(err),
   confirmButtonText: 'Okay',
   confirmButtonColor: colors.theme,
@@ -162,5 +191,8 @@ export {
   FailedFileUploadAlert,
   FailedCreateApplicationAlert,
   ApplicationSavedAlert,
-  FailedSaveApplicationAlert
+  FailedSaveApplicationAlert,
+  DeleteApplicationAlert,
+  ApplicationDeletedAlert,
+  FailedDeleteApplicationAlert
 }

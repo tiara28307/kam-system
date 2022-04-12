@@ -55,8 +55,15 @@ export class KycOnboardingService {
     });
   }
 
-  deleteApplication(body) {
-    return this.httpreq.post(`http://localhost:8082/kyc/onboarding/delete/application`, body, {
+  getApplicationExist(customerId) {
+    return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/application/exist`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+    });
+  }
+
+  deleteApplication(applicationId) {
+    return this.httpreq.post(`http://localhost:8082/kyc/onboarding/delete/application/${applicationId}`, {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'text'
     });

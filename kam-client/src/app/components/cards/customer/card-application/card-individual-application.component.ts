@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApplicationValidationService } from 'src/app/services/kyc-onboarding/application-validation.service';
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { RegisterService } from 'src/app/services/register.service';
 import { UserService } from 'src/app/services/user.service';
-import { ApplicationNotCompleteAlert, ApplicationSavedAlert, FailedFileUploadAlert, FailedSaveApplicationAlert } from 'src/constants/alerts.constant';
+import { ApplicationDeletedAlert, ApplicationNotCompleteAlert, ApplicationSavedAlert, DeleteApplicationAlert, FailedDeleteApplicationAlert, FailedFileUploadAlert, FailedSaveApplicationAlert } from 'src/constants/alerts.constant';
 
 @Component({
   selector: 'app-card-individual-application',
@@ -61,7 +62,8 @@ export class CardIndividualApplicationComponent implements OnInit {
     private applicationValidator: ApplicationValidationService,
     private onboardingService: KycOnboardingService,
     private registerService: RegisterService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -393,9 +395,10 @@ export class CardIndividualApplicationComponent implements OnInit {
 
     let address2 = form.city.value + ' ' + form.state.value + ', ' + form.postalCode.value;
     let address3 = form.permanentCity.value + ' ' + form.permanentState.value + ', ' + form.permanentPostalCode.value;
-    let permanentAddress = form.isSameAddress.value ? form.address.value : form.permanentAddress.value;
-    let permanentAddress2 = form.isSameAddress.value ? address2 : address3;
-    let permanentCountry = form.isSameAddress.value ? form.country.value : form.permanentCountry.value;
+    let isSame = form.isSameAddress.value === 'YES';
+    let permanentAddress = isSame ? form.address.value : form.permanentAddress.value;
+    let permanentAddress2 = isSame ? address2 : address3;
+    let permanentCountry = isSame ? form.country.value : form.permanentCountry.value;
 
     let formDetails = {
       firstName: form.firstName.value,
@@ -433,55 +436,57 @@ export class CardIndividualApplicationComponent implements OnInit {
   }
 
   setApplicationFields() {
-    // let data = this.applicationData[0].details;
-    // this.individualApplicationForm.controls.fieldName.setValue(value);
     let applicationDetails = this.applicationData[0].applicationDetails
-    console.log(applicationDetails);
     this.applicationId = applicationDetails.application_id;
+    
     let details = applicationDetails.details;
+    let individualForm = this.individualApplicationForm.controls;
 
-    if (details != []) {
-      let individualForm = this.individualApplicationForm.controls;
-      individualForm.firstName.setValue(details[0].first_name);
-      individualForm.lastName.setValue(details[0].last_name);
-      individualForm.maidenName.setValue(details[0].maiden_name);
-      individualForm.fatherName.setValue(details[0].father_name);
-      individualForm.motherName.setValue(details[0].mother_name);
-      individualForm.motherMaidenName.setValue(details[0].mother_maidenname);
-      individualForm.spouseName.setValue(details[0].spouse_name);
-      individualForm.maritalStatus.setValue(details[0].marital_status);
-      individualForm.gender.setValue(details[0].gender);
-      individualForm.dob.setValue(details[0].dob);
-      individualForm.citizenshipStatus.setValue(details[0].citizenship_status);
-      individualForm.occupation.setValue(details[0].occupation);
-      individualForm.isPEP.setValue(details[0].is_pep);
-      individualForm.isRcaPEP.setValue(details[0].is_rcapep);
-      individualForm.pepExposure.setValue(details[0].pep_exposure);
-      
-      individualForm.poiType.setValue(details[0].poi_type);
-      individualForm.poiFile.setValue(details[0].poi_file);
-      
-      individualForm.address.setValue(details[0].current_address[0].address);
-      individualForm.city.setValue(details[0].current_address[0].city);
-      individualForm.state.setValue(details[0].current_address[0].state);
-      individualForm.postalCode.setValue(details[0].current_address[0].postal_code);
-      individualForm.country.setValue(details[0].current_address[0].country);
-      individualForm.permanentAddress.setValue(details[0].permanent_address[0].address);
-      individualForm.permanentCity.setValue(details[0].permanent_address[0].city);
-      individualForm.permanentState.setValue(details[0].permanent_address[0].state);
-      individualForm.permanentPostalCode.setValue(details[0].permanent_address[0].postal_code);
-      individualForm.permanentCountry.setValue(details[0].permanent_address[0].country);
-      
-      individualForm.poaType.setValue(details[0].poa_type);
-      individualForm.poaFile.setValue(details[0].poa_file);
+    // Personal Details
+    individualForm.firstName.setValue(details[0].first_name);
+    individualForm.lastName.setValue(details[0].last_name);
+    individualForm.maidenName.setValue(details[0].maiden_name);
+    individualForm.fatherName.setValue(details[0].father_name);
+    individualForm.motherName.setValue(details[0].mother_name);
+    individualForm.motherMaidenName.setValue(details[0].mother_maidenname);
+    individualForm.spouseName.setValue(details[0].spouse_name);
+    individualForm.maritalStatus.setValue(details[0].marital_status);
+    individualForm.gender.setValue(details[0].gender);
+    individualForm.dob.setValue(details[0].dob);
+    individualForm.citizenshipStatus.setValue(details[0].citizenship_status);
+    individualForm.occupation.setValue(details[0].occupation);
+    individualForm.isPEP.setValue(details[0].pep);
+    individualForm.isRcaPEP.setValue(details[0].rca_pep);
+    individualForm.pepExposure.setValue(details[0].pep_exposure);
+    
+    // ID Proof
+    individualForm.poiType.setValue(details[0].poi_type);
+    individualForm.poiFile.setValue(details[0].poi_file);
+    
+    // Address Details
+    individualForm.address.setValue(details[0].current_address.address);
+    individualForm.city.setValue(details[0].current_address.city);
+    individualForm.state.setValue(details[0].current_address.state);
+    individualForm.postalCode.setValue(details[0].current_address.postal_code);
+    individualForm.country.setValue(details[0].current_address.country);
+    individualForm.permanentAddress.setValue(details[0].permanent_address.address);
+    individualForm.permanentCity.setValue(details[0].permanent_address.city);
+    individualForm.permanentState.setValue(details[0].permanent_address.state);
+    individualForm.permanentPostalCode.setValue(details[0].permanent_address.postal_code);
+    individualForm.permanentCountry.setValue(details[0].permanent_address.country);
+    
+    // Proof of Address
+    individualForm.poaType.setValue(details[0].poa_type);
+    individualForm.poaFile.setValue(details[0].poa_file);
 
-      
-    }
+    // Contact
+    individualForm.email.setValue(details[0].email);
+    individualForm.phone.setValue(details[0].phone);
+
+    // Declaration
+    individualForm.isDeclared.setValue(details[0].declared);
   }
 
-  // TODO: getApplication(username, id) -> return application data 
-  // - GET application data from cloud db based on username and appId
-  // Pass in existing vars to form fields onSave
   getApplication() {
     this.isLoading = true;
     let customerId = 'C' + this.user[0].username.slice(-12); 
@@ -490,7 +495,7 @@ export class CardIndividualApplicationComponent implements OnInit {
       res => {
         this.isLoading = false;
         this.applicationData = [res];
-        // this.setApplicationFields();
+        this.setApplicationFields();
       },
       error => {
         this.isLoading = false;
@@ -499,14 +504,81 @@ export class CardIndividualApplicationComponent implements OnInit {
     );
   }
 
-  onSave() {
+  deleteApplication() {
     this.isLoading = true;
-    
+
+    this.onboardingService.deleteApplication(this.applicationId).subscribe(
+      res => {
+        this.isLoading = false;
+        ApplicationDeletedAlert.fire({})
+          .then(() => {
+            this.router.navigate(['/user/kyc/onboarding/dashboard']);
+          });
+        console.log('response: ', res);
+      },
+      error => {
+        this.isLoading = false;
+        FailedDeleteApplicationAlert(error).fire({});
+      }
+    );
+  }
+
+  onSave() {    
+    this.isLoading = true;
+    let form = this.individualApplicationForm.controls;
+
+    let poiFileName = form.poiFile.value;
+    let poaFileName = form.poaFile.value;
+
+    let isSame = form.isSameAddress.value === 'YES';
+    let permanentAddress = isSame ? form.address.value : form.permanentAddress.value;
+    let permanentCity = isSame ? form.city.value : form.permanentCity.value;
+    let permanentState = isSame ? form.state.value : form.permanentState.value;
+    let permanentPostalCode = isSame ? form.postalCode.value : form.permanentPostalCode.value;
+    let permanentCountry = isSame ? form.country.value : form.permanentCountry.value;
+
+    let formDetails = {
+      first_name: form.firstName.value,
+      last_name: form.lastName.value,
+      maiden_name: form.maidenName.value,
+      father_name: form.fatherName.value,
+      mother_name: form.motherName.value,
+      mother_maidenname: form.motherMaidenName.value,
+      spouse_name: form.spouseName.value,
+      marital_status: form.maritalStatus.value,
+      gender: form.gender.value,
+      dob: form.dob.value,
+      citizenship_status: Number(form.citizenshipStatus.value),
+      occupation: form.occupation.value,
+      pep: form.isPEP.value,
+      rca_pep: form.isRcaPEP.value,
+      pep_exposure: Number(form.pepExposure.value),
+      poi_type: form.poiType.value,
+      poi_file: poiFileName,
+      current_address: {
+        address: form.address.value,
+        city: form.city.value,
+        state: form.state.value,
+        postal_code: form.postalCode.value,
+        country: form.country.value
+      },
+      permanent_address: {
+        address: permanentAddress,
+        city: permanentCity,
+        state: permanentState,
+        postal_code: permanentPostalCode,
+        country: permanentCountry
+      },
+      poa_type: form.poaType.value,
+      poa_file: poaFileName,
+      email: form.email.value,
+      phone: form.phone.value,
+      declared: form.isDeclared.value
+    };
+
     let detailsObj = {
       applicationId: this.applicationId,
-      details: [{
-        test: 'newtest'
-      }]
+      details: [formDetails]
     }
 
     this.onboardingService.updateApplicationDetails(detailsObj).subscribe(
@@ -523,8 +595,12 @@ export class CardIndividualApplicationComponent implements OnInit {
   }
 
   onDelete() {
-    // Alert check are you sure you want to delete applicaton
-    // Delete application
+    DeleteApplicationAlert.fire({})
+      .then((result) => {
+        if (result.isConfirmed === true) {
+          this.deleteApplication();
+        }
+      });
   }
 
   // Submit application to blockchain

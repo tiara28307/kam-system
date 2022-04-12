@@ -395,7 +395,7 @@
                     >
                     <option hidden value="" disabled selected>Select PEP Exposure</option>
                       <option 
-                        *ngFor="let types of pepTypes"
+                        *ngFor="let types of pepTypes | orderBy: 'name'"
                         [value]="types.code"
                       >
                       {{types.name}}

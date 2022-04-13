@@ -22,6 +22,7 @@ export class CardIndividualApplicationComponent implements OnInit {
   
   individualApplicationForm: FormGroup;
   applicationId: String;
+  applicationType: String;
   step: number;
   forwardButtonText = 'Next';
   showApplicationReview = false;
@@ -33,7 +34,6 @@ export class CardIndividualApplicationComponent implements OnInit {
   pepTypes = [];
   countries = [];
 
-  isIndividual = true;
   applicationDetails = [];
 
   // Array for existing application from mongodb
@@ -401,6 +401,7 @@ export class CardIndividualApplicationComponent implements OnInit {
     let permanentCountry = isSame ? form.country.value : form.permanentCountry.value;
 
     let formDetails = {
+      applicationType: this.applicationType,
       firstName: form.firstName.value,
       lastName: form.lastName.value,
       maidenName: form.maidenName.value,
@@ -438,6 +439,7 @@ export class CardIndividualApplicationComponent implements OnInit {
   setApplicationFields() {
     let applicationDetails = this.applicationData[0].applicationDetails
     this.applicationId = applicationDetails.application_id;
+    this.applicationType = applicationDetails.application_type;
     
     let details = applicationDetails.details;
     let individualForm = this.individualApplicationForm.controls;

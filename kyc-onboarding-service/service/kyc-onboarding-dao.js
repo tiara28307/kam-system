@@ -42,7 +42,7 @@ function setApplicationDetails(applicationType) {
       rca_pep: '',
       pep_exposure: '',
       poi_type: '',
-      poi_file: '', // change
+      poi_file: '',
       current_address: {
         address: '',
         city: '',
@@ -58,39 +58,24 @@ function setApplicationDetails(applicationType) {
         country: ''
       },
       poa_type: '',
-      poa_file: '', // change
+      poa_file: '',
       email: '',
       phone: '',
       declared: false
     }
   } else if (applicationType === 'BUSINESS') {
-    // TODO: update detail fields for business application
     return {
-      first_name: '',
-      last_name: '',
-      maiden_name: '',
-      father_name: '',
-      mother_name: '',
-      mother_maidenname: '',
-      spouse_name: '',
-      marital_status: '',
-      gender: '',
-      dob: '',
-      citizenship_status: '',
-      occupation: '',
-      pep: '',
-      rca_pep: '',
-      pep_exposure: '',
-      poi_type: '',
-      poi_file: '', // change
-      current_address: {
-        address: '',
-        city: '',
-        state: '',
-        postal_code: '',
-        country: ''
-      },
-      permanent_address: {
+      company_name: '',
+      employee_firstname: '',
+      employee_lastname: '',
+      date_incorporation: '',
+      state_incorporation: '',
+      registration_number: '',
+      date_commencement: '',
+      company_type: '',
+      pob_type: '',
+      pob_file: '',
+      company_address: {
         address: '',
         city: '',
         state: '',
@@ -98,9 +83,9 @@ function setApplicationDetails(applicationType) {
         country: ''
       },
       poa_type: '',
-      poa_file: '', // change
-      email: '',
-      phone: '',
+      poa_file: '',
+      emp_email: '',
+      emp_phone: '',
       declared: false
     }
   }

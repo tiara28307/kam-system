@@ -25,11 +25,11 @@
           <hr class="mt-1 border-b-1 border-slate-300" />
           <div class="block text-slate-600 text-sm font-bold mt-4">
             <i class="fas {{getStatusIcon(stepStatusComplete.personalDetails)}} fa-lg mt-3 {{getStatusColor(stepStatusComplete.personalDetails)}}"></i>
-            <span class="text-slate-600 font-normal mb-2 pl-3">Personal Details</span>
+            <span class="text-slate-600 font-normal mb-2 pl-3">{{getStepName(1)}}</span>
           </div>
           <div class="block text-slate-600 text-sm font-bold mt-4">
             <i class="fas {{getStatusIcon(stepStatusComplete.idProof)}} fa-lg mt-3 {{getStatusColor(stepStatusComplete.idProof)}}"></i>
-            <span class="text-slate-600 font-normal mb-2 pl-3">ID Proof</span>
+            <span class="text-slate-600 font-normal mb-2 pl-3">{{getStepName(2)}}</span>
           </div>
           <div class="block text-slate-600 text-sm font-bold mt-4">
             <i class="fas {{getStatusIcon(stepStatusComplete.addressDetails)}} fa-lg mt-3 {{getStatusColor(stepStatusComplete.addressDetails)}}"></i>

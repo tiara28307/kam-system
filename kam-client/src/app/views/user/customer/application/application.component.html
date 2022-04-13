@@ -60,6 +60,7 @@
   </div>
   </div>
   <app-card-individual-application *ngIf="applicationType === 'INDIVIDUAL'"></app-card-individual-application>
+  <app-card-business-application *ngIf="applicationType === 'BUSINESS'"></app-card-business-application>
   <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px', backdropBackgroundColour: 'rgba(0, 0, 0, 0.5)'}"></ngx-loading>
 </div>
 </div>

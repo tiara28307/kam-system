@@ -32,7 +32,7 @@ import { KycSearchComponent } from './views/user/company/kyc-search/kyc-search.c
 import { CardRequestFullTableComponent } from './components/cards/card-request-full-table/card-request-full-table.component';
 import { ProgressbarApplicationComponent } from './components/progressbars/progressbar-application/progressbar-application.component';
 import { CardApplicationReviewComponent } from './components/cards/company/card-application-review/card-application-review.component';
-import { CardIndividualApplicationComponent } from './components/cards/customer/card-application/card-individual-application.component';
+import { CardIndividualApplicationComponent } from './components/cards/customer/card-application/card-individual-application/card-individual-application.component';
 import { ApplicationComponent } from './views/user/customer/application/application.component';
 import { ReviewApplicationComponent } from './views/user/company/review-application/review-application.component';
 import { CardServiceComponent } from './components/cards/card-service/card-service.component';
@@ -75,6 +75,7 @@ import { RegisterService } from "./services/register.service";
 import { UserService } from "./services/user.service";
 import { CardReviewApplicationComponent } from './components/cards/customer/card-review-application/card-review-application.component';
 import { StringifyPipe } from './pipes/stringify.pipe';
+import { CardBusinessApplicationComponent } from './components/cards/customer/card-application/card-business-application/card-business-application.component';
 
 
 @NgModule({
@@ -130,7 +131,8 @@ import { StringifyPipe } from './pipes/stringify.pipe';
     CardIndividualApplicationComponent,
     KycSearchComponent,
     CardReviewApplicationComponent,
-    StringifyPipe
+    StringifyPipe,
+    CardBusinessApplicationComponent
   ],
   imports: [
     BrowserModule, 

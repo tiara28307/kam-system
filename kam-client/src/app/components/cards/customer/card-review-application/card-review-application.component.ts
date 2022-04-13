@@ -11,15 +11,6 @@ export class CardReviewApplicationComponent implements OnInit {
   appDetails: any[];
 
   @Input()
-  get isIndividual(): boolean {
-    return this._isIndividual;
-  }
-  set isIndividual(isIndividual: boolean) {
-    this._isIndividual = isIndividual;
-  }
-  private _isIndividual = false;
-
-  @Input()
   get applicationDetails(): string {
     return this._applicationDetails;
   }

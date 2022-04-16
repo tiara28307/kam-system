@@ -13,6 +13,9 @@ import { ApplicationDeletedAlert, ApplicationNotCompleteAlert, ApplicationSavedA
   styles: [
   ]
 })
+/* 
+  Component for Business Customer Application Form
+*/
 export class CardBusinessApplicationComponent implements OnInit {
   isLoading = false;
   user: any[];
@@ -25,8 +28,10 @@ export class CardBusinessApplicationComponent implements OnInit {
   showApplicationReview = false;
   forwardButtonColor = 'bg-sky-500';
 
-  pobLabel = 'Select a document';
+  poiLabel = 'Select a document';
+  poiFile: File;
   poaLabel = 'Select a document';
+  poaFile: File;
   
   countries = [];
 
@@ -39,18 +44,20 @@ export class CardBusinessApplicationComponent implements OnInit {
     { code: 6, name: 'Bank or Institutional Investor' },
     { code: 7, name: 'Foreign Insitutional Investor (FII)' },
     { code: 8, name: 'Registered Society' },
-    { code: 9, name: 'Unincorporated Association or Body of Individuals' }
+    { code: 9, name: 'Unincorporated Association or Body of Individuals' },
+    { code: 10, name: 'Information Technology' },
+    { code: 11, name: 'Health Care' }
   ];
 
-  pobTypes = [
+  proofOfBusiness = [
     {code: 'RC', name: 'Registration Certificate'},
-    {code: 'CMA', name: 'Certificate/Licence issued by Municipal authorities'},
-    {code: 'SIT', name: 'Sales or income tax returns'},
-    {code: 'CVC', name: 'CST/VAT certificate'},
+    {code: 'CM', name: 'Certificate/Licence issued by Municipal authorities'},
+    {code: 'ST', name: 'Sales or income tax returns'},
+    {code: 'CV', name: 'CST/VAT certificate'},
     {code: 'PD', name: 'Partnership Deed'},
     {code: 'TD', name: 'Trust Deed'},
     {code: 'CI', name: 'Certificate of Incorporation'},
-    {code: 'MAA', name: 'Memorandum/Articles of Association'},
+    {code: 'MA', name: 'Memorandum/Articles of Association'},
   ]
 
   applicationDetails = [];
@@ -98,8 +105,8 @@ export class CardBusinessApplicationComponent implements OnInit {
       registrationNumber: ['', [Validators.required]],
       dateOfCommencement: ['', [Validators.required]],
       companyType: ['', [Validators.required]],
-      pobType: ['', [Validators.required]],
-      pobFile: [null, [Validators.required]],
+      poiType: ['', [Validators.required]],
+      poiFile: ['', [Validators.required]],
       address: ['', [Validators.required]],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
@@ -109,7 +116,7 @@ export class CardBusinessApplicationComponent implements OnInit {
       ])],
       country: ['', [Validators.required]],
       poaType: ['', [Validators.required]],
-      poaFile: [null, [Validators.required]],
+      poaFile: ['', [Validators.required]],
       employeePhone: ['', Validators.compose([
         Validators.required,
         Validators.pattern(this.applicationValidator.phonePattern)
@@ -153,7 +160,7 @@ export class CardBusinessApplicationComponent implements OnInit {
   }
 
   // Assign selected input file(s) to variables passed into FormGroup
-  handlePobFileInput(files: FileList) {
+  handlePoiFileInput(files: FileList) {
     let tenMBs = 10000000;
     let file = files[0];
     
@@ -161,8 +168,9 @@ export class CardBusinessApplicationComponent implements OnInit {
     let isCorrectFileSize = file.size < tenMBs;
 
     if (isCorrectFileType && isCorrectFileSize) {
-      this.businessApplicationForm.controls.pobFile.setValue(file);
-      this.pobLabel = file.name;
+      this.businessApplicationForm.controls.poiFile.setValue(file ? file.name : '');
+      this.poiFile = file;
+      this.poiLabel = file.name;
     } else {
       this.showFileUploadError(isCorrectFileType, isCorrectFileSize);
     }
@@ -176,7 +184,8 @@ export class CardBusinessApplicationComponent implements OnInit {
     let isCorrectFileSize = file.size < tenMBs;
 
     if (isCorrectFileType && isCorrectFileSize) {
-      this.businessApplicationForm.controls.poaFile.setValue(file);
+      this.businessApplicationForm.controls.poaFile.setValue(file ? file.name : '');
+      this.poaFile = file;
       this.poaLabel = file.name;
     } else {
       this.showFileUploadError(isCorrectFileType, isCorrectFileSize);
@@ -185,7 +194,7 @@ export class CardBusinessApplicationComponent implements OnInit {
 
   // TODO: add remove file button
   removeFile(fileType) {
-    if (fileType === 'pob') {
+    if (fileType === 'poi') {
       this.businessApplicationForm.controls.poiFile.setValue(null);
     } else if (fileType === 'poa') {
       this.businessApplicationForm.controls.poaFile.setValue(null);
@@ -220,9 +229,9 @@ export class CardBusinessApplicationComponent implements OnInit {
         && isRegistrationNumberValid && isDateOfCommencementValid && isCompanyTypeValid;
     }
     else if (currentStep === 2) {
-      let isPobTypeValid = form.pobType.valid;
-      let isPobFileValid = form.pobFile.valid;
-      return isPobTypeValid && isPobFileValid;
+      let isPoiTypeValid = form.poiType.valid;
+      let isPoiFileValid = form.poiFile.valid;
+      return isPoiTypeValid && isPoiFileValid;
     }
     else if (currentStep === 3) {
       let isAddressValid = form.address.valid;
@@ -350,8 +359,8 @@ export class CardBusinessApplicationComponent implements OnInit {
       registrationNumber: form.registrationNumber.value,
       dateOfCommencement: form.dateOfCommencement.value,
       companyType: companyType,
-      pobType: form.pobType.value,
-      pobFile: form.pobFile.value,
+      poiType: form.poiType.value,
+      poiFile: form.poiFile.value,
       address: form.address.value,
       address2: address2,
       country: form.country.value,
@@ -370,6 +379,7 @@ export class CardBusinessApplicationComponent implements OnInit {
     let applicationDetails = this.applicationData[0].applicationDetails
     this.applicationId = applicationDetails.application_id;
     this.applicationType = applicationDetails.application_type;
+    let documents = applicationDetails.documents;
     
     let details = applicationDetails.details;
     let businessForm = this.businessApplicationForm.controls;
@@ -385,8 +395,11 @@ export class CardBusinessApplicationComponent implements OnInit {
     businessForm.companyType.setValue(details[0].company_type);
     
     // Proof of Business
-    businessForm.pobType.setValue(details[0].pob_type);
-    businessForm.pobFile.setValue(details[0].pob_file);
+    if (documents[0]?.poi !== [] && !(documents[0]?.poi.length === 0)) {
+      businessForm.poiType.setValue(documents[0]?.poi?.file_name?.slice(10, 12));
+      businessForm.poiFile.setValue(documents[0]?.poi.file_name);
+      this.poiLabel = businessForm.poiFile.value != undefined ? businessForm.poiFile.value : this.poiLabel;
+    }
     
     // Address Details
     businessForm.address.setValue(details[0].company_address.address);
@@ -396,8 +409,11 @@ export class CardBusinessApplicationComponent implements OnInit {
     businessForm.country.setValue(details[0].company_address.country);
     
     // Proof of Address
-    businessForm.poaType.setValue(details[0].poa_type);
-    businessForm.poaFile.setValue(details[0].poa_file);
+    if (documents[0]?.poa !== [] && !(documents[0]?.poa.length === 0)) {
+      businessForm.poaType.setValue(documents[0]?.poa?.file_name?.slice(10, 12));
+      businessForm.poaFile.setValue(documents[0]?.poa.file_name);
+      this.poaLabel = businessForm.poaFile.value != undefined ? businessForm.poaFile.value : this.poaLabel;
+    }
 
     // Contact
     businessForm.employeeEmail.setValue(details[0].emp_email);
@@ -454,10 +470,39 @@ export class CardBusinessApplicationComponent implements OnInit {
 
   onSave() {    
     this.isLoading = true;
-    let form = this.businessApplicationForm.controls;
+    this.uploadDocument('poi');
+    this.uploadDocument('poa');
+    this.updateApplicationDetails();
+  }
 
-    let pobFileName = form.pobFile.value;
-    let poaFileName = form.poaFile.value;
+  isNewDocument(kycType: String) {
+    var formDocument: String;
+    let applicationDetails = this.applicationData[0].applicationDetails
+    var dbDocument: String;
+    var dbFilename: String
+
+    if (kycType === 'poi') {
+      formDocument = this.businessApplicationForm.controls.poiFile.value;
+      dbDocument = applicationDetails.documents[0]?.poi.original_name;
+      dbFilename = applicationDetails.documents[0]?.poi.file_name;
+    } else if (kycType == 'poa') {
+      dbDocument = applicationDetails.documents[0]?.poa.original_name;
+      formDocument = this.businessApplicationForm.controls.poaFile.value;
+      dbFilename = applicationDetails.documents[0]?.poa.file_name;
+    }
+
+    if (formDocument === undefined || !(formDocument.length > 0) ) {
+      return 'EMPTY';
+    }
+    if (formDocument === dbDocument || formDocument === dbFilename) {
+      return 'EXIST'
+    } else if (formDocument != dbDocument) {
+      return 'UPDATE';
+    } 
+  }
+
+  updateApplicationDetails() {
+    let form = this.businessApplicationForm.controls;
 
     let formDetails = {
       company_name: form.companyName.value,
@@ -468,8 +513,6 @@ export class CardBusinessApplicationComponent implements OnInit {
       registration_number: form.registrationNumber.value,
       date_commencement: form.dateOfCommencement.value,
       company_type: form.companyType.value,
-      pob_type: form.pobType.value,
-      pob_file: pobFileName,
       company_address: {
         address: form.address.value,
         city: form.city.value,
@@ -477,8 +520,6 @@ export class CardBusinessApplicationComponent implements OnInit {
         postal_code: form.postalCode.value,
         country: form.country.value
       },
-      poa_type: form.poaType.value,
-      poa_file: poaFileName,
       emp_email: form.employeeEmail.value,
       emp_phone: form.employeePhone.value,
       declared: form.isDeclared.value
@@ -491,6 +532,7 @@ export class CardBusinessApplicationComponent implements OnInit {
 
     this.onboardingService.updateApplicationDetails(detailsObj).subscribe(
       res => {
+        this.getApplication();
         this.isLoading = false;
         ApplicationSavedAlert.fire({});
         console.log('response: ', res);
@@ -500,6 +542,43 @@ export class CardBusinessApplicationComponent implements OnInit {
         FailedSaveApplicationAlert(error).fire({});
       }
     );
+  }
+
+  uploadDocument(kycType: String) {
+    let newDocument =  this.isNewDocument(kycType);
+    console.log(newDocument);
+    let documentObj = {};
+
+    if (kycType === 'poi') {
+      documentObj = {
+        applicationId: this.applicationId,
+        documentType: 'poi',
+        file: this.poiFile,
+        kycType: this.businessApplicationForm.controls.poiType.value
+      }
+    } else if (kycType === 'poa') {
+      documentObj = {
+        applicationId: this.applicationId,
+        documentType: 'poa',
+        file: this.poaFile,
+        kycType: this.businessApplicationForm.controls.poaType.value
+      }
+    }
+
+    if (newDocument === 'UPDATE') {
+      this.onboardingService.updateDocument(documentObj).subscribe(
+        res => {
+          this.isLoading = false;
+          console.log('Update document: ', res);
+        },
+        error => {
+          this.isLoading = false;
+          console.error('Error updating document: ', error);
+        }
+      );
+    } else if (newDocument === 'EXIST') {
+      console.log('Document already exists in database');
+    }
   }
 
   // Submit application to blockchain

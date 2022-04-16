@@ -224,12 +224,25 @@ const updateApplicationDetails = async (detailsObj, res) => {
 // DAO - delete application by application ID
 const deleteApplication = async (applicationId, res) => {
   try {
-    const result = await Application.findOneAndRemove({ application_id: applicationId });
+    const resultDocumentsDel = await Application.findOne({ application_id: applicationId });
+    let documentsDirPath = resultDocumentsDel.documents[0].poi.file_desc;
+    let dirPathExist = fs.existsSync(documentsDirPath);
+
+    if (dirPathExist) {
+      fs.rmSync(documentsDirPath, { recursive: true }, (err) => {
+        if (err) {
+          log.error(`Error deleting document directory ${documentsDirPath}: `, err);
+        }
+        log.info(`Deletion of directory at ${documentsDirPath} was successful!`);
+      });
+    }
+
+    const resultDel = await Application.findOneAndRemove({ application_id: applicationId });
     log.info(`Application ${applicationId} has been successfully deleted.`);
     
     return res.send({
       messageCode: 'DELAPP',
-      message: `Application ${result.application_id} has been successfully deleted`,
+      message: `Application ${resultDel.application_id} has been successfully deleted`,
     });
   } catch (err) {
     log.error(`Error in deleting application ${applicationId}: ` + err);
@@ -311,68 +324,6 @@ const updateDocument = async (documentObj, res) => {
     });
   }
 }
-
-/*const updateDocument = async (documentObj, res) => {
-  if (documentObj.body.kyc_type == '') {
-    return res.status(400).send({
-      messageCode: 'UPLDOCERR',
-      message: 'Unable to upload document. KYC type is missing.'
-    });
-  }
-
-  let date = getCurrentDateTime();
-
-  console.log(documentObj.file.originalname);
-  let newDocument = new KycDocument({
-    doc_id: documentObj.file.filename.slice(0, 9),
-    kyc_type: documentObj.params.documentType,
-    file_name: documentObj.file.filename,
-    file_path: documentObj.file.path,
-    file_desc: documentObj.file.destination,
-    original_name: documentObj.file.originalname,
-    uploaded: date
-  });
-
-  let i = documentObj.params.documentType;
- 
-  try {
-    /*const resultFind =  await Application.findOne({ application_id: documentObj.params.applicationId });
-    let oldFilePath = './' + resultFind.documents[i].file_path;*/
-    /*let field = `document[0].${i}`;
-
-    const result = await Application.findOneAndUpdate(
-      { 'document.doc_id': documentObj.params.documentId },
-      { $set: { field: newDocument, last_modified: date }}
-    );
-
-    log.info(`Document for ${result} has been updated to database`);
-
-    // Remove old file from directory
-    /*oldPathExist = fs.existsSync(oldFilePath);
-    if (oldPathExist) {
-      fs.unlinkSync(oldFilePath, (err) => {
-        if (err) {
-          log.error(`Error removing document at ${oldFilePath}: `, err);
-        }
-        
-        log.info(`Removal of file at ${oldFilePath} successful!`);
-      })
-    }*/
-
-   /* return res.send({
-      messageCode: 'UPLDOC',
-      message: 'Updated document for application ' + resultUpdate.application_id
-    });
-
-  } catch (err) {
-    log.error(`Error in updating document to database`);
-
-    return res.status(400).send({
-      messageCode: 'UPLDOCERR',
-      message: 'Unable to update document to database'
-    });
-  }
-}*/
 
 // DAO - submit (push) application to blockchain
 const submitApplication = async (applicationDetails, res) => {

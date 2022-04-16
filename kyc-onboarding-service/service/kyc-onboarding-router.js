@@ -65,14 +65,6 @@ kycOnboardingRouter
       });
   })
 
-  /*.post('/upload/application/:applicationId/document/:documentType', upload.single('file'), cors.cors, (req, res) => {
-      kycOnboardingDao.uploadDocument(req, res)
-        .then()
-        .catch(err => {
-          log.error('Error in uploading document: ', err);
-        })
-  })*/
-
   .post('/update/application/:applicationId/document/:documentType', upload.single('file'), cors.cors, (req, res) => {
     kycOnboardingDao.updateDocument(req, res)
       .then()

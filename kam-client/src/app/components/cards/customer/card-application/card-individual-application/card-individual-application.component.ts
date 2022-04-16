@@ -98,6 +98,7 @@ export class CardIndividualApplicationComponent implements OnInit {
       isPEP: ['', [Validators.required]],
       isRcaPEP: ['', [Validators.required]],
       pepExposure: ['', [Validators.required]],
+      pepFullName: [''],
       poiType: ['', [Validators.required]], 
       poiFile: ['', [Validators.required]],
       address: ['', [Validators.required]],
@@ -421,6 +422,7 @@ export class CardIndividualApplicationComponent implements OnInit {
       isPEP: form.isPEP.value,
       isRcaPEP: form.isRcaPEP.value,
       pepExposure: pepExposure,
+      pepFullName: form.pepFullName.value,
       poiType: form.poiType.value,
       poiFile: poiFileName,
       address: form.address.value,
@@ -465,6 +467,7 @@ export class CardIndividualApplicationComponent implements OnInit {
     individualForm.isPEP.setValue(details[0].pep);
     individualForm.isRcaPEP.setValue(details[0].rca_pep);
     individualForm.pepExposure.setValue(details[0].pep_exposure);
+    individualForm.pepFullName.setValue(details[0].pep_fullname);
     
     // ID Proof
     if (documents != []) {
@@ -598,6 +601,7 @@ export class CardIndividualApplicationComponent implements OnInit {
       pep: form.isPEP.value,
       rca_pep: form.isRcaPEP.value,
       pep_exposure: Number(form.pepExposure.value),
+      pep_fullname: form.pepFullName.value,
       current_address: {
         address: form.address.value,
         city: form.city.value,

@@ -27,10 +27,11 @@ export class CardApplicationOverviewComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private onboardingService: KycOnboardingService
-  ) {}
+  ) {
+    this.user = this.userService.getUserData();
+  }
 
   ngOnInit(): void {
-    this.user = this.userService.getUserData();
     this.getApplication();
     this.userHasApplication();
   }
@@ -92,8 +93,7 @@ export class CardApplicationOverviewComponent implements OnInit {
       }
 
       let poiDetails = {
-        poiType: applicationDetails.details[0].poi_type,
-        poiFile: applicationDetails.details[0].poi_file
+        poiFile: applicationDetails.documents[0].poi.file_name
       }
 
       let addressDetails = {
@@ -102,8 +102,7 @@ export class CardApplicationOverviewComponent implements OnInit {
       }
 
       let poaDetails = {
-        poaType: applicationDetails.details[0].poa_type,
-        poaFile: applicationDetails.details[0].poa_file
+        poaFile: applicationDetails.documents[0].poa.file_name
       }
 
       let contactDetails = {
@@ -114,10 +113,10 @@ export class CardApplicationOverviewComponent implements OnInit {
       let isDeclared = applicationDetails.details[0].declared;
 
       const personalIncomplete = Object.values(personalDetails).some(val => val === null || val === '');
-      const poiIncomplete = Object.values(poiDetails).some(val => val === null || val === '');
+      const poiIncomplete = Object.values(poiDetails).some(val => val === undefined || val === '');
       const currentAddressIncomplete = Object.values(addressDetails.currentAddress).some(val => val === null || val === '');
       const permanentAddressIncomplete = Object.values(addressDetails.permanentAddress).some(val => val === null || val === '');
-      const poaDetailsIncomplete = Object.values(poaDetails).some(val => val === null || val === '');
+      const poaDetailsIncomplete = Object.values(poaDetails).some(val => val === undefined || val === '');
       const contactDetailsIncomplete = Object.values(contactDetails).some(val => val === null || val === '');
       const declarationComplete = isDeclared;
 
@@ -142,9 +141,8 @@ export class CardApplicationOverviewComponent implements OnInit {
         companyType: applicationDetails.details[0].company_type
       }
 
-      let pobDetails = {
-        pobType: applicationDetails.details[0].pob_type,
-        pobFile: applicationDetails.details[0].pob_file
+      let poiDetails = {
+        poiFile: applicationDetails.documents[0].poi.file_name
       }
 
       let addressDetails = {
@@ -152,8 +150,7 @@ export class CardApplicationOverviewComponent implements OnInit {
       }
 
       let poaDetails = {
-        poaType: applicationDetails.details[0].poa_type,
-        poaFile: applicationDetails.details[0].poa_file
+        poaFile: applicationDetails.documents[0].poa.file_name
       }
 
       let contactDetails = {
@@ -164,9 +161,9 @@ export class CardApplicationOverviewComponent implements OnInit {
       let isDeclared = applicationDetails.details[0].declared;
 
       const personalIncomplete = Object.values(companyDetails).some(val => val === null || val === '');
-      const poiIncomplete = Object.values(pobDetails).some(val => val === null || val === '');
+      const poiIncomplete = Object.values(poiDetails).some(val => val === undefined || val === '');
       const companyAddressIncomplete = Object.values(addressDetails.companyAddress).some(val => val === null || val === '');
-      const poaDetailsIncomplete = Object.values(poaDetails).some(val => val === null || val === '');
+      const poaDetailsIncomplete = Object.values(poaDetails).some(val => val === undefined || val === '');
       const contactDetailsIncomplete = Object.values(contactDetails).some(val => val === null || val === '');
       const declarationComplete = isDeclared;
 

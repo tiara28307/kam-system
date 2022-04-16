@@ -5,7 +5,7 @@ import { ApplicationValidationService } from 'src/app/services/kyc-onboarding/ap
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { RegisterService } from 'src/app/services/register.service';
 import { UserService } from 'src/app/services/user.service';
-import { ApplicationDeletedAlert, ApplicationNotCompleteAlert, ApplicationSavedAlert, DeleteApplicationAlert, FailedDeleteApplicationAlert, FailedFileUploadAlert, FailedSaveApplicationAlert } from 'src/constants/alerts.constant';
+import { ApplicationDeletedAlert, ApplicationNotCompleteAlert, ApplicationSavedAlert, DeleteApplicationAlert, FailedDeleteApplicationAlert, FailedFileUploadAlert, FailedSaveApplicationAlert, FailedUploadDocumentAlert } from 'src/constants/alerts.constant';
 
 @Component({
   selector: 'app-card-individual-application',
@@ -29,7 +29,9 @@ export class CardIndividualApplicationComponent implements OnInit {
   forwardButtonColor = 'bg-sky-500';
 
   poiLabel = 'Select a photo';
+  poiFile: File;
   poaLabel = 'Select a document';
+  poaFile: File;
   
   pepTypes = [];
   countries = [];
@@ -63,7 +65,8 @@ export class CardIndividualApplicationComponent implements OnInit {
     private onboardingService: KycOnboardingService,
     private registerService: RegisterService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+
   ) {}
 
   ngOnInit(): void {
@@ -96,7 +99,7 @@ export class CardIndividualApplicationComponent implements OnInit {
       isRcaPEP: ['', [Validators.required]],
       pepExposure: ['', [Validators.required]],
       poiType: ['', [Validators.required]], 
-      poiFile: [null, [Validators.required]],
+      poiFile: ['', [Validators.required]],
       address: ['', [Validators.required]],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
@@ -105,7 +108,7 @@ export class CardIndividualApplicationComponent implements OnInit {
         Validators.pattern(this.applicationValidator.postalCodePattern)
       ])],
       country: ['', [Validators.required]],
-      isSameAddress: ['', [Validators.required]],
+      isSameAddress: [''],
       permanentAddress: [''],
       permanentCity: [''],
       permanentState: [''],
@@ -114,7 +117,7 @@ export class CardIndividualApplicationComponent implements OnInit {
       ])],
       permanentCountry: [''],
       poaType: ['', [Validators.required]],
-      poaFile: [null, [Validators.required]],
+      poaFile: [File = null, [Validators.required]],
       phone: ['', Validators.compose([
         Validators.required,
         Validators.pattern(this.applicationValidator.phonePattern)
@@ -177,12 +180,12 @@ export class CardIndividualApplicationComponent implements OnInit {
   handlePoiFileInput(files: FileList) {
     let tenMBs = 10000000;
     let file = files[0];
-    
     let isCorrectFileType = this.applicationValidator.poiFilePattern.test(file.name);
     let isCorrectFileSize = file.size < tenMBs;
 
     if (isCorrectFileType && isCorrectFileSize) {
-      this.individualApplicationForm.controls.poiFile.setValue(file);
+      this.individualApplicationForm.controls.poiFile.setValue(file ? file.name : '');
+      this.poiFile = file;
       this.poiLabel = file.name;
     } else {
       this.showFileUploadError(isCorrectFileType, isCorrectFileSize);
@@ -197,7 +200,8 @@ export class CardIndividualApplicationComponent implements OnInit {
     let isCorrectFileSize = file.size < tenMBs;
 
     if (isCorrectFileType && isCorrectFileSize) {
-      this.individualApplicationForm.controls.poaFile.setValue(file);
+      this.individualApplicationForm.controls.poaFile.setValue(file ? file.name : '');
+      this.poaFile = file;
       this.poaLabel = file.name;
     } else {
       this.showFileUploadError(isCorrectFileType, isCorrectFileSize);
@@ -390,8 +394,8 @@ export class CardIndividualApplicationComponent implements OnInit {
     let pepExposure = this.pepTypes.filter(type => type.code === Number(form.pepExposure.value))[0].name;
     let citizenshipStatus = this.citizenshipTypes.filter(type => type.code === Number(form.citizenshipStatus.value))[0].name;
 
-    let poiFileName = form.poiFile.value.name;
-    let poaFileName = form.poaFile.value.name;
+    let poiFileName = form.poiFile.value;
+    let poaFileName = form.poaFile.value;
 
     let address2 = form.city.value + ' ' + form.state.value + ', ' + form.postalCode.value;
     let address3 = form.permanentCity.value + ' ' + form.permanentState.value + ', ' + form.permanentPostalCode.value;
@@ -442,6 +446,7 @@ export class CardIndividualApplicationComponent implements OnInit {
     this.applicationType = applicationDetails.application_type;
     
     let details = applicationDetails.details;
+    let documents = applicationDetails.documents;
     let individualForm = this.individualApplicationForm.controls;
 
     // Personal Details
@@ -462,8 +467,13 @@ export class CardIndividualApplicationComponent implements OnInit {
     individualForm.pepExposure.setValue(details[0].pep_exposure);
     
     // ID Proof
-    individualForm.poiType.setValue(details[0].poi_type);
-    individualForm.poiFile.setValue(details[0].poi_file);
+    if (documents != []) {
+      let poiType = documents[0]?.poi?.file_name?.slice(10, 12);
+      individualForm.poiType.setValue(poiType);
+
+      individualForm.poiFile.setValue(documents[0]?.poi.file_name);
+      this.poiLabel = individualForm.poiFile.value != undefined ? individualForm.poiFile.value : this.poiLabel;
+    }
     
     // Address Details
     individualForm.address.setValue(details[0].current_address.address);
@@ -478,8 +488,12 @@ export class CardIndividualApplicationComponent implements OnInit {
     individualForm.permanentCountry.setValue(details[0].permanent_address.country);
     
     // Proof of Address
-    individualForm.poaType.setValue(details[0].poa_type);
-    individualForm.poaFile.setValue(details[0].poa_file);
+    if (documents != []) {
+      let poaType = documents[0]?.poa?.file_name?.slice(10, 12);
+      individualForm.poaType.setValue(poaType);
+      individualForm.poaFile.setValue(documents[0]?.poa.file_name);
+      this.poaLabel = individualForm.poaFile.value != undefined ? individualForm.poaFile.value : this.poaLabel;
+    }
 
     // Contact
     individualForm.email.setValue(details[0].email);
@@ -527,10 +541,39 @@ export class CardIndividualApplicationComponent implements OnInit {
 
   onSave() {    
     this.isLoading = true;
-    let form = this.individualApplicationForm.controls;
+    this.uploadDocument('poi')
+    this.uploadDocument('poa');
+    this.updateApplicationDetails();
+  }
 
-    let poiFileName = form.poiFile.value;
-    let poaFileName = form.poaFile.value;
+  isNewDocument(kycType: String) {
+    var formDocument: String;
+    let applicationDetails = this.applicationData[0].applicationDetails
+    var dbDocument: String;
+    var dbFilename: String
+
+    if (kycType === 'poi') {
+      formDocument = this.individualApplicationForm.controls.poiFile.value;
+      dbDocument = applicationDetails.documents[0]?.poi.original_name;
+      dbFilename = applicationDetails.documents[0]?.poi.file_name;
+    } else if (kycType == 'poa') {
+      dbDocument = applicationDetails.documents[0]?.poa.original_name;
+      formDocument = this.individualApplicationForm.controls.poaFile.value;
+      dbFilename = applicationDetails.documents[0]?.poa.file_name;
+    }
+
+    if (formDocument === undefined) {
+      return 'EMPTY';
+    }
+    if (formDocument === dbDocument || formDocument === dbFilename) {
+      return 'EXIST'
+    } else if (formDocument != dbDocument) {
+      return 'UPDATE';
+    } 
+  }
+
+  updateApplicationDetails() {
+    let form = this.individualApplicationForm.controls;
 
     let isSame = form.isSameAddress.value === 'YES';
     let permanentAddress = isSame ? form.address.value : form.permanentAddress.value;
@@ -555,8 +598,6 @@ export class CardIndividualApplicationComponent implements OnInit {
       pep: form.isPEP.value,
       rca_pep: form.isRcaPEP.value,
       pep_exposure: Number(form.pepExposure.value),
-      poi_type: form.poiType.value,
-      poi_file: poiFileName,
       current_address: {
         address: form.address.value,
         city: form.city.value,
@@ -571,8 +612,6 @@ export class CardIndividualApplicationComponent implements OnInit {
         postal_code: permanentPostalCode,
         country: permanentCountry
       },
-      poa_type: form.poaType.value,
-      poa_file: poaFileName,
       email: form.email.value,
       phone: form.phone.value,
       declared: form.isDeclared.value
@@ -585,6 +624,7 @@ export class CardIndividualApplicationComponent implements OnInit {
 
     this.onboardingService.updateApplicationDetails(detailsObj).subscribe(
       res => {
+        this.getApplication();
         this.isLoading = false;
         ApplicationSavedAlert.fire({});
         console.log('response: ', res);
@@ -594,6 +634,43 @@ export class CardIndividualApplicationComponent implements OnInit {
         FailedSaveApplicationAlert(error).fire({});
       }
     );
+  }
+
+  uploadDocument(kycType: String) {
+    let newDocument =  this.isNewDocument(kycType);
+    console.log(newDocument);
+    let documentObj = {};
+
+    if (kycType === 'poi') {
+      documentObj = {
+        applicationId: this.applicationId,
+        documentType: 'poi',
+        file: this.poiFile,
+        kycType: this.individualApplicationForm.controls.poiType.value
+      }
+    } else if (kycType === 'poa') {
+      documentObj = {
+        applicationId: this.applicationId,
+        documentType: 'poa',
+        file: this.poaFile,
+        kycType: this.individualApplicationForm.controls.poaType.value
+      }
+    }
+
+    if (newDocument === 'UPDATE') {
+      this.onboardingService.updateDocument(documentObj).subscribe(
+        res => {
+          this.isLoading = false;
+          console.log('Update document: ', res);
+        },
+        error => {
+          this.isLoading = false;
+          console.error('Error updating document: ', error);
+        }
+      );
+    } else if (newDocument === 'EXIST') {
+      console.log('Document already exists in database');
+    }
   }
 
   onDelete() {
@@ -613,6 +690,10 @@ export class CardIndividualApplicationComponent implements OnInit {
     // TODO: submit application to web3.storage
     // TODO: submit documents to web3.storage
     // TODO: save CID for application on blockchain to KOS db
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 
 }

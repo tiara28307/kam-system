@@ -1,8 +1,12 @@
 const Logger = require('../logger/logger');
 const log = new Logger('KYC-Onboarding-Dao');
 const mongoose = require('mongoose');
-const PepType = require('./kyc-onboarding-schema-model').PepType;
 const Application = require('./kyc-onboarding-schema-model').Application;
+const PepType = require('./kyc-onboarding-schema-model').PepType;
+const KycDocument = require('./kyc-onboarding-schema-model').KycDocument;
+const fs = require('fs');
+
+// const web3 = require('../blockchain/web3-storage');
 
 const dbUrl = process.env.MONGODB_KOS_URL;
 
@@ -14,7 +18,7 @@ mongoose.connect(dbUrl)
 // TODO: Connect to Web3.Storage Blockchain
 
 function getCurrentDateTime() {
-  return new Date();
+  return new Date().toUTCString();
 }
 
 function generateApplicationId() {
@@ -41,8 +45,6 @@ function setApplicationDetails(applicationType) {
       pep: '',
       rca_pep: '',
       pep_exposure: '',
-      poi_type: '',
-      poi_file: '',
       current_address: {
         address: '',
         city: '',
@@ -57,8 +59,6 @@ function setApplicationDetails(applicationType) {
         postal_code: '',
         country: ''
       },
-      poa_type: '',
-      poa_file: '',
       email: '',
       phone: '',
       declared: false
@@ -73,8 +73,6 @@ function setApplicationDetails(applicationType) {
       registration_number: '',
       date_commencement: '',
       company_type: '',
-      pob_type: '',
-      pob_file: '',
       company_address: {
         address: '',
         city: '',
@@ -82,11 +80,23 @@ function setApplicationDetails(applicationType) {
         postal_code: '',
         country: ''
       },
-      poa_type: '',
-      poa_file: '',
       emp_email: '',
       emp_phone: '',
       declared: false
+    }
+  }
+}
+
+function setDocuments(applicationType) {
+  if (applicationType === 'INDIVIDUAL') {
+    return {
+      poi: [],
+      poa: []
+    }
+  } else if (applicationType === 'BUSINESS') {
+    return {
+      poi: [],
+      poa: []
     }
   }
 }
@@ -115,6 +125,7 @@ const createNewApplication = async (applicationDetails, res) => {
   let date = getCurrentDateTime();
   let applicationId = generateApplicationId();
   let appDetails = setApplicationDetails(applicationDetails.type);
+  let documentDetails = setDocuments(applicationDetails.type)
   
   let newApplication = new Application({
     application_id: applicationId,
@@ -124,6 +135,7 @@ const createNewApplication = async (applicationDetails, res) => {
     last_modified: date,
     application_type: applicationDetails.type,
     details: [appDetails],
+    documents: [documentDetails],
     submitted: false,
     submission_date: null
   });
@@ -194,7 +206,7 @@ const updateApplicationDetails = async (detailsObj, res) => {
   try {
     const result = await Application.findOneAndUpdate({ application_id: detailsObj.applicationId }, { $set: { details: detailsObj.details, last_modified: date } });
     log.info(`Application ${result.application_id} details have been updated`);
-    
+
     return res.send({
       messageCode: 'UPDAPP',
       message: 'Updated details for application ' + result.application_id
@@ -229,25 +241,149 @@ const deleteApplication = async (applicationId, res) => {
   }
 }
 
+const updateDocument = async (documentObj, res) => {
+  let date = getCurrentDateTime();
+
+  let newDocument = new KycDocument({
+    doc_id: documentObj.file.filename.slice(0, 9),
+    file_name: documentObj.file.filename,
+    file_path: documentObj.file.path,
+    file_desc: documentObj.file.destination,
+    original_name: documentObj.file.originalname,
+    uploaded: date
+  });
+
+  // Save new document to mongodb
+  try {
+    let type = documentObj.params.documentType;
+    var result;
+
+    if (type === 'poi') {
+      result = await Application.findOneAndUpdate(
+        { application_id: documentObj.params.applicationId }, 
+        { $set: { 
+          'documents.0.poi': newDocument, 
+          last_modified: date 
+        }},
+        { returnDocument: true }
+      );
+    } else if (type === 'poa') {
+      result = await Application.findOneAndUpdate(
+        { application_id: documentObj.params.applicationId }, 
+        { $set: { 
+          'documents.0.poa': newDocument, 
+          last_modified: date 
+        }},
+        { returnDocument: true }
+      );
+    } else {
+      return res.status(400).send({
+        messageCode: 'UPLDOCERR',
+        message: 'Unable to upload document. Invalid document type.'
+      });
+    }
+
+    log.info(`POI Document for ${result.application_id} has been uploaded to database`);
+
+    // Remove old file from directory
+    let oldFilePath = type === 'poi' ? './' + result.documents[0].poi.file_path : './' + result.documents[0].poa.file_path;
+    oldPathExist = fs.existsSync(oldFilePath);
+    
+    if (oldPathExist) {
+      fs.unlinkSync(oldFilePath, (err) => {
+        if (err) {
+          log.error(`Error removing document at ${oldFilePath}: `, err);
+        }
+        log.info(`Removal of file at ${oldFilePath} successful!`);
+      })
+    }
+
+    return res.send({
+      messageCode: 'UPLDOC',
+      message: 'Updated document for application ' + result.application_id
+    });
+  } catch (err) {
+    log.error(`Error in uploading document to database`);
+
+    return res.status(400).send({
+      messageCode: 'UPLDOCERR',
+      message: 'Unable to upload document to database'
+    });
+  }
+}
+
+/*const updateDocument = async (documentObj, res) => {
+  if (documentObj.body.kyc_type == '') {
+    return res.status(400).send({
+      messageCode: 'UPLDOCERR',
+      message: 'Unable to upload document. KYC type is missing.'
+    });
+  }
+
+  let date = getCurrentDateTime();
+
+  console.log(documentObj.file.originalname);
+  let newDocument = new KycDocument({
+    doc_id: documentObj.file.filename.slice(0, 9),
+    kyc_type: documentObj.params.documentType,
+    file_name: documentObj.file.filename,
+    file_path: documentObj.file.path,
+    file_desc: documentObj.file.destination,
+    original_name: documentObj.file.originalname,
+    uploaded: date
+  });
+
+  let i = documentObj.params.documentType;
+ 
+  try {
+    /*const resultFind =  await Application.findOne({ application_id: documentObj.params.applicationId });
+    let oldFilePath = './' + resultFind.documents[i].file_path;*/
+    /*let field = `document[0].${i}`;
+
+    const result = await Application.findOneAndUpdate(
+      { 'document.doc_id': documentObj.params.documentId },
+      { $set: { field: newDocument, last_modified: date }}
+    );
+
+    log.info(`Document for ${result} has been updated to database`);
+
+    // Remove old file from directory
+    /*oldPathExist = fs.existsSync(oldFilePath);
+    if (oldPathExist) {
+      fs.unlinkSync(oldFilePath, (err) => {
+        if (err) {
+          log.error(`Error removing document at ${oldFilePath}: `, err);
+        }
+        
+        log.info(`Removal of file at ${oldFilePath} successful!`);
+      })
+    }*/
+
+   /* return res.send({
+      messageCode: 'UPLDOC',
+      message: 'Updated document for application ' + resultUpdate.application_id
+    });
+
+  } catch (err) {
+    log.error(`Error in updating document to database`);
+
+    return res.status(400).send({
+      messageCode: 'UPLDOCERR',
+      message: 'Unable to update document to database'
+    });
+  }
+}*/
+
 // DAO - submit (push) application to blockchain
 const submitApplication = async (applicationDetails, res) => {
   // update application submitted = true; submission_date 
   // send to Web3.Storage
-}
-
-// DAO - store application CID from blockchain to mongodb
-const addApplicationCID = async (cidObj, res) => {
-
+  // store application cid
 }
 
 // DAO - get applcation CID by application ID
-const getApplicationCID = async (applicationId, res) => {
-
-}
-
-// DAO - get all application CIDs by application ID
-const getAllApplicationCID = async (applicationId, res) => {
-
+const getSubmittedApplication = async (applicationId, res) => {
+  
 }
 
 module.exports = {
@@ -257,8 +393,8 @@ module.exports = {
     updateApplicationDetails,
     deleteApplication,
     submitApplication,
-    addApplicationCID,
-    getApplicationCID,
-    getAllApplicationCID,
-    applicationExist
+    getSubmittedApplication,
+    applicationExist,
+    // uploadDocument,
+    updateDocument
 }

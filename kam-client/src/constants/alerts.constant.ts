@@ -176,6 +176,15 @@ let FailedDeleteApplicationAlert = (err: Error) => Swal.mixin({
   icon: 'error'
 });
 
+let FailedUploadDocumentAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Upload KYC Document',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
 export {
   SuccessfulRegistrationAlert,
   FailedRegistrationAlert,
@@ -194,5 +203,6 @@ export {
   FailedSaveApplicationAlert,
   DeleteApplicationAlert,
   ApplicationDeletedAlert,
-  FailedDeleteApplicationAlert
+  FailedDeleteApplicationAlert,
+  FailedUploadDocumentAlert
 }

@@ -34,13 +34,24 @@ export class CardBusinessApplicationComponent implements OnInit {
     { code: 1, name: 'Corporate' },
     { code: 2, name: 'Partnership Firm' },
     { code: 3, name: 'Trust, Charity, or NGO' },
-    { code: 4, name: 'HUF' },
+    { code: 4, name: 'Other' },
     { code: 5, name: 'Military or Government Body' },
     { code: 6, name: 'Bank or Institutional Investor' },
     { code: 7, name: 'Foreign Insitutional Investor (FII)' },
     { code: 8, name: 'Registered Society' },
     { code: 9, name: 'Unincorporated Association or Body of Individuals' }
   ];
+
+  pobTypes = [
+    {code: 'RC', name: 'Registration Certificate'},
+    {code: 'CMA', name: 'Certificate/Licence issued by Municipal authorities'},
+    {code: 'SIT', name: 'Sales or income tax returns'},
+    {code: 'CVC', name: 'CST/VAT certificate'},
+    {code: 'PD', name: 'Partnership Deed'},
+    {code: 'TD', name: 'Trust Deed'},
+    {code: 'CI', name: 'Certificate of Incorporation'},
+    {code: 'MAA', name: 'Memorandum/Articles of Association'},
+  ]
 
   applicationDetails = [];
 
@@ -327,10 +338,6 @@ export class CardBusinessApplicationComponent implements OnInit {
 
     let form = this.businessApplicationForm.controls;
     let companyType = this.businessTypes.filter(type => type.code === Number(form.companyType.value))[0].name;
-
-    let pobFileName = form.pobFile.value.name;
-    let poaFileName = form.poaFile.value.name;
-
     let address2 = form.city.value + ' ' + form.state.value + ', ' + form.postalCode.value;
 
     let formDetails = {
@@ -344,12 +351,12 @@ export class CardBusinessApplicationComponent implements OnInit {
       dateOfCommencement: form.dateOfCommencement.value,
       companyType: companyType,
       pobType: form.pobType.value,
-      pobFile: pobFileName,
+      pobFile: form.pobFile.value,
       address: form.address.value,
       address2: address2,
       country: form.country.value,
       poaType: form.poaType.value,
-      poaFile: poaFileName,
+      poaFile: form.poaFile.value,
       employeePhone: form.employeePhone.value,
       employeeEmail: form.employeeEmail.value,
       isDeclared: form.isDeclared.value

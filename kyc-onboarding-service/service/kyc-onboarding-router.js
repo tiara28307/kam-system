@@ -4,6 +4,7 @@ const Logger = require('../logger/logger');
 const log = new Logger('KYC-Onboarding-Service');
 const kycOnboardingRouter = express.Router();
 const kycOnboardingDao = require('./kyc-onboarding-dao');
+const { upload } = require('../multer-storage');
 
 kycOnboardingRouter
   .get('/peptypes', cors.cors, (req, res, next) => {
@@ -63,5 +64,21 @@ kycOnboardingRouter
         log.error('Error in deleting application: ' + err);
       });
   })
+
+  /*.post('/upload/application/:applicationId/document/:documentType', upload.single('file'), cors.cors, (req, res) => {
+      kycOnboardingDao.uploadDocument(req, res)
+        .then()
+        .catch(err => {
+          log.error('Error in uploading document: ', err);
+        })
+  })*/
+
+  .post('/update/application/:applicationId/document/:documentType', upload.single('file'), cors.cors, (req, res) => {
+    kycOnboardingDao.updateDocument(req, res)
+      .then()
+      .catch(err => {
+        log.error('Error in uploading document: ', err);
+      })
+})
 
 module.exports = kycOnboardingRouter;

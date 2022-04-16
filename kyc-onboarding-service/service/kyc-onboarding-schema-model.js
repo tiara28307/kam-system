@@ -13,6 +13,16 @@ const PepTypeSchema = new mongoose.Schema({
   collection: 'pepTypes'
 });
 
+// KYC Document Modal Schema
+const KycDocumentSchema = new mongoose.Schema({
+  doc_id: String,
+  file_name: String,
+  file_path: String,
+  file_desc: String,
+  original_name: String,
+  uploaded: Date
+});
+
 // Customer Application Modal Schema
 const ApplicationSchema = new mongoose.Schema({
   application_id: {
@@ -43,9 +53,9 @@ const ApplicationSchema = new mongoose.Schema({
     required: true
   },
   details: {
-    type: Array,
-    required: true
+    type: Array
   },
+  documents: Array,
   submitted: {
     type: Boolean,
     required: true
@@ -59,8 +69,10 @@ collection: 'applications'
 
 const PepType = mongoose.model('PEP Type', PepTypeSchema);
 const Application = mongoose.model('Application', ApplicationSchema);
+const KycDocument = mongoose.model('KYC Document', KycDocumentSchema);
 
 module.exports = {
     PepType,
-    Application
+    Application,
+    KycDocument
 }

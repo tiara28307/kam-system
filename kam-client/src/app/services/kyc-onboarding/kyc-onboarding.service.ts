@@ -88,4 +88,32 @@ export class KycOnboardingService {
       });
     }
   }
+
+  uploadDocument(body) {
+    let isValidUser = this.canAccess();
+    let documentData = new FormData();
+
+    documentData.append('kyc_type', body.kycType);
+    documentData.append('file', body.file);
+
+    if (isValidUser) {
+      return this.httpreq.post(`http://localhost:8082/kyc/onboarding/upload/application/${body.applicationId}/document/${body.documentType}`, documentData, {
+      responseType: 'text'
+      });
+    }
+  }
+
+  updateDocument(body) {
+    let isValidUser = this.canAccess();
+    let documentData = new FormData();
+
+    documentData.append('kyc_type', body.kycType);
+    documentData.append('file', body.file);
+
+    if (isValidUser) {
+      return this.httpreq.post(`http://localhost:8082/kyc/onboarding/update/application/${body.applicationId}/document/${body.documentType}`, documentData, {
+      responseType: 'text'
+      });
+    }
+  }
 }

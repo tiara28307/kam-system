@@ -42,7 +42,7 @@ let EnterVerificationCodeAlert = Swal.mixin({
 });
 
 let FailedResetPasswordAlert = (err: Error) => Swal.mixin({
-  title: 'Error',
+  title: 'Reset Password Error',
   text: err.message || JSON.stringify(err),
   confirmButtonText: 'Okay',
   confirmButtonColor: colors.theme,
@@ -112,6 +112,79 @@ let ApplicationNotCompleteAlert = Swal.mixin({
   icon: 'error'
 });
 
+let FailedFileUploadAlert = (err: string) => Swal.mixin({
+  title: 'Failed to Upload File',
+  text: err,
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
+let FailedCreateApplicationAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Create Application',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
+let ApplicationSavedAlert = Swal.mixin({
+  title: 'Application Saved',
+  toast: true,
+  position: 'top-end',
+  showCloseButton: true,
+  showConfirmButton: false,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
+let FailedSaveApplicationAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Save Application',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
+let DeleteApplicationAlert = Swal.mixin({
+  title: 'Delete Application',
+  text: 'Are you sure you want to delete your application?',
+  confirmButtonText: 'Yes',
+  confirmButtonColor: colors.error,
+  showCancelButton: true,
+  iconColor: colors.theme,
+  icon: 'question'
+});
+
+let ApplicationDeletedAlert = Swal.mixin({
+  title: 'Application Deleted',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
+let FailedDeleteApplicationAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Delete Application',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
+let FailedUploadDocumentAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Upload KYC Document',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
 export {
   SuccessfulRegistrationAlert,
   FailedRegistrationAlert,
@@ -123,5 +196,13 @@ export {
   DoNotHavePermissionToPageAlert,
   FailedLoginAlert,
   DoNotHavePermissionToServiceAlert,
-  ApplicationNotCompleteAlert
+  ApplicationNotCompleteAlert,
+  FailedFileUploadAlert,
+  FailedCreateApplicationAlert,
+  ApplicationSavedAlert,
+  FailedSaveApplicationAlert,
+  DeleteApplicationAlert,
+  ApplicationDeletedAlert,
+  FailedDeleteApplicationAlert,
+  FailedUploadDocumentAlert
 }

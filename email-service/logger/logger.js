@@ -5,7 +5,7 @@ class Logger {
     }
 
     info(message){
-        console.log(`\x1b[34m[Logger: ${this.loggerName}: ${new Date()}] \nINFO: ${message}\x1b[0m`);
+        console.log(`\x1b[34m[Logger: ${this.loggerName}: ${new Date()}] \x1b[36m\nINFO: ${message}\x1b[0m`);
     }
 
     warn(message){

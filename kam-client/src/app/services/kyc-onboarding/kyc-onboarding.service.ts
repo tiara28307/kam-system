@@ -20,7 +20,6 @@ export class KycOnboardingService {
     if(!isAuth) {
       DoNotHavePermissionToServiceAlert.fire({});
     }
-
     return isAuth;
   }
 
@@ -31,6 +30,89 @@ export class KycOnboardingService {
       return this.httpreq.get("http://localhost:8082/kyc/onboarding/peptypes", {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'json'
+      });
+    }
+  }
+
+  createNewApplication(body) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post("http://localhost:8082/kyc/onboarding/create/application", body, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'text'
+      });
+    }
+  }
+
+  getApplication(customerId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/application`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      }); 
+    }
+  }
+
+  updateApplicationDetails(body) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post(`http://localhost:8082/kyc/onboarding/update/applicationdetails`, body, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'text'
+      });
+    }
+  }
+
+  getApplicationExist(customerId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/application/exist`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  deleteApplication(applicationId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post(`http://localhost:8082/kyc/onboarding/delete/application/${applicationId}`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'text'
+      });
+    }
+  }
+
+  uploadDocument(body) {
+    let isValidUser = this.canAccess();
+    let documentData = new FormData();
+
+    documentData.append('kyc_type', body.kycType);
+    documentData.append('file', body.file);
+
+    if (isValidUser) {
+      return this.httpreq.post(`http://localhost:8082/kyc/onboarding/upload/application/${body.applicationId}/document/${body.documentType}`, documentData, {
+      responseType: 'text'
+      });
+    }
+  }
+
+  updateDocument(body) {
+    let isValidUser = this.canAccess();
+    let documentData = new FormData();
+
+    documentData.append('kyc_type', body.kycType);
+    documentData.append('file', body.file);
+
+    if (isValidUser) {
+      return this.httpreq.post(`http://localhost:8082/kyc/onboarding/update/application/${body.applicationId}/document/${body.documentType}`, documentData, {
+      responseType: 'text'
       });
     }
   }

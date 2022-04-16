@@ -28,6 +28,61 @@ export class ProgressbarApplicationComponent implements OnInit {
 
   // Step progress states: NS - not started, IP - in progress, IC - incomplete, C - complete
 
+  // Step Names
+  @Input()
+  get stepOneName(): string {
+    return this._stepOneName;
+  }
+  set stepOneName(stepOne: string) {
+    this._stepOneName = stepOne === null ? '' : stepOne;
+  }
+  private _stepOneName = '';
+
+  @Input()
+  get stepTwoName(): string {
+    return this._stepTwoName;
+  }
+  set stepTwoName(stepTwo: string) {
+    this._stepTwoName = stepTwo === null ? '' : stepTwo;
+  }
+  private _stepTwoName = '';
+
+  @Input()
+  get stepThreeName(): string {
+    return this._stepThreeName;
+  }
+  set stepThreeName(stepThree: string) {
+    this._stepThreeName = stepThree === null ? '' : stepThree;
+  }
+  private _stepThreeName = '';
+
+  @Input()
+  get stepFourName(): string {
+    return this._stepFourName;
+  }
+  set stepFourName(stepFour: string) {
+    this._stepFourName = stepFour === null ? '' : stepFour;
+  }
+  private _stepFourName = '';
+
+  @Input()
+  get stepFiveName(): string {
+    return this._stepFiveName;
+  }
+  set stepFiveName(stepFive: string) {
+    this._stepFiveName = stepFive === null ? '' : stepFive;
+  }
+  private _stepFiveName = '';
+
+  @Input()
+  get stepSixName(): string {
+    return this._stepSixName;
+  }
+  set stepSixName(stepSix: string) {
+    this._stepSixName = stepSix === null ? '' : stepSix;
+  }
+  private _stepSixName = '';
+
   // Step One
   @Input()
   get stepOne(): string {

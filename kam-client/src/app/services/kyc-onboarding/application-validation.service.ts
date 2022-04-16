@@ -9,6 +9,7 @@ export class ApplicationValidationService {
   postalCodePattern = RegExp(`^[0-9]{5}(?:-[0-9]{4})?$`);
   poiFilePattern = RegExp(`^.*\.(jpg|JPG|jpeg|JPEG|png|PNG)$`);
   poaFilePattern = RegExp(`^.*\.(jpg|JPG|jpeg|JPEG|png|PNG|doc|DOC|pdf|PDF)$`);
+  pobFilePattern = RegExp(`^.*\.(jpg|JPG|jpeg|JPEG|png|PNG|doc|DOC|pdf|PDF)$`);
 
   constructor() { }
 

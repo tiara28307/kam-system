@@ -7,15 +7,36 @@
         <div class="flex flex-row justify-between">
           <h3 class="font-normal text-base text-slate-700 mb-2 text-xl">KYC Application: 
             <span class="text-slate-800 text-md font-semibold">{{applicationId}}</span></h3>
-          <i class="fas fa-user-check fa-lg mt-3 pl-4"></i>
+            <div class="flex flex-wrap">
+              <button
+              class="bg-emerald-400 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-3 ease-linear transition-all duration-150"
+              type="button"
+              (click)="onSave()"
+            >
+              Save
+            </button>
+            <button
+              class="bg-red-500 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-2 ease-linear transition-all duration-150"
+              type="button"
+              (click)="onDelete()"
+            >
+              Delete
+            </button>
+            </div>
         </div>
 
         <app-progressbar-application
+          stepOneName="Personal Details"
           stepOne="{{steps[0].progress}}"
+          stepTwoName="ID Proof"
           stepTwo="{{steps[1].progress}}"
+          stepThreeName="Address"
           stepThree="{{steps[2].progress}}"
+          stepFourName="Proof of Address"
           stepFour="{{steps[3].progress}}"
+          stepFiveName="Contact"
           stepFive="{{steps[4].progress}}"
+          stepSixName="Declaration"
           stepSix="{{steps[5].progress}}"
         ></app-progressbar-application>
         
@@ -129,7 +150,7 @@
                   <label
                     class="block uppercase text-slate-600 text-xs font-bold mb-2"
                   >
-                    Spouse Name
+                    Spouse Name <span class="lowercase">(if any)</span>
                   </label>
                   <input
                     type="text"
@@ -374,12 +395,28 @@
                     >
                     <option hidden value="" disabled selected>Select PEP Exposure</option>
                       <option 
-                        *ngFor="let types of pepTypes"
+                        *ngFor="let types of pepTypes | orderBy: 'name'"
                         [value]="types.code"
                       >
                       {{types.name}}
                       </option>
                 </select>
+              </div>
+            </div>
+
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mt-3 mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  PEP's Full Name <span class="lowercase">(if any)</span>
+                </label>
+                <input
+                  type="text"
+                  class="border-0 px-3 py-3 placeholder-slate-400 text-slate-600 bg-slate-100 rounded text-sm shadow focus:outline-none focus:ring-0 w-full ease-linear transition-all duration-150"
+                  placeholder="Full Name"
+                  formControlName="pepFullName"
+                />
               </div>
             </div>
 
@@ -390,7 +427,7 @@
           <h6 class="text-slate-400 text-sm mt-3 font-bold uppercase">
             Proof of Identity
           </h6>
-          <p class="text-slate-600 text-sm mt-1 mb-6 font-semibold">Must provide document for individual identification</p>
+          <p class="text-slate-600 text-sm mt-1 mb-6 font-semibold">Must provide a document for individual identification</p>
          
           <div class="flex flex-wrap">
             <div class="relative w-full mt-3 mb-3 justify-between">
@@ -448,13 +485,13 @@
           </div>
           <div class="flex flex-col items-center">
             <p class="text-center text-sm mt-6 mb-1 font-semibold">Upload a photo of your document that is bright and clear (good quality) and fully visible.</p>
-            <p class="text-center text-sm mt-1 mb-6 font-normal">Upload .jpg/.jpeg/.png file no more than 10MB.</p>
+            <p class="text-center text-sm mt-1 mb-6 font-normal">Upload .jpg/.jpeg/.png file less than 10MB.</p>
           </div>
           <div class='flex items-center justify-center w-full'>
             <label class="flex flex-col border-4 border-slate-100 border-dashed w-full h-32 hover:bg-slate-50 hover:border-sky-200">
                 <div class='flex flex-col items-center pt-8'>
                   <i class="fas fa-id-card fa-2xl mt-3 mb-3"></i>
-                  <p class='lowercase text-sm text-slate-500 group-hover:text-red-600 pt-2 tracking-wide'>{{poiLabel}}</p>
+                  <p class='text-sm text-slate-500 group-hover:text-red-600 pt-2 tracking-wide'>{{poiLabel}}</p>
                 </div>
               <input type='file' class="hidden" value="proofOfIdentity" (change)="handlePoiFileInput($event.target.files)" />
             </label>
@@ -719,7 +756,7 @@
             <h6 class="text-slate-400 text-sm mt-3 font-bold uppercase">
               Proof of Address
             </h6>
-            <p class="text-slate-600 text-sm mt-1 mb-6 font-semibold">Must provide document for address verification</p>
+            <p class="text-slate-600 text-sm mt-1 mb-6 font-semibold">Must provide a document for address verification</p>
            
             <div class="flex flex-wrap">
               <div class="relative w-full mt-3 mb-3 justify-between">
@@ -777,14 +814,14 @@
             </div>
             <div class="flex flex-col items-center">
               <p class="text-center text-sm mt-6 mb-1 font-semibold">Upload a document that is bright and clear (good quality) and fully visible.</p>
-              <p class="text-center text-sm mt-1 mb-6 font-normal">Upload .jpg/.jpeg/.png/.doc/.pdf file no more than 10MB.</p>
+              <p class="text-center text-sm mt-1 mb-6 font-normal">Upload .jpg/.jpeg/.png/.doc/.pdf file less than 10MB.</p>
             </div>
             
             <div class='flex items-center justify-center w-full'>
               <label class="flex flex-col border-4 border-slate-100 border-dashed w-full h-32 hover:bg-slate-50 hover:border-sky-200">
                   <div class='flex flex-col items-center pt-8'>
                     <i class="fas fa-file-image fa-2xl mt-3 mb-3"></i>
-                    <p class='lowercase text-sm text-slate-500 group-hover:text-red-600 pt-2 tracking-wide'>{{poaLabel}}</p>
+                    <p class='text-sm text-slate-500 group-hover:text-red-600 pt-2 tracking-wide'>{{poaLabel}}</p>
                   </div>
                 <input type='file' class="hidden" value="proofOfAddress" (change)="handlePoaFileInput($event.target.files)" />
               </label>
@@ -848,7 +885,7 @@
             </div>
             </div>
 
-            <div *ngIf="step === 6">
+            <div *ngIf="step === 6 && !showApplicationReview">
               <h6 class="text-slate-400 text-sm mt-3 mb-1 font-bold uppercase">
                 KYC Declaration
               </h6>
@@ -863,11 +900,17 @@
                   <p class="ml-2 text-slate-600 text-sm mb-6 font-normal">
                     I <span class="font-bold">{{individualApplicationForm.value.firstName}} {{individualApplicationForm.value.lastName}}</span> hereby declare that the information provided by me is true and correct to the best of my knowledge and
                     belief. I also confirm that in the event of any information provided by me is found incorrect and/or in the event of any violation of Government 
-                    Regulation related to the Bank Secrecy Act (BSA) of 1970 it will be within the right of said Financial Institution to reject/discontinue customer
-                    relationship with me and may initiate legal action applicable under provisions.
+                    Regulation related to the Bank Secrecy Act (BSA) of 1970 it will be within the right of said Financial Institution to reject/discontinue their customer
+                    relationship with me and may initiate legal action applicable under provisions if necessary.
                   </p>
                 </label>
               </div>
+            </div>
+
+            <div *ngIf="showApplicationReview">
+              <app-card-review-application
+                applicationDetails="{{applicationDetails | stringify}}"
+              ></app-card-review-application>
             </div>
 
           <div class="{{ showPreviousButton() ? 'flex justify-between' : 'text-right' }} mt-6">
@@ -882,13 +925,13 @@
             </button>
 
             <button
-              class="bg-sky-500 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              class="{{forwardButtonColor}} text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
               type="button"
               (click)="nextStep()"
               [disabled]="step === 6 && !individualApplicationForm.value.isDeclared"
             >
               {{forwardButtonText}}
-              <i class="fas fa-arrow-right fa-lg mt-3 ml-2"></i>
+              <i *ngIf="!showApplicationReview" class="fas fa-arrow-right fa-lg mt-3 ml-2"></i>
             </button>
           </div>
           </form>
@@ -897,5 +940,6 @@
       </div>
     </div>
   </div>
+  <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px', backdropBackgroundColour: 'rgba(0, 0, 0, 0.5)'}"></ngx-loading>
 </div>
 

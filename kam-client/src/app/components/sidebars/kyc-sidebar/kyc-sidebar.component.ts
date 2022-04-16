@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class KycSidebarComponent implements OnInit {
   dashboardLink: string;
   applicationLink: string;
   requestLink: string;
+  applicationId: string;
   kycServices = [
     'KYC Onboarding',
     'KYC Screening',
@@ -22,14 +24,18 @@ export class KycSidebarComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private onboardingService: KycOnboardingService
     ) { }
 
   ngOnInit(): void {
+    // Get current user data
     this.user = this.userService.getUserData();
+    
     this.url = this.router.url;
     this.currentService = this.userService.currentService;
     this.setLinks();
+    this.getApplication();
   }
 
   // Set route paths for user based on current service enabled
@@ -45,7 +51,20 @@ export class KycSidebarComponent implements OnInit {
     }
   }
 
-  getApplicationLink() {
-    // TODO: get application id for applicationLink
+  getApplication() {
+    let customerId = 'C' + this.user[0].username.slice(-12); 
+
+    this.onboardingService.getApplication(customerId).subscribe(
+      res => {
+        this.setApplicationLink([res]);
+      },
+      error => {
+        console.error('Error getting application data for customer: ', error);
+      }
+    );
+  }
+
+  setApplicationLink(application) {
+    this.applicationId = application[0].applicationDetails.application_id;
   }
 }

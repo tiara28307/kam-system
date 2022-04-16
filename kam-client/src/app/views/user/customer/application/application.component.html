@@ -1,5 +1,66 @@
 <div class="flex flex-wrap">
   <div class="w-full px-4">
-    <app-card-individual-application></app-card-individual-application>
+    <div
+    *ngIf="!hasApplication" class="relative flex flex-col min-w-0 bg-white w-full mb-6 shadow-lg rounded"
+>
+  <div class="container mx-auto rounded mb-0 px-4 py-3 border-0">
+    <div class="flex flex-wrap items-center">
+      <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+        <div class="flex flex-row justify-between">
+          <h3 class="font-bold text-xl text-slate-700 mt-4 mb-2 text-xl">Start KYC Application </h3>
+        </div>
+        <p class="text-slate-600 font-semibold text-md text-center">Select application type</p>
+
+        <hr class="mt-6 border-b-1 border-slate-300" />
+
+        <div class="flex flex-wrap mt-4 justify-between">
+          <button class="w-1/4 h-45 rounded {{ isIndividual ? 'bg-sky-200' : 'bg-slate-200' }} outline-none focus:outline-none mb-6 hover:shadow-lg" (click)="toggleIsIndividual($event)">
+            <div class="px-6 py-4 text-center">
+              <div class="text-theme-500 font-semibold text-xl mb-2">Individual</div>
+              
+              <div class='flex items-center justify-center w-full'>
+                <div class="flex flex-col w-full">
+                    <div class='flex flex-col items-center pt-6'>
+                      <img class="rounded" src="assets/img/individual.png" alt="..."/>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </button>
+
+          <button class="w-1/4 h-45 rounded {{ isBusiness ? 'bg-sky-200' : 'bg-slate-200' }} outline-none focus:outline-none mb-6 hover:shadow-lg" (click)="toggleIsBusiness($event)">
+            <div class="px-6 py-4 text-center">
+              <div class="text-theme-500 font-semibold text-xl mb-2">Business</div>
+              
+              <div class='flex items-center justify-center w-full'>
+                <div class="flex flex-col w-full">
+                    <div class='flex flex-col items-center pt-6'>
+                      <img class="rounded" src="assets/img/business.png" alt="..."/>
+                    </div>
+                  </div>
+              </div>
+
+            </div>
+          </button>
+
+          <div class="w-full mt-8 mb-6 text-center items-center">
+            <button
+              class="bg-sky-500 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+              type="button"
+              (click)="onStartNewApplication()"
+              [disabled]="!(isIndividual || isBusiness)"
+            >
+              Start Application
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
+  </div>
+  <app-card-individual-application *ngIf="applicationType === 'INDIVIDUAL'"></app-card-individual-application>
+  <app-card-business-application *ngIf="applicationType === 'BUSINESS'"></app-card-business-application>
+  <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px', backdropBackgroundColour: 'rgba(0, 0, 0, 0.5)'}"></ngx-loading>
+</div>
 </div>

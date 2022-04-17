@@ -29,8 +29,11 @@ export class SidebarComponent implements OnInit {
     // Set sidebar based on current user type
     if (this.user[0].role === 'CUSTOMER') {
       this.userService.currentService = this.services[0];
+      this.userService.settingsLink = '/user/customer/settings';
+      console.log(this.userService.settingsLink)
     } else if (this.user[0].role === 'COMPANY') {
-        this.userService.currentService = this.services[1];
+      this.userService.currentService = this.services[1];
+      this.userService.settingsLink = '/user/company/settings';
     }
     this.currentService = this.userService.currentService;
   }

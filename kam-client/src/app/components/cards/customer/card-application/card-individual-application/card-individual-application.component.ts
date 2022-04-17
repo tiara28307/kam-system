@@ -5,7 +5,7 @@ import { ApplicationValidationService } from 'src/app/services/kyc-onboarding/ap
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { RegisterService } from 'src/app/services/register.service';
 import { UserService } from 'src/app/services/user.service';
-import { ApplicationDeletedAlert, ApplicationNotCompleteAlert, ApplicationSavedAlert, DeleteApplicationAlert, FailedDeleteApplicationAlert, FailedFileUploadAlert, FailedSaveApplicationAlert, FailedUploadDocumentAlert } from 'src/constants/alerts.constant';
+import { ApplicationDeletedAlert, ApplicationNotCompleteAlert, ApplicationSavedAlert, DeleteApplicationAlert, FailedDeleteApplicationAlert, FailedFileUploadAlert, FailedSaveApplicationAlert } from 'src/constants/alerts.constant';
 
 @Component({
   selector: 'app-card-individual-application',

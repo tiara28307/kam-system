@@ -31,7 +31,6 @@ export class KycSidebarComponent implements OnInit {
   ngOnInit(): void {
     // Get current user data
     this.user = this.userService.getUserData();
-    
     this.url = this.router.url;
     this.currentService = this.userService.currentService;
     this.setLinks();
@@ -65,6 +64,6 @@ export class KycSidebarComponent implements OnInit {
   }
 
   setApplicationLink(application) {
-    this.applicationId = application[0].applicationDetails.application_id;
+    this.applicationId = application[0]?.applicationDetails.application_id;
   }
 }

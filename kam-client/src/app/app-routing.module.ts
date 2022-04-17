@@ -25,7 +25,9 @@ import { CompanyAuthGuard } from "./auth/company-auth.guard";
 import { RequestsComponent } from "./views/user/requests/requests.component";
 import { ApplicationComponent } from "./views/user/customer/application/application.component";
 import { ReviewApplicationComponent } from "./views/user/company/review-application/review-application.component";
-import { SettingsComponent } from "./views/user/settings/settings.component";
+import { CustomerSettingsComponent } from "./views/user/customer/customer-settings/customer-settings.component";
+import { CompanySettingsComponent } from "./views/user/company/company-settings/company-settings.component";
+import { ChangePasswordComponent } from "./views/auth/change-password/change-password.component";
 
 const routes: Routes = [
   // user views
@@ -34,8 +36,8 @@ const routes: Routes = [
     component: UserComponent,
     children: [
       // Setting Routes
-      { path: "customer/settings", component: SettingsComponent, canActivate: [CustomerAuthGuard] },
-      { path: "company/settings", component: SettingsComponent, canActivate: [CompanyAuthGuard] },
+      { path: "customer/settings", component: CustomerSettingsComponent, canActivate: [CustomerAuthGuard] },
+      { path: "company/settings", component: CompanySettingsComponent, canActivate: [CompanyAuthGuard] },
 
       // KYC Onboarding Service Routes
       { path: "kyc/onboarding/dashboard", component: CustomerKycDashboardComponent, canActivate: [CustomerAuthGuard] },
@@ -58,6 +60,7 @@ const routes: Routes = [
       { path: "login", component: LoginComponent },
       { path: "signup", component: RegisterComponent },
       { path: "forgotpassword", component: ForgotPasswordComponent },
+      { path: "changepassword", component: ChangePasswordComponent },
       { path: "", redirectTo: "login", pathMatch: "full" },
     ],
   },

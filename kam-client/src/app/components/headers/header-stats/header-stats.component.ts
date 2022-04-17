@@ -24,16 +24,16 @@ export class HeaderStatsComponent implements OnInit {
   }
 
   getTotalApplications() {
-    return this.applications.length;
+    return this.applications?.length;
   }
 
   getApplicationsSubmitted() {
-    var submissions = this.applications.filter(app => app.status === 'SUBMITTED');
-    return submissions.length;
+    var submissions = this.applications?.filter(app => app.status === 'SUBMITTED');
+    return submissions?.length;
   }
 
   getApplicationsApproved() {
-    var approved = this.applications.filter(app => app.status === 'APPROVED');
-    return approved.length;
+    var approved = this.applications?.filter(app => app.status === 'APPROVED');
+    return approved?.length;
   }
 }

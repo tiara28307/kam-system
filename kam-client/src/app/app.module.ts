@@ -76,6 +76,7 @@ import { UserService } from "./services/user.service";
 import { CardReviewApplicationComponent } from './components/cards/customer/card-review-application/card-review-application.component';
 import { StringifyPipe } from './pipes/stringify.pipe';
 import { CardBusinessApplicationComponent } from './components/cards/customer/card-application/card-business-application/card-business-application.component';
+import { ChangePasswordComponent } from './views/auth/change-password/change-password.component';
 
 
 @NgModule({
@@ -132,7 +133,8 @@ import { CardBusinessApplicationComponent } from './components/cards/customer/ca
     KycSearchComponent,
     CardReviewApplicationComponent,
     StringifyPipe,
-    CardBusinessApplicationComponent
+    CardBusinessApplicationComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule, 

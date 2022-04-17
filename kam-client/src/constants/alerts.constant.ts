@@ -61,6 +61,11 @@ let EnterNewPasswordAlert = Swal.mixin({
     if (!pass) {
       return 'Please enter new password!';
     }
+    let passwordPattern = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/);
+    let isValid = passwordPattern.test(pass)
+    if (!isValid) {
+      return 'Invalid password. Must contains: 8 char, 1 num, 1 special, 1 upper ,and 1 lower';
+    }
   }
 });
 
@@ -94,9 +99,9 @@ let DoNotHavePermissionToPageAlert = Swal.mixin({
   icon: 'warning'
 });
 
-let DoNotHavePermissionToServiceAlert = Swal.mixin({
+let DoNotHavePermissionToServiceAlert = (service) => Swal.mixin({
   title: 'Sorry',
-  text: 'You do not have access to this service',
+  text: `You do not have access to ${service} service`,
   confirmButtonText: 'Okay',
   confirmButtonColor: colors.theme,
   iconColor: colors.warning,
@@ -176,13 +181,52 @@ let FailedDeleteApplicationAlert = (err: Error) => Swal.mixin({
   icon: 'error'
 });
 
-let FailedUploadDocumentAlert = (err: Error) => Swal.mixin({
-  title: 'Failed to Upload KYC Document',
+// Settings Alerts
+let ChangePasswordAlert = Swal.mixin({
+  title: 'Change Password',
+  text: 'Are you sure you want to change your password? You will need to log back in.',
+  confirmButtonText: 'Change Password',
+  confirmButtonColor: colors.error,
+  showCancelButton: true,
+  iconColor: colors.theme,
+  icon: 'question'
+});
+
+let FailedChangePasswordAlert = (err: Error) => Swal.mixin({
+  title: 'Change Password Error',
   text: err.message || JSON.stringify(err),
   confirmButtonText: 'Okay',
   confirmButtonColor: colors.theme,
   iconColor: colors.error,
   icon: 'error'
+});
+
+let SuccessfulPasswordChangeAlert = Swal.mixin({
+  title: 'Success!',
+  text: 'Your password has been changed.',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
+let FailedUpdateAttributesAlert = (err: Error) => Swal.mixin({
+  title: 'Update Account Error',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
+let SuccessfulAtrributesUpdateAlert = Swal.mixin({
+  title: 'Account Updated',
+  toast: true,
+  position: 'top-end',
+  showCloseButton: true,
+  showConfirmButton: false,
+  iconColor: colors.success,
+  icon: 'success'
 });
 
 export {
@@ -204,5 +248,9 @@ export {
   DeleteApplicationAlert,
   ApplicationDeletedAlert,
   FailedDeleteApplicationAlert,
-  FailedUploadDocumentAlert
+  ChangePasswordAlert,
+  FailedChangePasswordAlert,
+  SuccessfulPasswordChangeAlert,
+  FailedUpdateAttributesAlert,
+  SuccessfulAtrributesUpdateAlert
 }

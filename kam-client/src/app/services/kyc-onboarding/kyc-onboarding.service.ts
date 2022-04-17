@@ -18,7 +18,7 @@ export class KycOnboardingService {
     let isAuth = this.authService.isAuthenticated('CUSTOMER');
     
     if(!isAuth) {
-      DoNotHavePermissionToServiceAlert.fire({});
+      DoNotHavePermissionToServiceAlert('kyc onboarding').fire({});
     }
     return isAuth;
   }

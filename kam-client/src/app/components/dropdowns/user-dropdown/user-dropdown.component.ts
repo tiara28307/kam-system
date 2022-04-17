@@ -1,10 +1,7 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from "@angular/core";
-import { Router } from "@angular/router";
 import { createPopper } from "@popperjs/core";
-import { CognitoUserPool } from "amazon-cognito-identity-js";
 import { UserService } from "src/app/services/user.service";
 import { LogoutAlert } from "src/constants/alerts.constant";
-import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-user-dropdown",
@@ -18,13 +15,14 @@ export class UserDropdownComponent implements AfterViewInit {
   @ViewChild("btnDropdownRef", { static: false }) btnDropdownRef: ElementRef;
   @ViewChild("popoverDropdownRef", { static: false })
   popoverDropdownRef: ElementRef;
-  settingsLink = '/user/settings';
+  settingsLink: string;
 
   constructor(
-    private router: Router
+    private userService: UserService
   ) {}
 
   ngAfterViewInit() {
+    this.settingsLink = this.userService.settingsLink;
     createPopper(
       this.btnDropdownRef.nativeElement,
       this.popoverDropdownRef.nativeElement,
@@ -43,22 +41,11 @@ export class UserDropdownComponent implements AfterViewInit {
     event.stopPropagation();
   }
 
-  logout() {
-    let poolData = {
-      UserPoolId: environment.AWS_COGNITO_USER_POOL,
-      ClientId: environment.AWS_COGNITO_CLIENT_ID
-    };
-    let userPool = new CognitoUserPool(poolData);
-    let cognitoUser = userPool.getCurrentUser();
-    cognitoUser?.signOut();
-    this.router.navigate(['/']);
-  }
-
   onLogout(): void {
     LogoutAlert.fire({})
       .then((result) => {
         if (result.isConfirmed === true) {
-          this.logout();
+          this.userService.logoutUser();
         }
       });
   }

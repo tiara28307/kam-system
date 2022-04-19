@@ -1,16 +1,16 @@
-<!--<div
+<div
   class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
 >
   <div class="rounded-t mb-0 px-4 py-3 border-0">
     <div class="flex flex-wrap items-center">
       <div class="relative w-full px-4 max-w-full flex-grow flex-1">
         <div class="flex flex-auto">
-          <h3 class="font-semibold text-xl text-slate-700">
-            Application {{applicationData[0].application_id}}
+          <h3 class="text-xl text-slate-700">
+            Application: <span class="font-semibold text-theme-500">{{applicationData.application_id}}</span>
           </h3>
         </div>
 
-        <div *ngIf="applicationData[0].application_type === 'INDIVIDUAL'">
+        <div *ngIf="applicationData.application_type === 'INDIVIDUAL'">
           <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
             Personal Details
           </h6>
@@ -23,7 +23,7 @@
                 >
                   Full Name
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].first_name}} {{applicationData[0].details[0].last_name}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].first_name}} {{applicationData.details[0].last_name}}</p>
               </div>
             </div>
           
@@ -34,7 +34,7 @@
                 >
                   Maiden Name
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].maiden_name}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].maiden_name}}</p>
               </div>
             </div>
           
@@ -45,7 +45,7 @@
                 >
                   Father Name
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].father_name}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].father_name}}</p>
               </div>
             </div>
           
@@ -56,7 +56,7 @@
                 >
                   Mother Name
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].mother_name}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].mother_name}}</p>
               </div>
             </div>
           
@@ -67,7 +67,7 @@
                 >
                   Mother Maiden Name
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].mother_maidenname}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].mother_maidenname}}</p>
               </div>
             </div>
           
@@ -78,7 +78,7 @@
                 >
                   Spouse Name
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].spouse_name}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].spouse_name}}</p>
               </div>
             </div>
           
@@ -89,7 +89,7 @@
                 >
                   Marital Status
                 </label>
-                <p class="text-theme-500 mb-6 lowercase">{{applicationData[0].details[0].marital_status}}</p>
+                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].marital_status}}</p>
               </div>
             </div>
           
@@ -100,7 +100,7 @@
                 >
                   Gender
                 </label>
-                <p class="text-theme-500 mb-6 lowercase">{{applicationData[0].details[0].gender}}</p>
+                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].gender}}</p>
               </div>
             </div>
           
@@ -111,7 +111,7 @@
                 >
                   Date of Birth
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].dob}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].dob}}</p>
               </div>
             </div>
           
@@ -122,7 +122,7 @@
                 >
                   Citizenship Status
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].citizenship_status}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].citizenship_status}}</p>
               </div>
             </div>
           
@@ -133,7 +133,7 @@
                 >
                   Occupation
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].occupation}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].occupation}}</p>
               </div>
             </div>
           
@@ -144,7 +144,7 @@
                 >
                 Politically Exposed Person (PEP)?
                 </label>
-                <p class="text-theme-500 mb-6 lowercase">{{applicationData[0].details[0].pep}}</p>
+                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].pep}}</p>
               </div>
             </div>
           
@@ -155,7 +155,7 @@
                 >
                 Relative or Associate of PEP?
                 </label>
-                <p class="text-theme-500 mb-6 lowercase">{{applicationData[0].details[0].rca_pep}}</p>
+                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].rca_pep}}</p>
               </div>
             </div>
           
@@ -166,7 +166,7 @@
                 >
                 PEP Exposure
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].pep_exposure}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].pep_exposure}}</p>
               </div>
             </div>
 
@@ -177,7 +177,7 @@
                 >
                 PEP's FullName
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].pep_fullname}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].pep_fullname}}</p>
               </div>
             </div>
           </div>
@@ -196,8 +196,8 @@
                 >
                 Document File
                 </label>
-                <a [attr.href]="poiFileLink" class="text-red-500">
-                  {{applicationData[0].documents[0].poi.file_name}}
+                <a [attr.href]="poiFileLink" class="hover:text-red-700">
+                  {{applicationData.documents[0].poi.file_name}}
                 </a>
               </div>
             </div>
@@ -217,9 +217,9 @@
                 >
                   Current Address
                 </label>
-                <p class="text-theme-500">{{applicationData[0].details[0].current_address.address}}</p>
-                <p class="text-theme-500">{{applicationData[0].details[0].current_address.city}}, {{applicationData[0].details[0].current_address.state}} {{applicationData[0].details[0].current_address.postalCode}}</p>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].current_address.country}}</p>
+                <p class="text-theme-500">{{applicationData.details[0].current_address.address}}</p>
+                <p class="text-theme-500">{{applicationData.details[0].current_address.city}}, {{applicationData.details[0].current_address.state}} {{applicationData.details[0].current_address.postal_code}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].current_address.country}}</p>
               </div>
             </div>
           
@@ -230,9 +230,9 @@
                 >
                   Permanent Address
                 </label>
-                <p class="text-theme-500">{{applicationData[0].details[0].permanent_address.address}}</p>
-                <p class="text-theme-500">{{applicationData[0].details[0].permanent_address.city}}, {{applicationData[0].details[0].permanent_address.state}} {{applicationData[0].details[0].permanent_address.postalCode}}</p>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].permanent_address.country}}</p>
+                <p class="text-theme-500">{{applicationData.details[0].permanent_address.address}}</p>
+                <p class="text-theme-500">{{applicationData.details[0].permanent_address.city}}, {{applicationData.details[0].permanent_address.state}} {{applicationData.details[0].permanent_address.postal_code}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].permanent_address.country}}</p>
               </div>
             </div>
           </div>
@@ -251,8 +251,8 @@
                 >
                 Document File
                 </label>
-                <a [attr.href]="poaFileLink" class="text-red-500">
-                  {{applicationData[0].documents[0].poa.file_name}}
+                <a [attr.href]="poaFileLink" class="hover:text-red-700">
+                  {{applicationData.documents[0].poa.file_name}}
                 </a>
               </div>
             </div>
@@ -272,7 +272,7 @@
                 >
                   Email
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].email}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].email}}</p>
               </div>
             </div>
           
@@ -283,13 +283,13 @@
                 >
                 Phone Number
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].phone}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].phone}}</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div *ngIf="applicationData[0].application_type === 'BUSINESS'">
+        <div *ngIf="applicationData.application_type === 'BUSINESS'">
           <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
             Company Details
           </h6>
@@ -302,7 +302,7 @@
                 >
                   Company Name
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].company_name}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].company_name}}</p>
               </div>
             </div>
 
@@ -313,7 +313,7 @@
                 >
                   Employee Name
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].employee_firstname}} {{applicationData[0].details[0].employee_lastname}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].employee_firstname}} {{applicationData.details[0].employee_lastname}}</p>
               </div>
             </div>
           
@@ -324,7 +324,7 @@
                 >
                   Date of Incorporation
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].date_incorporation}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].date_incorporation}}</p>
               </div>
             </div>
           
@@ -335,7 +335,7 @@
                 >
                   State of Incorporation
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].state_incorporation}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].state_incorporation}}</p>
               </div>
             </div>
           
@@ -346,7 +346,7 @@
                 >
                   Registration Number
                 </label>
-                <p class="text-theme-500 mb-6 lowercase">{{applicationData[0].details[0].registration_number}}</p>
+                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].registration_number}}</p>
               </div>
             </div>
           
@@ -357,7 +357,7 @@
                 >
                   Date of Commencement
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].date_commencement}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].date_commencement}}</p>
               </div>
             </div>
           
@@ -368,7 +368,7 @@
                 >
                   Company Type
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].company_type}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].company_type}}</p>
               </div>
             </div>
           </div>
@@ -387,8 +387,8 @@
                 >
                 Document File
                 </label>
-                <a [attr.href]="poaFileLink" class="text-red-500">
-                  {{applicationData[0].documents[0].poi.file_name}}
+                <a [attr.href]="poaFileLink" class="hover:text-red-700">
+                  {{applicationData.documents[0].poi.file_name}}
                 </a>
               </div>
             </div>
@@ -408,9 +408,9 @@
                 >
                   Company Address
                 </label>
-                <p class="text-theme-500">{{applicationData[0].details[0].company_address.address}}</p>
-                <p class="text-theme-500">{{applicationData[0].details[0].company_address.city}}, {{applicationData[0].details[0].company_address.state}} {{applicationData[0].details[0].company_address.postalCode}}</p>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].company_address.country}}</p>
+                <p class="text-theme-500">{{applicationData.details[0].company_address.address}}</p>
+                <p class="text-theme-500">{{applicationData.details[0].company_address.city}}, {{applicationData.details[0].company_address.state}} {{applicationData.details[0].company_address.postalCode}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].company_address.country}}</p>
               </div>
             </div>
           </div>
@@ -429,8 +429,8 @@
                 >
                 Document File
                 </label>
-                <a [attr.href]="poaFileLink" class="text-red-500">
-                  {{applicationData[0].documents[0].poa.file_name}}
+                <a [attr.href]="poaFileLink" class="hover:text-red-700">
+                  {{applicationData.documents[0].poa.file_name}}
                 </a>
               </div>
             </div>
@@ -450,7 +450,7 @@
                 >
                   Email
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].emp_email}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].emp_email}}</p>
               </div>
             </div>
           
@@ -461,12 +461,21 @@
                 >
                 Phone Number
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData[0].details[0].emp_phone}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].emp_phone}}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="flex flex-wrap mt-8 justify-center">
+      <button
+      class="bg-red-500 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-3 ease-linear transition-all duration-150"
+      type="button"
+      (click)="onDelete()"
+    >
+      Delete
+    </button>
+    </div>
   </div>
-</div> -->
+</div>

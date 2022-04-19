@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { UserService } from 'src/app/services/user.service';
 import { Web3StorageService } from 'src/app/services/web3-storage.service';
+import { ApplicationDeletedAlert, DeleteSubmittedApplicationAlert, FailedDeleteApplicationAlert } from 'src/constants/alerts.constant';
 
 @Component({
   selector: 'app-card-submitted-application',
@@ -14,6 +15,7 @@ export class CardSubmittedApplicationComponent implements OnInit {
   isLoading = false;
   user: any[];
   applicationData: any[];
+  applicationId: string;
   poiFileLink = '';
   poaFileLink = '';
 
@@ -26,59 +28,19 @@ export class CardSubmittedApplicationComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.getUserData();
-    this.getCredentials();
+    this.getSubmittedApplicationDetails();
+    this.getSubmittedApplicationPoiFile();
+    this.getSubmittedApplicationPoaFile();
   }
 
-  getCredentials() {
+  getSubmittedApplicationDetails() {
     this.isLoading = true;
     let customerId = 'C' + this.user[0].username.slice(-12); 
 
-    this.onboardingService.getSubmittedApplicationCredentials(customerId).subscribe(
+    this.onboardingService.getSubmittedApplicationDetails(customerId).subscribe(
       res => {
         this.isLoading = false;
-        this.getFiles([res])
-      },
-      error => {
-        this.isLoading = false;
-        console.error('Error getting application data for customer: ', error);
-      }
-    );
-  }
-
-  getFiles(res) {
-    this.onboardingService.getSubmittedApplicationDetails().subscribe(
-      res => {
-        console.log('Application Details: ', res);
-      },
-      error => {
-        console.error('Error getting application details from blockchain: ', error);
-      }
-    )
-    /*let credentials = res[0].credentials;
-    let files = this.web3Storage.retrieveFiles(credentials[1]);
-    console.log(files);*/
-  }
-
-  /*getAppDetails(res) {
-    let credentials = res[0].credentials;
-    this.getSubmittedApplicationDetails(credentials)
-    this.getSubmittedApplicationPoiFile(credentials)
-    this.getSubmittedApplicationPoaFile(credentials)
-  }
-
-  getSubmittedApplicationDetails(credentials) {
-    this.isLoading = true;
-
-    let appObj = {
-      cid: credentials[1],
-      applicationId: credentials[0]
-    }
-
-    this.onboardingService.getSubmittedApplicationDetails(appObj).subscribe(
-      res => {
-        this.isLoading = false;
-        this.applicationData = [res];
-        console.log('Application Details: ', [res]);
+        this.setApplicationDetails([res]);
       },
       error => {
         this.isLoading = false;
@@ -87,20 +49,28 @@ export class CardSubmittedApplicationComponent implements OnInit {
     );
   }
 
-  getSubmittedApplicationPoiFile(credentials) {
+  setApplicationDetails(res) {
+    this.applicationData = res[0].data;
+    this.applicationId = res[0].data.application_id;
+  }
+
+  setPoiLink(res) {
+    this.poiFileLink = res[0].poiLink;
+  }
+
+  setPoaLink(res) {
+    this.poaFileLink = res[0].poaLink;
+  }
+
+  getSubmittedApplicationPoiFile() {
     this.isLoading = true;
+    let customerId = 'C' + this.user[0].username.slice(-12); 
 
-    let appObj = {
-      cid: credentials[1],
-      applicationId: credentials[0],
-      filename: credentials[2]
-    }
-
-    this.onboardingService.getSubmittedApplicationPoiFile(appObj).subscribe(
+    this.onboardingService.getSubmittedApplicationPoiFile(customerId).subscribe(
       res => {
         this.isLoading = false;
-        this.poiFileLink = res as string;
-        console.log('poifile: ', res);
+        console.log(res);
+        this.setPoiLink([res]);
       },
       error => {
         this.isLoading = false;
@@ -109,26 +79,49 @@ export class CardSubmittedApplicationComponent implements OnInit {
     );
   }
 
-  getSubmittedApplicationPoaFile(credentials) {
+  getSubmittedApplicationPoaFile() {
     this.isLoading = true;
+    let customerId = 'C' + this.user[0].username.slice(-12); 
 
-    let appObj = {
-      cid: credentials[1],
-      applicationId:credentials[0],
-      filename: credentials[3]
-    }
-
-    this.onboardingService.getSubmittedApplicationPoaFile(appObj).subscribe(
+    this.onboardingService.getSubmittedApplicationPoaFile(customerId).subscribe(
       res => {
         this.isLoading = false;
-        this.poaFileLink = res as string;
-        console.log('poafile: ', res);
+        console.log(res);
+        this.setPoaLink([res]);
       },
       error => {
         this.isLoading = false;
         console.error('Error getting application poa file from blockchain: ', error);
       }
     );
-  }*/
+  }
+
+  deleteApplication() {
+    this.isLoading = true;
+
+    this.onboardingService.deleteApplication(this.applicationId).subscribe(
+      res => {
+        this.isLoading = false;
+        ApplicationDeletedAlert.fire({})
+          .then(() => {
+            this.router.navigate(['/user/kyc/onboarding/dashboard']);
+          });
+        console.log('response: ', res);
+      },
+      error => {
+        this.isLoading = false;
+        FailedDeleteApplicationAlert(error).fire({});
+      }
+    );
+  }
+
+  onDelete() {
+    DeleteSubmittedApplicationAlert.fire({})
+      .then((result) => {
+        if (result.isConfirmed === true) {
+          this.deleteApplication();
+        }
+      });
+  }
 
 }

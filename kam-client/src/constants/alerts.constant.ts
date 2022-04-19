@@ -208,6 +208,17 @@ let FailedSubmitApplicationAlert = (err: Error) => Swal.mixin({
   icon: 'error'
 });
 
+let DeleteSubmittedApplicationAlert = Swal.mixin({
+  title: 'Delete Application',
+  text: 'Are you sure you want to delete your application? \n This will not permanently remove your application as it is on the blockchain. \
+  You will be creating a new application but this version will still exist.',
+  confirmButtonText: 'Delete',
+  confirmButtonColor: colors.error,
+  showCancelButton: true,
+  iconColor: colors.warning,
+  icon: 'warning'
+});
+
 // Settings Alerts
 let ChangePasswordAlert = Swal.mixin({
   title: 'Change Password',
@@ -282,5 +293,6 @@ export {
   SuccessfulAtrributesUpdateAlert,
   SubmitApplicationAlert,
   ApplicationSubmittedAlert,
-  FailedSubmitApplicationAlert
+  FailedSubmitApplicationAlert,
+  DeleteSubmittedApplicationAlert
 }

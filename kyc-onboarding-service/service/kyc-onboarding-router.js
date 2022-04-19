@@ -83,13 +83,30 @@ kycOnboardingRouter
       });
   })
 
-  .get('/customer/:customerId/submitted/applicationcredentials', cors.cors, (req, res, next) => {
+  .get('/customer/:customerId/submitted/applicationdetails', cors.cors, (req, res, next) => {
     let customerId = req.params.customerId;
-
-    kycOnboardingDao.submissionCredentials(customerId, res)
+    kycOnboardingDao.getSubmittedApplicationDetails(customerId, res)
       .then()
       .catch(err => {
-        log.error('Error in checking existence of application: ' + err);
+        log.error('Error in getting submitted application details: ' + err);
+      })
+  })
+
+  .get('/customer/:customerId/submitted/poifile', cors.cors, (req, res, next) => {
+    let customerId = req.params.customerId;
+    kycOnboardingDao.getSubmittedPoiFile(customerId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in getting submitted application details: ' + err);
+      })
+  })
+
+  .get('/customer/:customerId/submitted/poafile', cors.cors, (req, res, next) => {
+    let customerId = req.params.customerId;
+    kycOnboardingDao.getSubmittedPoaFile(customerId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in getting submitted application details: ' + err);
       })
   })
 

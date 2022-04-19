@@ -8,6 +8,7 @@ const fs = require('fs');
 const fileUtils = require('../utils/file-utils');
 const web3Storage = require('../scripts/push-to-blockchain');
 const web3Utils = require('../utils/web3-utils');
+const axios = require('axios');
 
 const dbUrl = process.env.MONGODB_KOS_URL;
 
@@ -131,7 +132,7 @@ const createNewApplication = async (applicationDetails, res) => {
   let newApplication = new Application({
     application_id: applicationId,
     customer_id: applicationDetails.customerId,
-    application_cids: null,
+    application_cids: [],
     creation_date: date,
     last_modified: date,
     application_type: applicationDetails.type,
@@ -368,21 +369,76 @@ const submitApplication = async (applicationId, res) => {
   }
 }
 
-const submissionCredentials = async (customerId, res) => {
+const getSubmittedApplicationDetails = async (customerId, res) => {
   try {
-    const result = await Application.findOne({ customer_id: customerId });
-
-    return res.send({
-      messageCode: 'APPEXI',
-      message: 'Check if application is submitted for customer.',
-      credentials: [result.application_id, result.application_cids, result.documents[0].poi.file_name, result.documents[0].poa.file_name]
-    });
+    const result = await Application.findOne({ customer_id: customerId  });
+    const cids = result.application_cids;
+    const currentCid = cids[cids.length - 1]
+    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${result.application_id}.json`;
+    axios
+        .get(url)
+        .then(result => {
+          console.log(`status code: ${result.status} ${result.statusText}`);
+          console.log(result.data)
+          return res.send({
+            messageCode: `SUBAPPDET`,
+            message: `Successful retrieval of application details from web3 storage`,
+            data: result.data
+          })
+        })
+        .catch(error => {
+          log.error('Eror retrieving application details from web3 storage: ', error);
+        })
   } catch (err) {
-    log.error(`Error checking if application exist: ` + err);
+    log.error(`Error in retrieving application details: ` + err);
     
     return res.status(400).send({
-      messageCode: 'APPEXIERR',
-      message: 'Unable to check application submission status'
+      messageCode: 'SUBAPPDETERR',
+      message: 'Failed to retrieve application from blockchain service'
+    });
+  }
+}
+
+const getSubmittedPoiFile = async (customerId, res) => {
+  try {
+    const result = await Application.findOne({ customer_id: customerId  });
+    const cids = result.application_cids;
+    const currentCid = cids[cids.length - 1]
+    const filename = result.documents[0].poi.file_name;
+    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    return res.send({
+      messageCode: `SUBAPPPOI`,
+      message: `Successful retrieval of application poi file link`,
+      poiLink: url
+    })
+  } catch (err) {
+    log.error(`Error in retrieving application poi file: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'SUBAPPPOIERR',
+      message: 'Failed to retrieve application poi file link'
+    });
+  }
+}
+
+const getSubmittedPoaFile = async (customerId, res) => {
+  try {
+    const result = await Application.findOne({ customer_id: customerId  });
+    const cids = result.application_cids;
+    const currentCid = cids[cids.length - 1]
+    const filename = result.documents[0].poa.file_name;
+    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    return res.send({
+      messageCode: `SUBAPPPOA`,
+      message: `Successful retrieval of application poa file link`,
+      poaLink: url
+    })
+  } catch (err) {
+    log.error(`Error in retrieving application poa file: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'SUBAPPPOAERR',
+      message: 'Failed to retrieve application poa file link'
     });
   }
 }
@@ -396,5 +452,7 @@ module.exports = {
     submitApplication,
     applicationExist,
     updateDocument,
-    submissionCredentials
+    getSubmittedApplicationDetails,
+    getSubmittedPoiFile,
+    getSubmittedPoaFile
 }

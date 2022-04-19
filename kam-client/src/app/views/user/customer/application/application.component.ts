@@ -117,7 +117,15 @@ export class ApplicationComponent implements OnInit {
   }
 
   setApplicationType(res) {
-    let type = res[0].applicationDetails.application_type;
+    const isSubmitted = res[0].applicationDetails.submitted;
+    var type: any;
+    
+    if (isSubmitted) {
+      type = 'SUBMITTED';
+    } else {
+      type = res[0].applicationDetails.application_type;
+    }
+
     this.applicationType = type;
   }
 

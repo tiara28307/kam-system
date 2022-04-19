@@ -71,46 +71,46 @@ export class CardApplicationOverviewComponent implements OnInit {
   }
 
   setApplicationStatus(application) {
-    let applicationDetails = application[0].applicationDetails;
+    let applicationDetails = application[0]?.applicationDetails;
     this.applicationId = applicationDetails.application_id;
 
     if (applicationDetails.application_type === 'INDIVIDUAL') {
       this.isIndividual = true;
     
       let personalDetails = {
-        firstName: applicationDetails.details[0].first_name,
-        lastName: applicationDetails.details[0].last_name,
-        fatherName: applicationDetails.details[0].father_name,
-        motherName: applicationDetails.details[0].mother_name,
-        maritalStatus: applicationDetails.details[0].marital_status,
-        gender: applicationDetails.details[0].gender,
-        dob: applicationDetails.details[0].dob,
-        citizenshipStatus: applicationDetails.details[0].citizenship_status,
-        occupation: applicationDetails.details[0].occupation,
-        isPep: applicationDetails.details[0].pep,
-        isRcaPep: applicationDetails.details[0].rca_pep,
-        pepExposure: applicationDetails.details[0].pep_exposure
+        firstName: applicationDetails.details[0]?.first_name,
+        lastName: applicationDetails.details[0]?.last_name,
+        fatherName: applicationDetails.details[0]?.father_name,
+        motherName: applicationDetails.details[0]?.mother_name,
+        maritalStatus: applicationDetails.details[0]?.marital_status,
+        gender: applicationDetails.details[0]?.gender,
+        dob: applicationDetails.details[0]?.dob,
+        citizenshipStatus: applicationDetails.details[0]?.citizenship_status,
+        occupation: applicationDetails.details[0]?.occupation,
+        isPep: applicationDetails.details[0]?.pep,
+        isRcaPep: applicationDetails.details[0]?.rca_pep,
+        pepExposure: applicationDetails.details[0]?.pep_exposure
       }
 
       let poiDetails = {
-        poiFile: applicationDetails.documents[0].poi.file_name
+        poiFile: applicationDetails.documents[0]?.poi.file_name
       }
 
       let addressDetails = {
-        currentAddress: applicationDetails.details[0].current_address,
-        permanentAddress: applicationDetails.details[0].permanent_address
+        currentAddress: applicationDetails.details[0]?.current_address,
+        permanentAddress: applicationDetails.details[0]?.permanent_address
       }
 
       let poaDetails = {
-        poaFile: applicationDetails.documents[0].poa.file_name
+        poaFile: applicationDetails.documents[0]?.poa.file_name
       }
 
       let contactDetails = {
-        email: applicationDetails.details[0].email,
-        phone: applicationDetails.details[0].phone
+        email: applicationDetails.details[0]?.email,
+        phone: applicationDetails.details[0]?.phone
       }
 
-      let isDeclared = applicationDetails.details[0].declared;
+      let isDeclared = applicationDetails.details[0]?.declared;
 
       const personalIncomplete = Object.values(personalDetails).some(val => val === null || val === '');
       const poiIncomplete = Object.values(poiDetails).some(val => val === undefined || val === '');
@@ -131,31 +131,31 @@ export class CardApplicationOverviewComponent implements OnInit {
       this.isIndividual = false;
 
       let companyDetails = {
-        companyName: applicationDetails.details[0].company_name,
-        employeeFirstName: applicationDetails.details[0].employee_firstname,
-        employeeLastName: applicationDetails.details[0].employee_lastname,
-        dateOfIncorporation: applicationDetails.details[0].date_incorporation,
-        stateOfIncorporation: applicationDetails.details[0].state_incorporation,
-        registrationNumber: applicationDetails.details[0].registrationNumber,
-        dateOfCommencement: applicationDetails.details[0].date_commencement,
-        companyType: applicationDetails.details[0].company_type
+        companyName: applicationDetails.details[0]?.company_name,
+        employeeFirstName: applicationDetails.details[0]?.employee_firstname,
+        employeeLastName: applicationDetails.details[0]?.employee_lastname,
+        dateOfIncorporation: applicationDetails.details[0]?.date_incorporation,
+        stateOfIncorporation: applicationDetails.details[0]?.state_incorporation,
+        registrationNumber: applicationDetails.details[0]?.registrationNumber,
+        dateOfCommencement: applicationDetails.details[0]?.date_commencement,
+        companyType: applicationDetails.details[0]?.company_type
       }
 
       let poiDetails = {
-        poiFile: applicationDetails.documents[0].poi.file_name
+        poiFile: applicationDetails.documents[0]?.poi.file_name
       }
 
       let addressDetails = {
-        companyAddress: applicationDetails.details[0].company_address
+        companyAddress: applicationDetails.details[0]?.company_address
       }
 
       let poaDetails = {
-        poaFile: applicationDetails.documents[0].poa.file_name
+        poaFile: applicationDetails.documents[0]?.poa.file_name
       }
 
       let contactDetails = {
-        email: applicationDetails.details[0].emp_email,
-        phone: applicationDetails.details[0].emp_phone
+        email: applicationDetails.details[0]?.emp_email,
+        phone: applicationDetails.details[0]?.emp_phone
       }
 
       let isDeclared = applicationDetails.details[0].declared;

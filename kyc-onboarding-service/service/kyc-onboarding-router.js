@@ -71,6 +71,26 @@ kycOnboardingRouter
       .catch(err => {
         log.error('Error in uploading document: ', err);
       })
-})
+  })
+
+  .post('/submit/application/:applicationId', cors.cors, (req, res, next) => {
+    let applicationId = req.params.applicationId;
+
+    kycOnboardingDao.submitApplication(applicationId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in submitting application: ' + err);
+      });
+  })
+
+  .get('/customer/:customerId/submitted/applicationcredentials', cors.cors, (req, res, next) => {
+    let customerId = req.params.customerId;
+
+    kycOnboardingDao.submissionCredentials(customerId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in checking existence of application: ' + err);
+      })
+  })
 
 module.exports = kycOnboardingRouter;

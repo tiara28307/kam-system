@@ -77,6 +77,10 @@ import { CardReviewApplicationComponent } from './components/cards/customer/card
 import { StringifyPipe } from './pipes/stringify.pipe';
 import { CardBusinessApplicationComponent } from './components/cards/customer/card-application/card-business-application/card-business-application.component';
 import { ChangePasswordComponent } from './views/auth/change-password/change-password.component';
+import { AdminDashboardComponent } from './views/admin/admin-dashboard/admin-dashboard.component';
+import { CardSubmittedApplicationComponent } from './components/cards/customer/card-submitted-application/card-submitted-application.component';
+import { CardHistoryComponent } from './components/cards/company/card-history/card-history.component';
+import { HistoryComponent } from './views/user/company/history/history.component';
 
 
 @NgModule({
@@ -134,7 +138,11 @@ import { ChangePasswordComponent } from './views/auth/change-password/change-pas
     CardReviewApplicationComponent,
     StringifyPipe,
     CardBusinessApplicationComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    AdminDashboardComponent,
+    CardSubmittedApplicationComponent,
+    CardHistoryComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule, 

@@ -28,6 +28,9 @@ import { ReviewApplicationComponent } from "./views/user/company/review-applicat
 import { CustomerSettingsComponent } from "./views/user/customer/customer-settings/customer-settings.component";
 import { CompanySettingsComponent } from "./views/user/company/company-settings/company-settings.component";
 import { ChangePasswordComponent } from "./views/auth/change-password/change-password.component";
+import { AdminDashboardComponent } from "./views/admin/admin-dashboard/admin-dashboard.component";
+import { HistoryComponent } from "./views/user/company/history/history.component";
+import { KycSearchComponent } from "./views/user/company/kyc-search/kyc-search.component";
 
 const routes: Routes = [
   // user views
@@ -47,7 +50,9 @@ const routes: Routes = [
       // KYC Screening Service Routes
       { path: "kyc/screening/dashboard", component: CompanyKycDashboardComponent, canActivate: [CompanyAuthGuard] },
       { path: "kyc/screening/requests", component: RequestsComponent, canActivate: [CompanyAuthGuard] },
-      { path: "kyc/screening/application", component: ReviewApplicationComponent, canActivate: [CompanyAuthGuard] },
+      { path: "kyc/screening/history", component: HistoryComponent, canActivate: [CompanyAuthGuard] },
+      { path: "kyc/screening/application/:id", component: ReviewApplicationComponent, canActivate: [CompanyAuthGuard] },
+      { path: "kyc/screening/search", component: KycSearchComponent, canActivate: [CompanyAuthGuard] },
 
       { path: "", redirectTo: "", pathMatch: "full" },
     ],
@@ -67,6 +72,7 @@ const routes: Routes = [
   // no layout views
   { path: "profile", component: ProfileComponent },
   { path: "landing", component: LandingComponent },
+  { path: "kam/blockchain", component: AdminDashboardComponent },
   { path: "", component: IndexComponent },
   
   { path: "**", redirectTo: "", pathMatch: "full" }

@@ -5,8 +5,9 @@ const Application = require('./kyc-onboarding-schema-model').Application;
 const PepType = require('./kyc-onboarding-schema-model').PepType;
 const KycDocument = require('./kyc-onboarding-schema-model').KycDocument;
 const fs = require('fs');
-
-// const web3 = require('../blockchain/web3-storage');
+const fileUtils = require('../utils/file-utils');
+const web3Storage = require('../scripts/push-to-blockchain');
+const web3Utils = require('../utils/web3-utils');
 
 const dbUrl = process.env.MONGODB_KOS_URL;
 
@@ -182,7 +183,7 @@ const getApplication = async (customerId, res) => {
 const applicationExist = async (customerId, res) => {
   try {
     const result = await Application.findOne({ customer_id: customerId }).count();
-    log.info(`Check if application exist successful: `, result);
+    log.info('Application exist');
 
     return res.send({
       messageCode: 'APPEXI',
@@ -326,15 +327,64 @@ const updateDocument = async (documentObj, res) => {
 }
 
 // DAO - submit (push) application to blockchain
-const submitApplication = async (applicationDetails, res) => {
-  // update application submitted = true; submission_date 
-  // send to Web3.Storage
-  // store application cid
+const submitApplication = async (applicationId, res) => {
+  let date = getCurrentDateTime();
+  try {
+    // Find and update submission details for application
+    const result = await Application.findOneAndUpdate(
+      { application_id: applicationId }, 
+      { $set: { 
+        submitted: true, 
+        submission_date: date 
+      }},
+      { new: true }
+    );
+
+    // Create json file for application
+    fileUtils.createApplicationFileObject(applicationId, result);
+
+    // Push application files to blockchain
+    const dirPath = `./uploads/application/documents/${applicationId}/`;
+    web3Storage.pushFilesToBlockchain(dirPath);
+    const cid = web3Utils.applicationCID.getCID();
+
+    // Save cid to mongodb for later retrieval
+    const updatedResult = await Application.findOneAndUpdate(
+      { application_id: applicationId }, 
+      { $push: { application_cids: cid }}
+    );
+    
+    return res.send({
+      messageCode: 'SUBAPP',
+      message: 'Application has been submitted to blockchain successfully.'
+    });
+  } catch (err) {
+    log.error(`Error submitting application ${applicationId}: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'SUBAPPERR',
+      message: 'Unable to submit application ' + applicationId
+    });
+  }
 }
 
-// DAO - get applcation CID by application ID
-const getSubmittedApplication = async (applicationId, res) => {
-  
+const submissionCredentials = async (customerId, res) => {
+  try {
+    const result = await Application.findOne({ customer_id: customerId });
+
+    return res.send({
+      messageCode: 'APPEXI',
+      message: 'Check if application is submitted for customer.',
+      credentials: [result.application_id, result.application_cids, result.documents[0].poi.file_name, result.documents[0].poa.file_name]
+    });
+  } catch (err) {
+    log.error(`Error checking if application exist: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'APPEXIERR',
+      message: 'Unable to check application submission status'
+    });
+  }
 }
 
 module.exports = {
@@ -344,8 +394,7 @@ module.exports = {
     updateApplicationDetails,
     deleteApplication,
     submitApplication,
-    getSubmittedApplication,
     applicationExist,
-    // uploadDocument,
-    updateDocument
+    updateDocument,
+    submissionCredentials
 }

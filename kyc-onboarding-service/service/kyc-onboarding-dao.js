@@ -350,10 +350,18 @@ const submitApplication = async (applicationId, res) => {
     const cid = web3Utils.applicationCID.getCID();
 
     // Save cid to mongodb for later retrieval
-    const updatedResult = await Application.findOneAndUpdate(
+    await Application.findOneAndUpdate(
       { application_id: applicationId }, 
       { $push: { application_cids: cid }}
     );
+
+    // After pushing to blockchain remove files from local storage
+    fs.unlinkSync(dirPath, (err) => {
+      if (err) {
+        log.error(`Error removing directory ${dirPath}: `, err);
+      }
+      log.info(`Removal of files at ${dirPath} successful!`);
+    })
     
     return res.send({
       messageCode: 'SUBAPP',

@@ -681,6 +681,7 @@ export class CardIndividualApplicationComponent implements OnInit {
 
   submitApplication() {
     this.isLoading = true;
+    // Save application before submitting
     this.updateApplicationDetails(true);
 
     this.onboardingService.submitApplication(this.applicationId).subscribe(

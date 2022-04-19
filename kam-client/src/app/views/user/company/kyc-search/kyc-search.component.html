@@ -1,1 +1,53 @@
-<p>kyc-search works!</p>
+<div class="w-full xl:w-10/12 px-4">
+  <form
+      class="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3"
+    >
+    <div class="relative flex w-full items-center justify-center -mt-24">
+      <img
+      src="assets/img/kyc-customer-search.jpeg"
+      class="h-32 w-40 bg-white rounded border"
+      alt="..."
+    />
+    </div>
+    <h3
+      class="relative flex w-full font-semibold text-white text-3xl font-bol items-center justify-center mt-4 mb-6"
+    >
+      KYC Search Engine
+    </h3>
+    <div class="relative flex w-full flex-wrap items-stretch mt-6">
+      <span
+        class="z-10 mt-1 h-full leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3"
+        ><i class="fas fa-search"></i
+      ></span>
+      <input
+        type="text"
+        placeholder="Enter KYC Application ID"
+        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative text-lg bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring-0 w-full pl-10"
+      />
+    </div>
+    <div class="text-center mt-6">
+      <button
+        class="bg-emerald-400 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        type="submit"
+      >
+        Search KYC
+      </button>
+    </div>
+  </form>
+</div>
+<div class="flex flex-wrap mt-16">
+  <div class="flex flex-wrap items-center mb-4">
+    <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+      <h3 class="font-semibold text-slate-700 text-2xl">
+        KYC Applications
+      </h3>
+    </div>
+  </div>
+  <div class="w-full xl:w-10/12 px-4">
+    <div class="pt-6 pb-6 relative flex flex-col min-w-0 break-words w-full h-40 shadow-lg rounded-lg bg-white border-0">
+      <div class="pl-4">
+        None Found.
+      </div>
+    </div>
+  </div>
+</div>

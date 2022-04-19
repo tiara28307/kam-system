@@ -18,7 +18,7 @@ export class KycOnboardingService {
     let isAuth = this.authService.isAuthenticated('CUSTOMER');
     
     if(!isAuth) {
-      DoNotHavePermissionToServiceAlert.fire({});
+      DoNotHavePermissionToServiceAlert('kyc onboarding').fire({});
     }
     return isAuth;
   }
@@ -89,20 +89,6 @@ export class KycOnboardingService {
     }
   }
 
-  uploadDocument(body) {
-    let isValidUser = this.canAccess();
-    let documentData = new FormData();
-
-    documentData.append('kyc_type', body.kycType);
-    documentData.append('file', body.file);
-
-    if (isValidUser) {
-      return this.httpreq.post(`http://localhost:8082/kyc/onboarding/upload/application/${body.applicationId}/document/${body.documentType}`, documentData, {
-      responseType: 'text'
-      });
-    }
-  }
-
   updateDocument(body) {
     let isValidUser = this.canAccess();
     let documentData = new FormData();
@@ -113,6 +99,50 @@ export class KycOnboardingService {
     if (isValidUser) {
       return this.httpreq.post(`http://localhost:8082/kyc/onboarding/update/application/${body.applicationId}/document/${body.documentType}`, documentData, {
       responseType: 'text'
+      });
+    }
+  }
+
+  submitApplication(applicationId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post(`http://localhost:8082/kyc/onboarding/submit/application/${applicationId}`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'text'
+      });
+    }
+  }
+
+  getSubmittedApplicationDetails(customerId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/submitted/applicationdetails`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getSubmittedApplicationPoiFile(customerId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/submitted/poifile`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getSubmittedApplicationPoaFile(customerId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/submitted/poafile`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
       });
     }
   }

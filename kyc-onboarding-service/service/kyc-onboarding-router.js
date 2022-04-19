@@ -71,6 +71,43 @@ kycOnboardingRouter
       .catch(err => {
         log.error('Error in uploading document: ', err);
       })
-})
+  })
+
+  .post('/submit/application/:applicationId', cors.cors, (req, res, next) => {
+    let applicationId = req.params.applicationId;
+
+    kycOnboardingDao.submitApplication(applicationId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in submitting application: ' + err);
+      });
+  })
+
+  .get('/customer/:customerId/submitted/applicationdetails', cors.cors, (req, res, next) => {
+    let customerId = req.params.customerId;
+    kycOnboardingDao.getSubmittedApplicationDetails(customerId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in getting submitted application details: ' + err);
+      })
+  })
+
+  .get('/customer/:customerId/submitted/poifile', cors.cors, (req, res, next) => {
+    let customerId = req.params.customerId;
+    kycOnboardingDao.getSubmittedPoiFile(customerId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in getting submitted application details: ' + err);
+      })
+  })
+
+  .get('/customer/:customerId/submitted/poafile', cors.cors, (req, res, next) => {
+    let customerId = req.params.customerId;
+    kycOnboardingDao.getSubmittedPoaFile(customerId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in getting submitted application details: ' + err);
+      })
+  })
 
 module.exports = kycOnboardingRouter;

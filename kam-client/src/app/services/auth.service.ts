@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { CognitoUserPool } from 'amazon-cognito-identity-js';
-import { environment } from 'src/environments/environment';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(
+    private userService: UserService
+  ) { }
 
   // Check user authentication before gaining access to services in KAM
   isAuthenticated(user: string): boolean {
@@ -15,13 +16,7 @@ export class AuthService {
     var isUser = false;
     var userType = '';
 
-    let poolData = {
-      UserPoolId: environment.AWS_COGNITO_USER_POOL,
-      ClientId: environment.AWS_COGNITO_CLIENT_ID
-    };
-
-    var userPool = new CognitoUserPool(poolData);
-    var cognitoUser = userPool.getCurrentUser();
+    let cognitoUser = this.userService.getAuthenticatedUser();
 
     if (cognitoUser != null) {
       cognitoUser.getSession((err: any, session: any) => {

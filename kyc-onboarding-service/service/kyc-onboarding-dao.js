@@ -5,8 +5,10 @@ const Application = require('./kyc-onboarding-schema-model').Application;
 const PepType = require('./kyc-onboarding-schema-model').PepType;
 const KycDocument = require('./kyc-onboarding-schema-model').KycDocument;
 const fs = require('fs');
-
-// const web3 = require('../blockchain/web3-storage');
+const fileUtils = require('../utils/file-utils');
+const web3Storage = require('../scripts/push-to-blockchain');
+const web3Utils = require('../utils/web3-utils');
+const axios = require('axios');
 
 const dbUrl = process.env.MONGODB_KOS_URL;
 
@@ -130,7 +132,7 @@ const createNewApplication = async (applicationDetails, res) => {
   let newApplication = new Application({
     application_id: applicationId,
     customer_id: applicationDetails.customerId,
-    application_cids: null,
+    application_cids: [],
     creation_date: date,
     last_modified: date,
     application_type: applicationDetails.type,
@@ -182,7 +184,7 @@ const getApplication = async (customerId, res) => {
 const applicationExist = async (customerId, res) => {
   try {
     const result = await Application.findOne({ customer_id: customerId }).count();
-    log.info(`Check if application exist successful: `, result);
+    log.info('Application exist');
 
     return res.send({
       messageCode: 'APPEXI',
@@ -326,15 +328,127 @@ const updateDocument = async (documentObj, res) => {
 }
 
 // DAO - submit (push) application to blockchain
-const submitApplication = async (applicationDetails, res) => {
-  // update application submitted = true; submission_date 
-  // send to Web3.Storage
-  // store application cid
+const submitApplication = async (applicationId, res) => {
+  let date = getCurrentDateTime();
+  try {
+    // Find and update submission details for application
+    const result = await Application.findOneAndUpdate(
+      { application_id: applicationId }, 
+      { $set: { 
+        submitted: true, 
+        submission_date: date 
+      }},
+      { new: true }
+    );
+
+    // Create json file for application
+    fileUtils.createApplicationFileObject(applicationId, result);
+
+    // Push application files to blockchain
+    const dirPath = `./uploads/application/documents/${applicationId}/`;
+    web3Storage.pushFilesToBlockchain(dirPath);
+    const cid = web3Utils.applicationCID.getCID();
+
+    // Save cid to mongodb for later retrieval
+    await Application.findOneAndUpdate(
+      { application_id: applicationId }, 
+      { $push: { application_cids: cid }}
+    );
+
+    // After pushing to blockchain remove files from local storage
+    fs.unlinkSync(dirPath, (err) => {
+      if (err) {
+        log.error(`Error removing directory ${dirPath}: `, err);
+      }
+      log.info(`Removal of files at ${dirPath} successful!`);
+    })
+    
+    return res.send({
+      messageCode: 'SUBAPP',
+      message: 'Application has been submitted to blockchain successfully.'
+    });
+  } catch (err) {
+    log.error(`Error submitting application ${applicationId}: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'SUBAPPERR',
+      message: 'Unable to submit application ' + applicationId
+    });
+  }
 }
 
-// DAO - get applcation CID by application ID
-const getSubmittedApplication = async (applicationId, res) => {
-  
+const getSubmittedApplicationDetails = async (customerId, res) => {
+  try {
+    const result = await Application.findOne({ customer_id: customerId  });
+    const cids = result.application_cids;
+    const currentCid = cids[cids.length - 1]
+    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${result.application_id}.json`;
+    axios
+        .get(url)
+        .then(result => {
+          console.log(`status code: ${result.status} ${result.statusText}`);
+          console.log(result.data)
+          return res.send({
+            messageCode: `SUBAPPDET`,
+            message: `Successful retrieval of application details from web3 storage`,
+            data: result.data
+          })
+        })
+        .catch(error => {
+          log.error('Eror retrieving application details from web3 storage: ', error);
+        })
+  } catch (err) {
+    log.error(`Error in retrieving application details: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'SUBAPPDETERR',
+      message: 'Failed to retrieve application from blockchain service'
+    });
+  }
+}
+
+const getSubmittedPoiFile = async (customerId, res) => {
+  try {
+    const result = await Application.findOne({ customer_id: customerId  });
+    const cids = result.application_cids;
+    const currentCid = cids[cids.length - 1]
+    const filename = result.documents[0].poi.file_name;
+    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    return res.send({
+      messageCode: `SUBAPPPOI`,
+      message: `Successful retrieval of application poi file link`,
+      poiLink: url
+    })
+  } catch (err) {
+    log.error(`Error in retrieving application poi file: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'SUBAPPPOIERR',
+      message: 'Failed to retrieve application poi file link'
+    });
+  }
+}
+
+const getSubmittedPoaFile = async (customerId, res) => {
+  try {
+    const result = await Application.findOne({ customer_id: customerId  });
+    const cids = result.application_cids;
+    const currentCid = cids[cids.length - 1]
+    const filename = result.documents[0].poa.file_name;
+    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    return res.send({
+      messageCode: `SUBAPPPOA`,
+      message: `Successful retrieval of application poa file link`,
+      poaLink: url
+    })
+  } catch (err) {
+    log.error(`Error in retrieving application poa file: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'SUBAPPPOAERR',
+      message: 'Failed to retrieve application poa file link'
+    });
+  }
 }
 
 module.exports = {
@@ -344,8 +458,9 @@ module.exports = {
     updateApplicationDetails,
     deleteApplication,
     submitApplication,
-    getSubmittedApplication,
     applicationExist,
-    // uploadDocument,
-    updateDocument
+    updateDocument,
+    getSubmittedApplicationDetails,
+    getSubmittedPoiFile,
+    getSubmittedPoaFile
 }

@@ -5,7 +5,7 @@ import { ApplicationValidationService } from 'src/app/services/kyc-onboarding/ap
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { RegisterService } from 'src/app/services/register.service';
 import { UserService } from 'src/app/services/user.service';
-import { ApplicationDeletedAlert, ApplicationNotCompleteAlert, ApplicationSavedAlert, DeleteApplicationAlert, FailedDeleteApplicationAlert, FailedFileUploadAlert, FailedSaveApplicationAlert, FailedUploadDocumentAlert } from 'src/constants/alerts.constant';
+import { ApplicationDeletedAlert, ApplicationNotCompleteAlert, ApplicationSavedAlert, ApplicationSubmittedAlert, DeleteApplicationAlert, FailedDeleteApplicationAlert, FailedFileUploadAlert, FailedSaveApplicationAlert, FailedSubmitApplicationAlert, SubmitApplicationAlert } from 'src/constants/alerts.constant';
 
 @Component({
   selector: 'app-card-individual-application',
@@ -398,8 +398,8 @@ export class CardIndividualApplicationComponent implements OnInit {
     let poiFileName = form.poiFile.value;
     let poaFileName = form.poaFile.value;
 
-    let address2 = form.city.value + ' ' + form.state.value + ', ' + form.postalCode.value;
-    let address3 = form.permanentCity.value + ' ' + form.permanentState.value + ', ' + form.permanentPostalCode.value;
+    let address2 = form.city.value + ', ' + form.state.value + ' ' + form.postalCode.value;
+    let address3 = form.permanentCity.value + ', ' + form.permanentState.value + ' ' + form.permanentPostalCode.value;
     let isSame = form.isSameAddress.value === 'YES';
     let permanentAddress = isSame ? form.address.value : form.permanentAddress.value;
     let permanentAddress2 = isSame ? address2 : address3;
@@ -546,7 +546,7 @@ export class CardIndividualApplicationComponent implements OnInit {
     this.isLoading = true;
     this.uploadDocument('poi')
     this.uploadDocument('poa');
-    this.updateApplicationDetails();
+    this.updateApplicationDetails(false);
   }
 
   isNewDocument(kycType: String) {
@@ -575,7 +575,7 @@ export class CardIndividualApplicationComponent implements OnInit {
     } 
   }
 
-  updateApplicationDetails() {
+  updateApplicationDetails(isSubmit: boolean) {
     let form = this.individualApplicationForm.controls;
 
     let isSame = form.isSameAddress.value === 'YES';
@@ -630,7 +630,9 @@ export class CardIndividualApplicationComponent implements OnInit {
       res => {
         this.getApplication();
         this.isLoading = false;
-        ApplicationSavedAlert.fire({});
+        if (!isSubmit) {
+          ApplicationSavedAlert.fire({});
+        }
         console.log('response: ', res);
       },
       error => {
@@ -677,6 +679,27 @@ export class CardIndividualApplicationComponent implements OnInit {
     }
   }
 
+  submitApplication() {
+    this.isLoading = true;
+    // Save application before submitting
+    this.updateApplicationDetails(true);
+
+    this.onboardingService.submitApplication(this.applicationId).subscribe(
+      res => {
+        this.isLoading = false;
+        ApplicationSubmittedAlert(this.applicationId).fire({})
+          .then(() => {
+            this.router.navigate(['/user/kyc/onboarding/dashboard']);
+          });
+        console.log('response: ', res);
+      },
+      error => {
+        this.isLoading = false;
+        FailedSubmitApplicationAlert(error).fire({});
+      }
+    );
+  }
+
   onDelete() {
     DeleteApplicationAlert.fire({})
       .then((result) => {
@@ -686,14 +709,14 @@ export class CardIndividualApplicationComponent implements OnInit {
       });
   }
 
-  // Submit application to blockchain
+  // Submit application to blockchain (Web3 Storage)
   onSubmit() {
-    // TODO: show alert message stating where application will go ask again for assurance of submission
-    // TODO: loading wheel for page true
-    // TODO: save application to cloudDB
-    // TODO: submit application to web3.storage
-    // TODO: submit documents to web3.storage
-    // TODO: save CID for application on blockchain to KOS db
+    SubmitApplicationAlert.fire({})
+      .then((result) => {
+        if (result.isConfirmed === true) {
+          this.submitApplication();
+        }
+      });    
   }
 
   reloadPage() {

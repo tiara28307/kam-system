@@ -1,6 +1,6 @@
 <div>
   <!-- Card stats -->
-  <div class="flex flex-wrap">
+  <div class="flex flex-wrap" *ngIf="currentService === 'KYC Onboarding'">
     <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
       <app-card-dashboard-stats
         appSubtitle="Total Requests: "
@@ -20,4 +20,25 @@
       ></app-card-dashboard-stats>
     </div>
   </div>
+  <div class="flex flex-wrap" *ngIf="currentService === 'KYC Screening'">
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-card-dashboard-stats
+        appSubtitle="Total Requests: "
+        appTitle="{{ getTotalApplications() }}"
+      ></app-card-dashboard-stats>
+    </div>
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-card-dashboard-stats
+        appSubtitle="Requests Accepted: "
+        appTitle="{{ getApplicationsSubmitted() }}"
+      ></app-card-dashboard-stats>
+    </div>
+    <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
+      <app-card-dashboard-stats
+        appSubtitle="Applications Screened: "
+        appTitle="{{ getApplicationsApproved() }}"
+      ></app-card-dashboard-stats>
+    </div>
+  </div>
+  
 </div>

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import { Router } from '@angular/router';
+import { CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js';
+import { EnterNewPasswordAlert, EnterVerificationCodeAlert, FailedChangePasswordAlert, FailedResetPasswordAlert, FailedUpdateAttributesAlert, SuccessfulAtrributesUpdateAlert, SuccessfulPasswordChangeAlert, SuccessfulPasswordResetAlert } from 'src/constants/alerts.constant';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -7,8 +9,11 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   private _currentService: string;
+  private _settingsLink: string;
 
-  constructor() {}
+  constructor(
+    private router: Router
+  ) {}
 
   set currentService(val: string) {
     this._currentService = val;
@@ -17,6 +22,22 @@ export class UserService {
   get currentService(): string {
     return this._currentService;
   }
+
+  set settingsLink(link: string) {
+    this._settingsLink = link;
+  }
+
+  get settingsLink(): string {
+    return this._settingsLink;
+  }
+
+  getAuthenticatedUser = () => {
+    let userPool = new CognitoUserPool({
+        UserPoolId: environment.AWS_COGNITO_USER_POOL,
+        ClientId: environment.AWS_COGNITO_CLIENT_ID
+    });
+    return userPool.getCurrentUser();
+  };
 
   // Based on current user type return user data from AWS Cognito
   getUserData(): any[] {
@@ -41,7 +62,7 @@ export class UserService {
           }
           var userData = res.UserAttributes;
           var userType = userData.filter(attr => attr.Name === 'custom:role')[0].Value;
-          
+
           if (userType === 'CUSTOMER') {
             user = [{
               username: userData.filter(attr => attr.Name === 'sub')[0].Value,
@@ -76,4 +97,68 @@ export class UserService {
     }
     return user;
   }
+
+  logoutUser() {
+    let cognitoUser = this.getAuthenticatedUser();
+    cognitoUser?.signOut();
+    this.router.navigate(['/']);
+  }
+
+  resetPassword(username) {
+    let poolData = {
+      UserPoolId: environment.AWS_COGNITO_USER_POOL,
+      ClientId: environment.AWS_COGNITO_CLIENT_ID
+    };
+    var userPool = new CognitoUserPool(poolData);
+    let userData = {
+      Username: username,
+      Pool: userPool
+    };
+    var cognitoUser = new CognitoUser(userData);
+
+    cognitoUser.forgotPassword({
+      onSuccess: (result) => {
+        console.log('forget password call: ', result);
+      },
+      onFailure: (err) => {
+        FailedResetPasswordAlert(err).fire({});
+      },
+      async inputVerificationCode() {
+        var { value: verificationCode } = await EnterVerificationCodeAlert.fire({});
+        var { value: newPassword } = await EnterNewPasswordAlert.fire({});
+        cognitoUser.confirmPassword(verificationCode, newPassword, {
+          onSuccess: (result) => {
+            console.log('password reset: ', result);
+            if (result === 'SUCCESS') {
+              return SuccessfulPasswordResetAlert.fire({});
+            }
+          },
+          onFailure: (err) => {
+            return FailedResetPasswordAlert(err).fire({});
+          }
+        });
+      }
+    });
+    cognitoUser?.signOut();
+  }
+
+  updateAttributes(attributeList) {
+    let cognitoUser = this.getAuthenticatedUser();
+    
+    if (cognitoUser != null) {
+      cognitoUser.getSession((err: any, session: any) => {
+        if (err) {
+          alert(err.message || JSON.stringify(err));
+        }
+        cognitoUser.updateAttributes(attributeList, (err, result) => {
+          if (err) {
+            FailedUpdateAttributesAlert(err).fire({});
+          }
+          console.log('update result: ' + result);
+          SuccessfulAtrributesUpdateAlert.fire({});
+        })
+      })
+    }
+  }
+
 }

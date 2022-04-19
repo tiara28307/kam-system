@@ -1,0 +1,27 @@
+<div class="relative flex flex-col min-w-0 break-words w-full mb-6 rounded bg-transparent">
+  <div class="block w-full overflow-x-auto overflow-y-auto max-h-650-px">
+    <table class="items-center w-full bg-transparent border-separate">
+      <thead>
+        <tr>
+          <th class="border px-6 align-middle py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-transparent text-slate-500">Application Id</th>
+          <th class="border px-6 align-middle py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-transparent text-slate-500">Start Date</th>
+          <th class="border px-6 align-middle py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-transparent text-slate-500">Complete Date</th>
+          <th class="border px-6 align-middle py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-transparent text-slate-500">Decision</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let application of applications" class="bg-white">
+          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex table-cell hover:text-red-700">
+            <button (click)="openApplication(application.applicationId, application.decision)" class="ml-3 font-bold focus:outline-none">{{application.applicationId}}</button></th>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 table-cell">{{application.startDate}}</td>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+            <span class="mr-2">{{application.completeDate}}</span>
+          </td>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 lowercase font-semibold">
+            <i class="fas fa-circle {{getStatusColor(request.status)}} mr-2"></i>{{application.decision}}</td> 
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

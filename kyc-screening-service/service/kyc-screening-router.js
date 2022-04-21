@@ -17,6 +17,16 @@ kycScreeningRouter
       });
   })
 
+  .get('/company/:companyId/application', cors.cors, (req, res, next) => {
+    let companyId = req.params.companyId;
+
+    kycScreeningDao.getApplication(companyId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in retrieving application: ' + err);
+      });
+  })
+
   .get('/countries/incorporation', cors.cors, (req, res, next) => {
     kycScreeningDao.getIncorporationCountries(res)
       .then()
@@ -147,6 +157,33 @@ kycScreeningRouter
       .catch(err => {
         log.error('Error in sharing application decision: ' + err);
       });
+  })
+
+  .get('/company/:companyId/submitted/applicationdetails', cors.cors, (req, res, next) => {
+    let companyId = req.params.companyId;
+    kycScreeningDao.getSubmittedApplicationDetails(companyId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in getting submitted application details: ' + err);
+      })
+  })
+
+  .get('/company/:companyId/submitted/poifile', cors.cors, (req, res, next) => {
+    let companyId = req.params.companyId;
+    kycScreeningDao.getSubmittedPoiFile(companyId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in getting submitted application details: ' + err);
+      })
+  })
+
+  .get('/company/:companyId/submitted/poafile', cors.cors, (req, res, next) => {
+    let companyId = req.params.companyId;
+    kycScreeningDao.getSubmittedPoaFile(companyId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in getting submitted application details: ' + err);
+      })
   })
 
 module.exports = kycScreeningRouter;

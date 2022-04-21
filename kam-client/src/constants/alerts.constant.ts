@@ -267,6 +267,23 @@ let SuccessfulAtrributesUpdateAlert = Swal.mixin({
   icon: 'success'
 });
 
+// Screening Alerts
+let ScreenApplicationAlert = Swal.mixin({
+  title: 'Application Screening',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.theme,
+  icon: 'info'
+});
+
+let ApplicationScreenedAlert = Swal.mixin({
+  title: 'Application Screening Complete',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
 export {
   SuccessfulRegistrationAlert,
   FailedRegistrationAlert,
@@ -294,5 +311,7 @@ export {
   SubmitApplicationAlert,
   ApplicationSubmittedAlert,
   FailedSubmitApplicationAlert,
-  DeleteSubmittedApplicationAlert
+  DeleteSubmittedApplicationAlert,
+  ScreenApplicationAlert,
+  ApplicationScreenedAlert
 }

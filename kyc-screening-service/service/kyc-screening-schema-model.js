@@ -70,12 +70,10 @@ const ApplicationSchema = new mongoose.Schema({
   poa_extracted: Array,
   risk_score: Number,
   comments: {
-    type: String,
-    required: true
+    type: String
   },
   decision: {
-    type: String,
-    required: true
+    type: String
   },
   shared: {
     type: Boolean,

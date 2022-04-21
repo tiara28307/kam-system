@@ -40,13 +40,16 @@ export class CardBusinessApplicationComponent implements OnInit {
     { code: 2, name: 'Partnership Firm' },
     { code: 3, name: 'Trust, Charity, or NGO' },
     { code: 4, name: 'Other' },
-    { code: 5, name: 'Military or Government Body' },
+    { code: 5, name: 'Military or Government Agency' },
     { code: 6, name: 'Bank or Institutional Investor' },
     { code: 7, name: 'Foreign Insitutional Investor (FII)' },
     { code: 8, name: 'Registered Society' },
     { code: 9, name: 'Unincorporated Association or Body of Individuals' },
     { code: 10, name: 'Information Technology' },
-    { code: 11, name: 'Health Care' }
+    { code: 11, name: 'Health Care' },
+    { code: 12, name: 'Mission' },
+    { code: 13, name: 'Private Investment Company PIC' },
+    { code: 14, name: 'LLC' },
   ];
 
   proofOfBusiness = [

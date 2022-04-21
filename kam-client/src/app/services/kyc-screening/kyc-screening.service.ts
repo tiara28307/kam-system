@@ -37,6 +37,17 @@ export class KycScreeningService {
     }
   }
 
+  getApplication(companyId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8084/kyc/screening/company/${companyId}/application`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
   getIncorporationCountries() {
     let isValidUser = this.canAccess();
 
@@ -198,6 +209,39 @@ export class KycScreeningService {
       return this.httpreq.post(`http://localhost:8084/kyc/screening/share/application/${applicationId}/decision`, {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'text'
+      });
+    }
+  }
+
+  getSubmittedApplicationDetails(companyId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8084/kyc/screening/company/${companyId}/submitted/applicationdetails`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getSubmittedApplicationPoiFile(companyId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8084/kyc/screening/company/${companyId}/submitted/poifile`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getSubmittedApplicationPoaFile(companyId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8084/kyc/screening/company/${companyId}/submitted/poafile`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
       });
     }
   }

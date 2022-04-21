@@ -43,7 +43,7 @@
                 <label
                   class="block uppercase text-slate-600 text-xs font-bold mb-2"
                 >
-                  Father Name
+                  Father Full Name
                 </label>
                 <p class="text-theme-500 mb-6">{{applicationData.details[0].father_name}}</p>
               </div>
@@ -54,7 +54,7 @@
                 <label
                   class="block uppercase text-slate-600 text-xs font-bold mb-2"
                 >
-                  Mother Name
+                  Mother First Name
                 </label>
                 <p class="text-theme-500 mb-6">{{applicationData.details[0].mother_name}}</p>
               </div>
@@ -477,5 +477,6 @@
       Delete
     </button>
     </div>
+    <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px', backdropBackgroundColour: 'rgba(0, 0, 0, 0.5)'}"></ngx-loading>
   </div>
 </div>

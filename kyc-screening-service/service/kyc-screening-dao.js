@@ -86,6 +86,27 @@ const getIncorporationCountries = async (res) => {
     });
 }
 
+// DAO - get application by company ID (username)
+const getApplication = async (companyId, res) => {
+  try {
+    const result =  await Application.findOne({ company_id: companyId });
+    log.info(`Application ${result.application_id} has been retrieved for company ${result.company_id}`);
+    
+    return res.send({
+      messageCode: 'GETAPP',
+      message: 'Application has been retrieved successfully.',
+      applicationDetails: result
+    });
+  } catch (err) {
+    log.error(`Error retrieving application for company ${companyId}: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'GETAPPERR',
+      message: 'Unable to retrieve application for company ' + companyId
+    });
+  }
+}
+
 const getOperationCountries = async (res) => {
   return await OperationCountry.find({})
     .then(countries => {
@@ -448,8 +469,83 @@ const shareApplicationDecision = async (applicationId, res) => {
   }
 }
 
+const getSubmittedApplicationDetails = async (companyId, res) => {
+  try {
+    const result = await Application.findOne({ company_id: companyId  });
+    const cids = result.application_details[0].application_cids;
+    const currentCid = cids[cids.length - 1]
+    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${result.application_id}.json`;
+    axios
+        .get(url)
+        .then(result => {
+          console.log(`status code: ${result.status} ${result.statusText}`);
+          console.log(result.data)
+          return res.send({
+            messageCode: `SUBAPPDET`,
+            message: `Successful retrieval of application details from web3 storage`,
+            data: result.data
+          })
+        })
+        .catch(error => {
+          log.error('Eror retrieving application details from web3 storage: ', error);
+        })
+  } catch (err) {
+    log.error(`Error in retrieving application details: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'SUBAPPDETERR',
+      message: 'Failed to retrieve application from blockchain service'
+    });
+  }
+}
+
+const getSubmittedPoiFile = async (companyId, res) => {
+  try {
+    const result = await Application.findOne({ company_id: companyId  });
+    const cids = result.application_details[0].application_cids;
+    const currentCid = cids[cids.length - 1]
+    const filename = result.application_details[0].documents[0].poi.file_name;
+    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    return res.send({
+      messageCode: `SUBAPPPOI`,
+      message: `Successful retrieval of application poi file link`,
+      poiLink: url
+    })
+  } catch (err) {
+    log.error(`Error in retrieving application poi file: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'SUBAPPPOIERR',
+      message: 'Failed to retrieve application poi file link'
+    });
+  }
+}
+
+const getSubmittedPoaFile = async (companyId, res) => {
+  try {
+    const result = await Application.findOne({ company_id: companyId  });
+    const cids = result.application_details[0].application_cids;
+    const currentCid = cids[cids.length - 1]
+    const filename = result.application_details[0].documents[0].poa.file_name;
+    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    return res.send({
+      messageCode: `SUBAPPPOA`,
+      message: `Successful retrieval of application poa file link`,
+      poaLink: url
+    })
+  } catch (err) {
+    log.error(`Error in retrieving application poa file: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'SUBAPPPOAERR',
+      message: 'Failed to retrieve application poa file link'
+    });
+  }
+}
+
 module.exports = {
   createNewApplicationRecord,
+  getApplication,
   getIncorporationCountries,
   getOperationCountries,
   getNationalityCountries,
@@ -464,5 +560,8 @@ module.exports = {
   updateApplicationPoiExtraction,
   updateApplicationPoaExtraction,
   updateApplicationRiskScore,
-  shareApplicationDecision
+  shareApplicationDecision,
+  getSubmittedApplicationDetails,
+  getSubmittedPoiFile,
+  getSubmittedPoaFile
 }

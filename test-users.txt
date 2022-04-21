@@ -1,0 +1,11 @@
+INDIVIDUAL CUSTOMER USER
+email: mygmail
+pass: t@1ChAxAde4
+
+BUSINESS CUSTOMER USER
+email: logan.allen4@gmail.com
+pass: T7gaf9iHe@r
+
+FI USER
+email: evelyn.hernandez@amexpress.com
+pass: n4BrebI$ruv

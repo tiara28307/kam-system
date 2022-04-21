@@ -8,6 +8,7 @@ const idCardQueueId = process.env.BUTLER_IDCARD_QUEUE_ID;
 const bankStatementQueueId = process.env.BUTLER_BANK_STATEMENT_QUEUE_ID;
 const utilityBillQueueId = process.env.BUTLER_UTILITY_BILL_QUEUE_ID;
 const leaseAgreementQueueId = process.env.BUTLER_LEASE_AGREEMENT_QUEUE_ID;
+const vatCertificateQueueId = process.env.BUTLER_VAT_CERTIFICATE_QUEUE_ID;
 const authHeaders = {
   'Authorization': 'Bearer ' + butlerApiKey
 };
@@ -16,10 +17,11 @@ const idCardUploadUrl = butlerApiBaseUrl + '/queues/' + idCardQueueId + '/upload
 const bankStatementUploadUrl = butlerApiBaseUrl + '/queues/' + bankStatementQueueId + '/uploads';
 const utilityBillUploadUrl = butlerApiBaseUrl + '/queues/' + utilityBillQueueId + '/uploads';
 const leaseSaleAgreementUploadUrl = butlerApiBaseUrl + '/queues/' + leaseAgreementQueueId + '/uploads';
-
+const vatCertificateUploadUrl = butlerApiBaseUrl + '/queues/' + vatCertificateQueueId + '/uploads';
 
 // Uploads files to Butler OCR API and returns the id for fetching results
-const uploadPoiFiles = async (filePaths) => {
+const uploadPoiFiles = async (filePaths, docObj) => {
+  var uploadUrl = docObj.documentType === 'CV' ? vatCertificateUploadUrl : idCardUploadUrl;
   const formData = new FormData();
   filePaths.forEach(filePath => {
     formData.append('files', fs.createReadStream(filePath));
@@ -28,7 +30,7 @@ const uploadPoiFiles = async (filePaths) => {
   // upload file to Butler API
   console.log('Uploading proof of identity file to Butler for processing');
   const uploadResponse = await axios.post(
-    idCardUploadUrl, 
+    uploadUrl, 
     formData,
     {
       headers: { ...authHeaders, ...formData.getHeaders() }
@@ -70,8 +72,9 @@ const uploadPoaFiles = async (filePaths, docObj) => {
   return uploadResponse.data.uploadId;
 }
 
-const getExtractedPoiResults = async (uploadId) => {
-  const extractionResultsUrl = butlerApiBaseUrl + '/queues/' + idCardQueueId + '/extraction_results';
+const getExtractedPoiResults = async (uploadId, docObj) => {
+  var queueId = docObj.documentType === 'CV' ? vatCertificateQueueId : idCardQueueId;
+  const extractionResultsUrl = butlerApiBaseUrl + '/queues/' + queueId + '/extraction_results';
   const params = { uploadId };
   const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
   var extractionResults = null;
@@ -137,8 +140,8 @@ const getExtractedPoaResults = async (uploadId, docObj) => {
 }
 
 const butlerOcrExtraction = async (filePaths, docObj) => {
-  const uploadId = docObj.kycType === 'poi' ? await uploadPoiFiles(filePaths) : await uploadPoaFiles(filePaths, docObj);
-  const extractionResults = docObj.kycType === 'poi' ? await getExtractedPoiResults(uploadId) : await getExtractedPoaResults(uploadId, docObj);
+  const uploadId = docObj.kycType === 'poi' ? await uploadPoiFiles(filePaths, docObj) : await uploadPoaFiles(filePaths, docObj);
+  const extractionResults = docObj.kycType === 'poi' ? await getExtractedPoiResults(uploadId, docObj) : await getExtractedPoaResults(uploadId, docObj);
   
   extractionResults.items.forEach(documentResult => {
     const fileName = documentResult.fileName;

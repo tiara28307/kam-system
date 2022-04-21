@@ -17,8 +17,6 @@ mongoose.connect(dbUrl)
         .then(log.info('connected to mongo kos database....'))
         .catch(err => log.error('unable to connect, please check your connection....' + err));
 
-// TODO: Connect to Web3.Storage Blockchain
-
 function getCurrentDateTime() {
   return new Date().toUTCString();
 }

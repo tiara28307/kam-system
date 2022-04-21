@@ -15,7 +15,7 @@ export class KycScreeningService {
 
   // Check authentication again before accessing backend services for KSS
   canAccess(): boolean {
-    let isAuth = this.authService.isAuthenticated('CUSTOMER');
+    let isAuth = this.authService.isAuthenticated('COMPANY');
     
     if(!isAuth) {
       DoNotHavePermissionToServiceAlert('kyc screening').fire({});
@@ -23,71 +23,182 @@ export class KycScreeningService {
     return isAuth;
   }
 
-  /* 
-  sendRequest(body) {
+  // sendRequest()
+  // getRequest()
+
+  createNewApplication(body) {
     let isValidUser = this.canAccess();
 
     if (isValidUser) {
-      return this.httpreq.post("http://localhost:8082/kyc/screening/request", body, {
+      return this.httpreq.post("http://localhost:8084/kyc/screening/create/application", body, {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'text'
       });
     }
   }
 
-  getRequests(body) {
+  getIncorporationCountries() {
     let isValidUser = this.canAccess();
 
     if (isValidUser) {
-      return this.httpreq.get("http://localhost:8082/kyc/screening/requests", body, {
+      return this.httpreq.get("http://localhost:8084/kyc/screening/countries/incorporation", {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getGovernmentCountries() {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get("http://localhost:8084/kyc/screening/countries/government", {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getNationalityCountries() {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get("http://localhost:8084/kyc/screening/countries/nationality", {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getOperationCountries() {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get("http://localhost:8084/kyc/screening/countries/operation", {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getResidenceCountries() {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get("http://localhost:8084/kyc/screening/countries/residence", {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getLegalStructures() {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get("http://localhost:8084/kyc/screening//legalstructures", {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getIndividualSanctions(firstName, lastName) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8084/kyc/screening/individual/sanctions/${firstName}/${lastName}`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  getBusinessSanctions(companyName) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8084/kyc/screening/business/sanctions/${companyName}`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  extractPoiInformation(body) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post("http://localhost:8084/kyc/screening/application/extraction/poi", body, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  extractPoaInformation(body) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post("http://localhost:8084/kyc/screening/application/extraction/poa", body, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      });
+    }
+  }
+
+  updatePoiExtraction(body) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post("http://localhost:8084/kyc/screening/update/application/poiextraction", body, {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'text'
       });
     }
   }
 
-  screenApplication(body) {
+  updatePoaExtraction(body) {
     let isValidUser = this.canAccess();
 
     if (isValidUser) {
-      return this.httpreq.post("http://localhost:8082/kyc/screening/:applicationId", body, {
+      return this.httpreq.post("http://localhost:8084/kyc/screening/update/application/poaextraction", body, {
       headers: { 'Content-Type': 'application/json' },
-      responseType: 'json'
+      responseType: 'text'
       });
     }
   }
 
-  saveDecision(body) {
+  updateDecisionComments(body) {
     let isValidUser = this.canAccess();
 
     if (isValidUser) {
-      return this.httpreq.post("http://localhost:8082/kyc/screening/:applicationId/decision", body, {
+      return this.httpreq.post("http://localhost:8084/kyc/screening/update/application/decisionandcomments", body, {
       headers: { 'Content-Type': 'application/json' },
-      responseType: 'json'
+      responseType: 'text'
       });
     }
   }
 
-  shareDecision(body) {
+  updateRiskScore(body) {
     let isValidUser = this.canAccess();
 
     if (isValidUser) {
-      return this.httpreq.post("http://localhost:8082/kyc/screening/:applicationId/sharedecision", body, {
+      return this.httpreq.post("http://localhost:8084/kyc/screening/update/application/riskscore", body, {
       headers: { 'Content-Type': 'application/json' },
-      responseType: 'json'
+      responseType: 'text'
       });
     }
   }
 
-  getCompletedScreenings(body) {
+  shareApplicationDecision(applicationId) {
     let isValidUser = this.canAccess();
 
     if (isValidUser) {
-      return this.httpreq.get("http://localhost:8082/kyc/screening/applications", body, {
+      return this.httpreq.post(`http://localhost:8084/kyc/screening/share/application/${applicationId}/decision`, {
       headers: { 'Content-Type': 'application/json' },
-      responseType: 'json'
+      responseType: 'text'
       });
     }
   }
-  */
 }

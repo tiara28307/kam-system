@@ -6,14 +6,16 @@ const butlerApiBaseUrl = process.env.BUTLER_BASE_URL;
 const butlerApiKey = process.env.BUTLER_API_KEY;
 const idCardQueueId = process.env.BUTLER_IDCARD_QUEUE_ID;
 const bankStatementQueueId = process.env.BUTLER_BANK_STATEMENT_QUEUE_ID;
+const utilityBillQueueId = process.env.BUTLER_UTILITY_BILL_QUEUE_ID;
+const leaseAgreementQueueId = process.env.BUTLER_LEASE_AGREEMENT_QUEUE_ID;
 const authHeaders = {
   'Authorization': 'Bearer ' + butlerApiKey
 };
 
 const idCardUploadUrl = butlerApiBaseUrl + '/queues/' + idCardQueueId + '/uploads';
 const bankStatementUploadUrl = butlerApiBaseUrl + '/queues/' + bankStatementQueueId + '/uploads';
-// const utilityBillUploadUrl
-// const leaseSaleAgreementUploadUrl
+const utilityBillUploadUrl = butlerApiBaseUrl + '/queues/' + utilityBillQueueId + '/uploads';
+const leaseSaleAgreementUploadUrl = butlerApiBaseUrl + '/queues/' + leaseAgreementQueueId + '/uploads';
 
 
 // Uploads files to Butler OCR API and returns the id for fetching results
@@ -33,10 +35,6 @@ const uploadPoiFiles = async (filePaths) => {
     })
     .catch(error => {
       console.error(`Error uploading poi file to Butler API: ${error}`);
-      return res.status(400).send({
-        messageCode: 'BUTPOIERR',
-        message: 'Failed to upload poi file to Butler API'
-      });
     })
 
   return uploadResponse.data.uploadId;
@@ -51,11 +49,11 @@ const uploadPoaFiles = async (filePaths, docObj) => {
   });
 
   if (docObj.documentType === 'BS') {
-    uploadUrl = bankStatementUploadUrl
+    uploadUrl = bankStatementUploadUrl;
   } else if (docObj.documentType === 'UB') {
-    // uploadUrl = utilityBillUploadURL
+    uploadUrl = utilityBillUploadUrl;
   } else if (docObj.documentType == 'LA') {
-    // uploadUrl = leaseAgreementUploadURL
+    uploadUrl = leaseSaleAgreementUploadUrl;
   }
 
   console.log('Uploading proof of address file to Butler for processing');
@@ -67,10 +65,6 @@ const uploadPoaFiles = async (filePaths, docObj) => {
     })
     .catch(error => {
       console.error(`Error uploading poa file to Butler API: ${error}`);
-      return res.status(400).send({
-        messageCode: 'BUTPOAERR',
-        message: 'Failed to upload poa file to Butler API'
-      });
     })
 
   return uploadResponse.data.uploadId;
@@ -105,18 +99,17 @@ const getExtractedPoiResults = async (uploadId) => {
 }
 
 const getExtractedPoaResults = async (uploadId, docObj) => {
-  // const extractionResultsUrl = butlerApiBaseUrl + '/queues/' + bankStatementQueueId + '/extraction_results';
   var queueId;
   const params = { uploadId };
   const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
   var extractionResults = null;
 
   if (docObj.documentType === 'BS') {
-    queueId = bankStatementQueueId
+    queueId = bankStatementQueueId;
   } else if (docObj.documentType === 'UB') {
-    // queueId = utilityBillUploadURL
+    queueId = utilityBillQueueId;
   } else if (docObj.documentType == 'LA') {
-    // queueId = leaseAgreementUploadURL
+    queueId = leaseAgreementQueueId;
   }
 
   const extractionResultsUrl = butlerApiBaseUrl + '/queues/' + queueId + '/extraction_results';
@@ -170,6 +163,7 @@ const butlerOcrExtraction = async (filePaths, docObj) => {
       });
     });
   });
+  return extractionResults.items;
 }
 
 module.exports = {

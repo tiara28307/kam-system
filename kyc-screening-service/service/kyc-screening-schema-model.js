@@ -44,6 +44,8 @@ const LegalStructureSchema = new mongoose.Schema({
   "Legal structure": String,
   "Risk_legal_structure": String,
   Score: Number
+}, {
+  collection: 'legalStructure'
 })
 
 // Customer Application Modal Schema
@@ -79,9 +81,29 @@ const ApplicationSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
+  decision_cids: Array,
   closed_date: Date
 }, {
 collection: 'applications'
+});
+
+const DecisionSchema = new mongoose.Schema({
+  decision_id: {
+    type: String,
+    match: [/^(\w{9})$/, 'Decision ID must be 9 chars'],
+    unique: true,
+    required: true
+  },
+  application_id: {
+    type: String,
+    match: [/^(\w{9})$/, 'Application ID must be 9 chars'],
+    unique: true,
+    required: true
+  },
+  decision_cid: String,
+  shared_date: Date
+}, {
+  collection: 'decisions'
 });
 
 const GovernmentCountry = mongoose.model('Countries of Government', GovernmentCountrySchema);
@@ -89,8 +111,9 @@ const IncorporationCountry = mongoose.model('Countries of Incorporation', Incorp
 const NationalityCountry = mongoose.model('Countries of Nationality', NationalityCountrySchema);
 const OperationCountry = mongoose.model('Countries of Operation', OperationCountrySchema);
 const ResidenceCountry = mongoose.model('Countries of Residence', ResidenceCountrySchema);
-const LegalStructure = mongoose.model('Countries of Residence', LegalStructureSchema);
+const LegalStructure = mongoose.model('Legal Structure', LegalStructureSchema);
 const Application = mongoose.model('Application under Review', ApplicationSchema);
+const Decision = mongoose.model('Application Decision', DecisionSchema);
 
 module.exports = {
   GovernmentCountry,
@@ -99,5 +122,6 @@ module.exports = {
     OperationCountry,
     ResidenceCountry,
     LegalStructure,
-    Application
+    Application,
+    Decision
 }

@@ -49,14 +49,6 @@ import { ContactFormComponent } from './views/contact-form/contact-form.componen
 // generic views and layouts
 import { UserNavbarComponent } from "./components/navbars/user-navbar/user-navbar.component";
 import { AuthNavbarComponent } from "./components/navbars/auth-navbar/auth-navbar.component";
-import { CardBarChartComponent } from "./components/cards/other-may-remove/card-bar-chart/card-bar-chart.component";
-import { CardLineChartComponent } from "./components/cards/other-may-remove/card-line-chart/card-line-chart.component";
-import { CardPageVisitsComponent } from "./components/cards/other-may-remove/card-page-visits/card-page-visits.component";
-import { CardProfileComponent } from "./components/cards/other-may-remove/card-profile/card-profile.component";
-import { CardSettingsComponent } from "./components/cards/other-may-remove/card-settings/card-settings.component";
-import { CardSocialTrafficComponent } from "./components/cards/other-may-remove/card-social-traffic/card-social-traffic.component";
-import { CardStatsComponent } from "./components/cards/other-may-remove/card-stats/card-stats.component";
-import { CardTableComponent } from "./components/cards/other-may-remove/card-table/card-table.component";
 import { FooterUserComponent } from "./components/footers/footer-user/footer-user.component";
 import { FooterComponent } from "./components/footers/footer/footer.component";
 import { FooterSmallComponent } from "./components/footers/footer-small/footer-small.component";
@@ -88,8 +80,6 @@ import { FilterPipe } from './pipes/filter.pipe';
 @NgModule({
   declarations: [
     AppComponent,
-    CardBarChartComponent,
-    CardLineChartComponent,
     PagesDropdownComponent,
     TableDropdownComponent,
     NotificationDropdownComponent,
@@ -98,12 +88,6 @@ import { FilterPipe } from './pipes/filter.pipe';
     FooterComponent,
     FooterSmallComponent,
     FooterUserComponent,
-    CardPageVisitsComponent,
-    CardProfileComponent,
-    CardSettingsComponent,
-    CardSocialTrafficComponent,
-    CardStatsComponent,
-    CardTableComponent,
     HeaderStatsComponent,
     AuthNavbarComponent,
     UserNavbarComponent,

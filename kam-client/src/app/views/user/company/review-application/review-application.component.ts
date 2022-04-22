@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { KycScreeningService } from 'src/app/services/kyc-screening/kyc-screening.service';
 import { UserService } from 'src/app/services/user.service';
-import { ScreenApplicationAlert } from 'src/constants/alerts.constant';
+import { FailedCreateApplicationAlert, ScreenApplicationAlert } from 'src/constants/alerts.constant';
 
 @Component({
   selector: 'app-review-application',
@@ -435,6 +435,29 @@ export class ReviewApplicationComponent implements OnInit {
     this.isScreened = true;
   }
 
+  saveApplication() {
+    this.isLoading = true;
+
+    let companyId = 'F' + this.user[0].username.slice(-12);
+
+    let application = {
+      applicationId: companyId,
+      companyId: companyId,
+      applicationDetails: this.applicationData,
+    }
+
+    this.screeningService.createNewApplication(application).subscribe(
+      res => {
+        this.isLoading = false;
+        console.log('response: ', res);
+      },
+      error => {
+        this.isLoading = false;
+        FailedCreateApplicationAlert(error).fire({});
+      }
+    );
+  }
+
   onScreen() {
     var steps = '';
     var stepNames = {
@@ -459,6 +482,7 @@ export class ReviewApplicationComponent implements OnInit {
     })
     .then((result) => {
       if (result.isConfirmed === true) {
+        this.saveApplication();
         this.screenApplication();
       }
     });

@@ -41,10 +41,10 @@
       <tbody>
         <tr *ngFor="let request of requests" class="bg-white">
           <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex table-cell hover:text-red-700">
-            <button (click)="openRequest(request.requestId, request.status)" class="ml-3 font-bold focus:outline-none">{{request.requestId}}</button></th>
+            <button (click)="openRequest(request)" class="ml-3 font-bold focus:outline-none">{{request.request_id}}</button></th>
           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 table-cell">{{request.sender}}</td>
           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-            <span class="mr-2">{{request.requestDate}}</span>
+            <span class="mr-2">{{request.request_date}}</span>
           </td>
           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 lowercase font-semibold">
             <i class="fas fa-circle {{getStatusColor(request.status)}} mr-2"></i>{{request.status}}</td> 
@@ -52,4 +52,5 @@
       </tbody>
     </table>
   </div>
+  <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px', backdropBackgroundColour: 'rgba(0, 0, 0, 0.5)'}"></ngx-loading>
 </div>

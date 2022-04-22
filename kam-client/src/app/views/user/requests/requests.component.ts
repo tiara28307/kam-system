@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from '@ngneat/dialog';
-import { CardRequestCreateComponent } from 'src/app/components/cards/card-request-create/card-request-create.component';
+import { CardCreateRequestComponent } from 'src/app/components/cards/card-create-request/card-create-request.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-requests',
@@ -9,16 +10,19 @@ import { CardRequestCreateComponent } from 'src/app/components/cards/card-reques
   ]
 })
 export class RequestsComponent implements OnInit {
+  currentService: String;
 
   constructor(
-    private dialog: DialogService
+    private dialog: DialogService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
+    this.currentService = this.userService.currentService;
   }
 
   onCreateRequest() {
-    this.dialog.open(CardRequestCreateComponent);
+    this.dialog.open(CardCreateRequestComponent);
   }
 
 }

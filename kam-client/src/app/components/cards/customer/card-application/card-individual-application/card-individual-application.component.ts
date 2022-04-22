@@ -544,7 +544,7 @@ export class CardIndividualApplicationComponent implements OnInit {
 
   onSave() {    
     this.isLoading = true;
-    this.uploadDocument('poi')
+    this.uploadDocument('poi');
     this.uploadDocument('poa');
     this.updateApplicationDetails(false);
   }
@@ -682,6 +682,8 @@ export class CardIndividualApplicationComponent implements OnInit {
   submitApplication() {
     this.isLoading = true;
     // Save application before submitting
+    this.uploadDocument('poi');
+    this.uploadDocument('poa');
     this.updateApplicationDetails(true);
 
     this.onboardingService.submitApplication(this.applicationId).subscribe(

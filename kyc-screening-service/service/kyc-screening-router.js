@@ -98,10 +98,6 @@ kycScreeningRouter
   })
 
   .post('/application/extraction/poi', cors.cors, (appObj, res, next) => {
-    /*let appObj = {
-        applicationId: "K51663099",
-        documentType: "ID"
-    }*/
     kycScreeningDao.extractIdentityInformation(appObj, res)
       .then()
       .catch(err => {

@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { RequestService } from 'src/app/services/request.service';
 import { DialogService } from '@ngneat/dialog';
 import { CardRequestOverviewComponent } from '../card-request-overview/card-request-overview.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-card-request-table',
@@ -11,26 +12,38 @@ import { CardRequestOverviewComponent } from '../card-request-overview/card-requ
   ]
 })
 export class CardRequestTableComponent implements OnInit {
-  requests: string[];
+  isLoading = false;
+  user: any[];
+  requests = [];
 
   constructor(
-    private http: HttpClient, 
     private requestService: RequestService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private userService: UserService
   ) {
-    this.getRequest();
   }
 
   ngOnInit(): void {
+    this.user = this.userService.getUserData();
+    this.getRequests();
   }
 
-  getRequest() {
-    this.http.get('assets/json/requests.json').subscribe((res) => {
-      this.requests = res as string[];
-    },
-    (err: HttpErrorResponse) => {
-      console.log(err.message);
-    })
+  getRequests() {
+    this.isLoading = true;
+    let userType = this.user[0].role;
+    let email = this.user[0].email;
+
+    this.requestService.getRequests(userType, email).subscribe(
+      res => {
+        this.isLoading = false;
+        this.requests = [res];
+        this.requests = this.requests[0].requests;
+      },
+      error => {
+        this.isLoading = false;
+        console.error('Error getting requests for user: ', error);
+      }
+    )
   }
 
   getStatusColor(status) {
@@ -44,9 +57,8 @@ export class CardRequestTableComponent implements OnInit {
     }
   }
 
-  openRequest(id, status) {
-    this.requestService.requestId = id;
-    this.requestService.status = status;
+  openRequest(request) {
+    this.requestService.req = request;
     this.dialog.open(CardRequestOverviewComponent);
   }
 }

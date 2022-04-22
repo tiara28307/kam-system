@@ -110,4 +110,14 @@ kycOnboardingRouter
       })
   })
 
+  .get('/customer/:customerId/application/ids', cors.cors, (req, res, next) => {
+    let customerId = req.params.customerId;
+
+    kycOnboardingDao.getApplicationIdCid(customerId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in getting application ids: ' + err);
+      })
+  })
+
 module.exports = kycOnboardingRouter;

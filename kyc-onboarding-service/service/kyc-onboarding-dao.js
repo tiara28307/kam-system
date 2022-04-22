@@ -179,6 +179,30 @@ const getApplication = async (customerId, res) => {
   }
 }
 
+const getApplicationIdCid = async (customerId, res) => {
+  try {
+    const result =  await Application.findOne({ customer_id: customerId });
+    log.info(`Application ${result.application_id} has been retrieved for customer ${result.customer_id}`);
+
+    const cids = result.application_cids;
+    const currentCid = cids[cids.length - 1];
+    const applicationId = result.application_id;
+    
+    return res.send({
+      messageCode: 'GETAPPID',
+      message: 'Application ids have been retrieved successfully.',
+      ids: { applicationId: applicationId, cid: currentCid}
+    });
+  } catch (err) {
+    log.error(`Error retrieving application ids for customer ${customerId}: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'GETAPPIDERR',
+      message: 'Unable to retrieve application ids for customer ' + customerId
+    });
+  }
+}
+
 const applicationExist = async (customerId, res) => {
   try {
     const result = await Application.findOne({ customer_id: customerId }).count();
@@ -330,14 +354,7 @@ const submitApplication = async (applicationId, res) => {
   let date = getCurrentDateTime();
   try {
     // Find and update submission details for application
-    const result = await Application.findOneAndUpdate(
-      { application_id: applicationId }, 
-      { $set: { 
-        submitted: true, 
-        submission_date: date 
-      }},
-      { new: true }
-    );
+    const result = await Application.findOne({ application_id: applicationId });
 
     // Create json file for application
     fileUtils.createApplicationFileObject(applicationId, result);
@@ -345,25 +362,41 @@ const submitApplication = async (applicationId, res) => {
     // Push application files to blockchain
     const dirPath = `./uploads/application/documents/${applicationId}/`;
     web3Storage.pushFilesToBlockchain(dirPath);
+    
+    await new Promise((resolve, reject) => setTimeout(resolve, 5000));
+    
     const cid = web3Utils.applicationCID.getCID();
 
     // Save cid to mongodb for later retrieval
     await Application.findOneAndUpdate(
       { application_id: applicationId }, 
-      { $push: { application_cids: cid }}
+      { $push: { application_cids: cid }},
+      { $set: { 
+        submitted: true, 
+        submission_date: date 
+      }}
     );
 
     // After pushing to blockchain remove files from local storage
-    fs.unlinkSync(dirPath, (err) => {
-      if (err) {
-        log.error(`Error removing directory ${dirPath}: `, err);
-      }
-      log.info(`Removal of files at ${dirPath} successful!`);
-    })
+    let poiFilePath = `./${result.documents[0].poi.file_path}`;
+    let poaFilePath = `./${result.documents[0].poa.file_path}`;
+    let appDetailsFilePath = `./uploads/application/documents/${applicationId}/${applicationId}.json`;
+    // let localFilePaths = [poiFilePath, poaFilePath, appDetailsFilePath];
+    
+    /*localFilePaths.forEach(path => {
+      fs.unlinkSync(path, (err) => {
+        if (err) {
+          log.error(`Error removing directory ${dirPath}: `, err);
+        }
+        log.info(`Removal of files at ${dirPath} successful!`);
+      })
+    })*/
+    log.info('application CID: ', cid);
     
     return res.send({
       messageCode: 'SUBAPP',
-      message: 'Application has been submitted to blockchain successfully.'
+      message: 'Application has been submitted to blockchain successfully.',
+      appCID: cid
     });
   } catch (err) {
     log.error(`Error submitting application ${applicationId}: ` + err);
@@ -460,5 +493,6 @@ module.exports = {
     updateDocument,
     getSubmittedApplicationDetails,
     getSubmittedPoiFile,
-    getSubmittedPoaFile
+    getSubmittedPoaFile,
+    getApplicationIdCid
 }

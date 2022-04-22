@@ -284,6 +284,45 @@ let ApplicationScreenedAlert = Swal.mixin({
   icon: 'success'
 });
 
+// Request Alerts
+let RequestSentAlert = Swal.mixin({
+  title: 'Request Sent',
+  toast: true,
+  position: 'top-end',
+  showCloseButton: true,
+  showConfirmButton: false,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
+let FailedRequestSendAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Send Request',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
+let RequestDecisionAlert = Swal.mixin({
+  title: 'Request Decision Sent',
+  toast: true,
+  position: 'top-end',
+  showCloseButton: true,
+  showConfirmButton: false,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
+let FailedRequestDecisionAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Send Request Decision',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
 export {
   SuccessfulRegistrationAlert,
   FailedRegistrationAlert,
@@ -313,5 +352,9 @@ export {
   FailedSubmitApplicationAlert,
   DeleteSubmittedApplicationAlert,
   ScreenApplicationAlert,
-  ApplicationScreenedAlert
+  ApplicationScreenedAlert,
+  RequestSentAlert,
+  FailedRequestSendAlert,
+  RequestDecisionAlert,
+  FailedRequestDecisionAlert
 }

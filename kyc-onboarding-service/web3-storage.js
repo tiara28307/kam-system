@@ -31,6 +31,7 @@ async function storeFilesBlockchain() {
 
   log.warn(`Uploading ${files.length} files`);
   const cid = await storage.put(files);
+  console.log(`application cid: `, cid);
   web3Utils.applicationCID.setCID(cid);
   log.warn('Application was successfully added to blockchain');
 }

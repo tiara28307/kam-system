@@ -9,3 +9,16 @@ pass: T7gaf9iHe@r
 FI USER
 email: evelyn.hernandez@amexpress.com
 pass: n4BrebI$ruv
+
+DEMO CUSTOMER TEST USERS
+1. Michael Robinson - low level
+    email: michael.robinson2@gmail.com, 
+    pass: G#4PAdisI1L
+
+2. Claire Shipman - medium level
+    email: claire.shipman@gmail.com, 
+    pass: Yah4_rlrO#U
+
+3. Cargo Aircraft Leasing Corp. - high level
+    email: lucas.wright@cargoairleasing.com
+    pass: q0Dri9u+hop

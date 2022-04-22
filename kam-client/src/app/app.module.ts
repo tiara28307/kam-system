@@ -81,6 +81,7 @@ import { AdminDashboardComponent } from './views/admin/admin-dashboard/admin-das
 import { CardSubmittedApplicationComponent } from './components/cards/customer/card-submitted-application/card-submitted-application.component';
 import { CardHistoryComponent } from './components/cards/company/card-history/card-history.component';
 import { HistoryComponent } from './views/user/company/history/history.component';
+import { CardCreateRequestComponent } from './components/cards/card-create-request/card-create-request.component';
 
 
 @NgModule({
@@ -142,7 +143,8 @@ import { HistoryComponent } from './views/user/company/history/history.component
     AdminDashboardComponent,
     CardSubmittedApplicationComponent,
     CardHistoryComponent,
-    HistoryComponent
+    HistoryComponent,
+    CardCreateRequestComponent
   ],
   imports: [
     BrowserModule, 

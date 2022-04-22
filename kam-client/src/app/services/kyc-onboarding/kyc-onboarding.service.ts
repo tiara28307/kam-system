@@ -52,6 +52,17 @@ export class KycOnboardingService {
     }
   }
 
+  getApplicationIdCid(customerId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/application/ids`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      }); 
+    }
+  }
+
   updateApplicationDetails(body) {
     let isValidUser = this.canAccess();
 

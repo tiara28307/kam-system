@@ -52,7 +52,7 @@ const createNewApplicationRecord = async (applicationObj, res) => {
 
   // Save application to kss mongodb
   try {
-    const result = await newApplication.save();
+    const result = await newApplication.findOneAndUpdate();
     log.info(`Application ${result.application_id} has been created for company ${result.company_id}`);
 
     return res.send({

@@ -16,8 +16,6 @@ import { ForgotPasswordComponent } from "./views/auth/forgot-password/forgot-pas
 
 // no layouts views
 import { IndexComponent } from "./views/index/index.component";
-import { LandingComponent } from "./views/other-may-remove/landing/landing.component";
-import { ProfileComponent } from "./views/other-may-remove/profile/profile.component";
 
 // auth guards
 import { CustomerAuthGuard } from "./auth/customer-auth-guard";
@@ -69,9 +67,7 @@ const routes: Routes = [
       { path: "", redirectTo: "login", pathMatch: "full" },
     ],
   },
-  // no layout views
-  { path: "profile", component: ProfileComponent },
-  { path: "landing", component: LandingComponent },
+
   { path: "kam/blockchain", component: AdminDashboardComponent },
   { path: "", component: IndexComponent },
   

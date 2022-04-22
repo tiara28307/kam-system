@@ -61,138 +61,76 @@
                 <p class="{{getRiskColor(countryResidenceScore)}} font-bold mb-6">{{countryResidenceScore}}</p>
               </div>
             </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                  Mother First Name
-                </label>
-                <p class="text-theme-500 mb-6">{{applicationData.details[0].mother_name}}</p>
+            </div>
+
+            <div class="flex flex-wrap">
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    POI Information
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{poiInformation}}</p>
+                </div>
+              </div>
+
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    POA Information
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{poaInformation}}</p>
+                </div>
               </div>
             </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                  Mother Maiden Name
-                </label>
-                <p class="text-theme-500 mb-6">{{applicationData.details[0].mother_maidenname}}</p>
+
+            <div class="flex flex-wrap">
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    Applicant Sanctions
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{applicantSanctions}}</p>
+                </div>
               </div>
-            </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                  Spouse Name
-                </label>
-                <p class="text-theme-500 mb-6">{{applicationData.details[0].spouse_name}}</p>
+
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                  Father Sanctions
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{fatherSanctions}}</p>
+                </div>
               </div>
-            </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                  Marital Status
-                </label>
-                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].marital_status}}</p>
-              </div>
-            </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                  Gender
-                </label>
-                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].gender}}</p>
-              </div>
-            </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                  Date of Birth
-                </label>
-                <p class="text-theme-500 mb-6">{{applicationData.details[0].dob}}</p>
-              </div>
-            </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                  Citizenship Status
-                </label>
-                <p class="text-theme-500 mb-6">{{applicationData.details[0].citizenship_status}}</p>
-              </div>
-            </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                  Occupation
-                </label>
-                <p class="text-theme-500 mb-6">{{applicationData.details[0].occupation}}</p>
-              </div>
-            </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                Politically Exposed Person (PEP)?
-                </label>
-                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].pep}}</p>
-              </div>
-            </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                Relative or Associate of PEP?
-                </label>
-                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].rca_pep}}</p>
-              </div>
-            </div>
-          
-            <div class="w-full lg:w-6/12 px-4">
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
-                >
-                PEP Exposure
-                </label>
-                <p class="text-theme-500 mb-6">{{applicationData.details[0].pep_exposure}}</p>
-              </div>
-            </div>
 
             <div class="w-full lg:w-6/12 px-4">
               <div class="relative w-full mb-3">
                 <label
                   class="block uppercase text-slate-600 text-xs font-bold mb-2"
                 >
-                PEP's FullName
+                Mother Sanctions
                 </label>
-                <p class="text-theme-500 mb-6">{{applicationData.details[0].pep_fullname}}</p>
+                <p class="text-theme-500 font-bold mb-6">{{motherSanctions}}</p>
               </div>
             </div>
+
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-slate-600 text-xs font-bold mb-2"
+              >
+              Spouse Sanctions
+              </label>
+              <p class="text-theme-500 font-bold mb-6">{{spouseSanctions}}</p>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -200,6 +138,56 @@
           <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
             Risk Assessment
           </h6>
+
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Risk of Legal Structure
+                </label>
+                <p class="{{getRiskColor(legalStructureScore)}} font-bold mb-6">{{legalStructureScore}}</p>
+              </div>
+            </div>
+            </div>
+
+            <div class="flex flex-wrap">
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    POI Information
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{poiInformation}}</p>
+                </div>
+              </div>
+
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    POA Information
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{poaInformation}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap">
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    Company Sanctions
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{companySanctions}}</p>
+                </div>
+              </div>
+          </div>
         </div>
 
         <div *ngIf="applicationData.application_type === 'INDIVIDUAL' && !isScreened">

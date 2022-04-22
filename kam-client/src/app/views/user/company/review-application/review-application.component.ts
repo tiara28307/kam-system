@@ -19,7 +19,7 @@ export class ReviewApplicationComponent implements OnInit {
   poiFileLink = '';
   poaFileLink = '';
   riskScore = 0;
-  isScreened = true;
+  isScreened = false;
 
   citizenshipScore = 0;
   pepExposureScore = 0;
@@ -31,6 +31,7 @@ export class ReviewApplicationComponent implements OnInit {
   motherSanctions = [];
   spouseSanctions = [];
   companySanctions = [];
+  legalStructureScore = 0;
 
   pepTypes = [];
 
@@ -161,9 +162,14 @@ export class ReviewApplicationComponent implements OnInit {
   riskCountriesOfResidence(riskCountries, customerCountries) {
     let currentResidenceCountry = riskCountries[0].filter(country => country.$0.includes(customerCountries[0]));
     let permanentResidenceCountry = riskCountries[0].filter(country => country.$0.includes(customerCountries[1]));
-    let risk = [currentResidenceCountry.Score, permanentResidenceCountry];
+    let risk = [currentResidenceCountry.Score, permanentResidenceCountry.Score];
     let score = Math.max(...risk);
     return score;
+  }
+
+  riskOfLegalStructure(legalStructures, companyType) {
+    let risk = legalStructures[0].filter(country => country.$0.includes(companyType));
+    return risk.Score;
   }
 
   riskPepExposure(pepInformation) {
@@ -202,6 +208,10 @@ export class ReviewApplicationComponent implements OnInit {
   setCountryResidenceScore(score) {
     this.countryResidenceScore = score;
   }
+
+  setLegalStructureScore(score) {
+    this.legalStructureScore = score;
+  }
   
   setSanctions(name, res) {
     if (name === 'applicant') {
@@ -214,6 +224,14 @@ export class ReviewApplicationComponent implements OnInit {
       this.spouseSanctions = res[0];
     } else if (name === 'company') {
       this.companySanctions = res[0];
+    }
+  }
+
+  setProofDocuments(type, res) {
+    if (type === 'poi') {
+      this.poiInformation = res[0];
+    } else if (type === 'poa') {
+      this.poaInformation = res[0];
     }
   }
 
@@ -272,6 +290,8 @@ export class ReviewApplicationComponent implements OnInit {
       this.screeningService.extractPoiInformation(poiObj).subscribe(
         res => {
           let poiExtraction = [res];
+          this.poiInformation = [res];
+          this.setProofDocuments('poi', [res]);
           console.log('POI Extracted Information', poiExtraction);
         },
         error => {
@@ -282,6 +302,7 @@ export class ReviewApplicationComponent implements OnInit {
       this.screeningService.extractPoiInformation(poaObj).subscribe(
         res => {
           let poaExtraction = [res];
+          this.setProofDocuments('poa', [res]);
           console.log('POA Extracted Information', poaExtraction);
         },
         error => {
@@ -295,7 +316,7 @@ export class ReviewApplicationComponent implements OnInit {
       this.screeningService.getIndividualSanctions(firstName, lastName).subscribe(
         res => {
           let applicantSanctions = [res];
-
+          this.setSanctions('applicant', [res]);
           console.log('Applicant Sanctions: ', applicantSanctions);
         },
         error => {
@@ -308,6 +329,7 @@ export class ReviewApplicationComponent implements OnInit {
       this.screeningService.getIndividualSanctions(fatherName, '').subscribe(
         res => {
           let fatherSanctions = [res];
+          this.setSanctions('father', [res]);
           console.log('Father Sanctions: ', fatherSanctions);
         },
         error => {
@@ -323,6 +345,7 @@ export class ReviewApplicationComponent implements OnInit {
         this.screeningService.getIndividualSanctions(motherFirstName, motherMaidenName).subscribe(
           res => {
             let motherSanctions = [res];
+            this.setSanctions('mother', [res]);
             console.log('Mother Sanctions: ', motherSanctions);
           },
           error => {
@@ -336,6 +359,7 @@ export class ReviewApplicationComponent implements OnInit {
       this.screeningService.getIndividualSanctions(spouseName, lastName).subscribe(
         res => {
           let spouseSanctions = [res];
+          this.setSanctions('spouse', [res]);
           console.log('Spouse Sanctions: ', spouseSanctions);
         },
         error => {
@@ -346,18 +370,69 @@ export class ReviewApplicationComponent implements OnInit {
       // update poiExtraction, poaExtraction, riskScore 
     }
 
-    if (applicationType === 'BUSINESS') {
-      let countriesOfIncorporation;
-      let countriesOfGovernment;
-      let countriesOfOperation;
-      let legalStructures;
-      let poiExtraction;
-      let poaExtraction;
-
+    else if (applicationType === 'BUSINESS') {
       let companyType = this.businessTypes.filter(type => type.code === Number(this.applicationData.details[0].company_type))[0].name;
       
+      this.screeningService.getLegalStructures().subscribe(
+        res => {
+          let legalStructures = this.riskOfLegalStructure([res], companyType);
+          this.setLegalStructureScore(legalStructures);
+          this.addToRiskScore(legalStructures);
+        },
+        error => {
+          console.error('Unable to get countries of residence: ', error);
+        }
+      )
+
+      let poiObj = {
+        applicationId: this.applicationId,
+        documentType: this.applicationData.documents[0].poi.file_name?.slice(10, 12)
+      }
+
+      let poaObj = {
+        applicationId: this.applicationId,
+        documentType: this.applicationData.documents[0].poa.file_name?.slice(10, 12)
+      }
+
+      this.screeningService.extractPoiInformation(poiObj).subscribe(
+        res => {
+          let poiExtraction = [res];
+          this.poiInformation = [res];
+          this.setProofDocuments('poi', [res]);
+          console.log('POI Extracted Information', poiExtraction);
+        },
+        error => {
+          console.error('Unable to get poi information: ', error);
+        }
+      )
+
+      this.screeningService.extractPoiInformation(poaObj).subscribe(
+        res => {
+          let poaExtraction = [res];
+          this.setProofDocuments('poa', [res]);
+          console.log('POA Extracted Information', poaExtraction);
+        },
+        error => {
+          console.error('Unable to get poa information: ', error);
+        }
+      )
+
+      // Company Sanctions
+      let companyName = this.applicationData.details[0].company_name;
+      this.screeningService.getBusinessSanctions(companyName).subscribe(
+        res => {
+          let companySanctions = [res];
+          this.setSanctions('company', [res]);
+          console.log('Company Sanctions: ', companySanctions);
+        },
+        error => {
+          console.error('Unable to get sanctions information: ', error);
+        }
+      )
+
       // update poiExtraction, poaExtraction, riskScore
     }
+    this.isScreened = true;
   }
 
   onScreen() {

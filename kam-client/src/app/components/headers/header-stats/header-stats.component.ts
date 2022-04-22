@@ -51,6 +51,7 @@ export class HeaderStatsComponent implements OnInit {
   }
 
   getApplicationsScreened() {
+    return 0
     // history db count applications closed
   }
 }

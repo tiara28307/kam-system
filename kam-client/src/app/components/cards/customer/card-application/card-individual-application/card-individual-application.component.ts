@@ -689,11 +689,11 @@ export class CardIndividualApplicationComponent implements OnInit {
     this.onboardingService.submitApplication(this.applicationId).subscribe(
       res => {
         this.isLoading = false;
+        console.log('response: ', res);
         ApplicationSubmittedAlert(this.applicationId).fire({})
           .then(() => {
             this.router.navigate(['/user/kyc/onboarding/dashboard']);
           });
-        console.log('response: ', res);
       },
       error => {
         this.isLoading = false;

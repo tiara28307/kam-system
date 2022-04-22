@@ -98,7 +98,7 @@ kycScreeningRouter
   })
 
   .post('/application/extraction/poi', cors.cors, (appObj, res, next) => {
-    kycScreeningDao.extractIdentityInformation(appObj, res)
+    kycScreeningDao.extractIdentityInformation(appObj.body, res)
       .then()
       .catch(err => {
         log.error('Error in getting poi extracted details: ', err);
@@ -106,7 +106,7 @@ kycScreeningRouter
   })
 
   .post('/application/extraction/poa', cors.cors, (appObj, res, next) => {
-    kycScreeningDao.extractAddressInformation(appObj, res)
+    kycScreeningDao.extractAddressInformation(appObj.body, res)
       .then()
       .catch(err => {
         log.error('Error in getting poa extracted details: ', err);
@@ -114,7 +114,7 @@ kycScreeningRouter
   })
 
   .post('/update/application/poiextraction', cors.cors, (appObj, res, next) => {
-    kycScreeningDao.updateApplicationPoiExtraction(appObj, res)
+    kycScreeningDao.updateApplicationPoiExtraction(appObj.body, res)
       .then()
       .catch(err => {
         log.error('Error in updating poi extraction: ', err);
@@ -122,7 +122,7 @@ kycScreeningRouter
   })
 
   .post('/update/application/poaextraction', cors.cors, (appObj, res, next) => {
-    kycScreeningDao.updateApplicationPoaExtraction(appObj, res)
+    kycScreeningDao.updateApplicationPoaExtraction(appObj.body, res)
       .then()
       .catch(err => {
         log.error('Error in updating poa extraction: ', err);
@@ -155,30 +155,54 @@ kycScreeningRouter
       });
   })
 
-  .get('/company/:companyId/submitted/applicationdetails', cors.cors, (req, res, next) => {
-    let companyId = req.params.companyId;
-    kycScreeningDao.getSubmittedApplicationDetails(companyId, res)
+  .get('/company/:applicationId/:cid/submitted/applicationdetails', cors.cors, (req, res, next) => {
+    let appObj = {
+      applicationId: req.params.applicationId,
+      cid: req.params.cid
+    }
+
+    kycScreeningDao.getSubmittedApplicationDetails(appObj, res)
       .then()
       .catch(err => {
         log.error('Error in getting submitted application details: ' + err);
       })
   })
 
-  .get('/company/:companyId/submitted/poifile', cors.cors, (req, res, next) => {
-    let companyId = req.params.companyId;
-    kycScreeningDao.getSubmittedPoiFile(companyId, res)
+  .get('/company/:applicationId/:cid/:poifile/submitted/poifile', cors.cors, (req, res, next) => {
+    let appObj = {
+      applicationId: req.params.applicationId,
+      cid: req.params.cid,
+      poiFilename: req.params.poifile
+    }
+
+    kycScreeningDao.getSubmittedPoiFile(appObj, res)
       .then()
       .catch(err => {
         log.error('Error in getting submitted application details: ' + err);
       })
   })
 
-  .get('/company/:companyId/submitted/poafile', cors.cors, (req, res, next) => {
-    let companyId = req.params.companyId;
-    kycScreeningDao.getSubmittedPoaFile(companyId, res)
+  .get('/company/:applicationId/:cid/:poafile/submitted/poafile', cors.cors, (req, res, next) => {
+    let appObj = {
+      applicationId: req.params.applicationId,
+      cid: req.params.cid,
+      poaFilename: req.params.poafile
+    }
+    
+    kycScreeningDao.getSubmittedPoaFile(appObj, res)
       .then()
       .catch(err => {
         log.error('Error in getting submitted application details: ' + err);
+      })
+  })
+
+  .get('/company/:companyId/application/exist', cors.cors, (req, res, next) => {
+    let companyId = req.params.companyId;
+
+    kycScreeningDao.applicationExist(companyId, res)
+      .then()
+      .catch(err => {
+        log.error('Error in checking existence of application: ' + err);
       })
   })
 

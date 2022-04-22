@@ -35,7 +35,9 @@ const createNewRequest = async (reqObj, res) => {
     status: 'PENDING',
     request_date: date,
     application_id: '',
-    app_cid: ''
+    app_cid: '',
+    poi_file: '',
+    poa_file: ''
   });
 
   // Save new request to mongodb
@@ -93,7 +95,15 @@ const getRequests = async (reqObj, res) => {
 
 const updateRequest = async (reqObj, res) => {
   try {
-    const result = await Request.findOneAndUpdate({ request_id: reqObj.requestId }, { $set: { status: reqObj.status, application_id: reqObj.applicationId, app_cid: reqObj.cid } })
+    const result = await Request.findOneAndUpdate({ request_id: reqObj.requestId }, 
+      { $set: { 
+        status: reqObj.status, 
+        application_id: reqObj.applicationId, 
+        app_cid: reqObj.cid,
+        poi_file: reqObj.poiFilename,
+        poa_file: reqObj.poaFilename
+      }}
+    )
     log.info(`Request ${result.request_id} was successfully updated.`);
 
     return res.send({

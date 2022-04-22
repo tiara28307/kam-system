@@ -41,7 +41,9 @@ const RequestSchema = new mongoose.Schema({
     required: true
   },
   application_id: String,
-  app_cid: String
+  app_cid: String,
+  poi_file: String,
+  poa_file: String
 }, {
   collection: 'requests'
 });

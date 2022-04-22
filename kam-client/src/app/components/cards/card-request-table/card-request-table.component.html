@@ -23,7 +23,7 @@
           <th
             class="px-6 bg-slate-100 text-slate-500 align-middle border border-solid border-slate-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
           >
-            Sender
+            {{column2Name}}
           </th>
           <th
             class="px-6 bg-slate-100 text-slate-500 align-middle border border-solid border-slate-200 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -39,10 +39,11 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let request of requests" class="bg-white">
+        <tr *ngFor="let request of requests | orderBy: '-request_date'" class="bg-white">
           <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex table-cell hover:text-red-700">
             <button (click)="openRequest(request)" class="ml-3 font-bold focus:outline-none">{{request.request_id}}</button></th>
-          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 table-cell">{{request.sender}}</td>
+          <td *ngIf="currentService === 'KYC Onboarding'" class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 table-cell">{{request.company_name}}</td>
+          <td *ngIf="currentService === 'KYC Screening'" class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 table-cell">{{request.applicant_email}}</td>
           <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
             <span class="mr-2">{{request.request_date}}</span>
           </td>

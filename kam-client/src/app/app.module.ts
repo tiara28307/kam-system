@@ -82,6 +82,7 @@ import { CardSubmittedApplicationComponent } from './components/cards/customer/c
 import { CardHistoryComponent } from './components/cards/company/card-history/card-history.component';
 import { HistoryComponent } from './views/user/company/history/history.component';
 import { CardCreateRequestComponent } from './components/cards/card-create-request/card-create-request.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 
 @NgModule({
@@ -144,7 +145,8 @@ import { CardCreateRequestComponent } from './components/cards/card-create-reque
     CardSubmittedApplicationComponent,
     CardHistoryComponent,
     HistoryComponent,
-    CardCreateRequestComponent
+    CardCreateRequestComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule, 

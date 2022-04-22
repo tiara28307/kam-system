@@ -7,19 +7,19 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class RequestService {
-  private _req = [];
-
   constructor(
     private httpreq: HttpClient,
     private authService: AuthService
   ) { }
 
-  set req(data) {
-    this._req = data;
-  }
-
-  get req() {
-    return this._req;
+  currentReq = {
+    req: [],
+    getReq() {
+      return this.req;
+    },
+    setReq(request) {
+      this.req = request;
+    }
   }
 
   canAccess(): boolean {

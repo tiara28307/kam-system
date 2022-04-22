@@ -52,7 +52,7 @@ const createNewApplicationRecord = async (applicationObj, res) => {
 
   // Save application to kss mongodb
   try {
-    const result = await newApplication.findOneAndUpdate();
+    const result = await newApplication.save();
     log.info(`Application ${result.application_id} has been created for company ${result.company_id}`);
 
     return res.send({
@@ -200,11 +200,12 @@ const getLegalStructures = async (res) => {
 const individualSanctionScreening = async (personObj, res) => {
   const firstName = personObj.firstName
   const lastName = personObj.lastName
-  const individualSanctionsUrl = sanctionsUrl + firstName + lastName;
+  const individualSanctionsUrl = sanctionsUrl + firstName + '+' + lastName;
 
   axios.get(individualSanctionsUrl)
     .then(result => {
       console.log(`individual sanction status code: [${result.status}] ${result.statusText}`);
+      console.log('Sanctions: ', result.data);
       return res.send({
         messageCode: `INDRSK`,
         message: `Successful retrieval of sanctions for ${firstName} ${lastName}`,
@@ -244,12 +245,14 @@ const businessSanctionScreening = async (companyName, res) => {
 // Extract POI Information from Picture using AI OCR
 const extractIdentityInformation = async (appObj, res) => {
   try {
+    console.log('POI Extraction: ', appObj);
     const result = await Application.findOne({ application_id: appObj.applicationId  });
     const cids = result.application_details[0].application_cids;
     const currentCid = cids[cids.length - 1]
     const filename = result.application_details[0].documents[0].poi.file_name;
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    const url = `https://${currentCid}.ipfs.dweb.link/${result.application_id}/${filename}`;
     // test url - const url = 'https://gateway.ipfs.io/ipfs/bafybeicnub6avzilytjv2dbvoq2hshu4jl22rta3pwo37oiebu7qncms7i/K51663099/D69798756_ID.jpeg'
+    // const url = `https://bafybeicnub6avzilytjv2dbvoq2hshu4jl22rta3pwo37oiebu7qncms7i.ipfs.dweb.link/K51663099/D69798756_ID.jpeg`;
     const poiFilePath = `./uploads/application/poi/${appObj.applicationId}/`;
 
     const pathExists = fs.existsSync(poiFilePath);
@@ -265,6 +268,7 @@ const extractIdentityInformation = async (appObj, res) => {
       kycType: 'poi',
       documentType: appObj.documentType
     }
+
     const extractionResults = await ocrUtils.butlerOcrExtraction(filePaths, docObj);
 
     return res.send({
@@ -285,11 +289,12 @@ const extractIdentityInformation = async (appObj, res) => {
 // Extract POA Information from Document using AI OCR
 const extractAddressInformation = async (appObj, res) => {
   try {
+    console.log('POA Extraction: ', appObj);
     const result = await Application.findOne({ application_id: appObj.applicationId  });
     const cids = result.application_details[0].application_cids;
     const currentCid = cids[cids.length - 1]
     const filename = result.application_details[0].documents[0].poa.file_name;
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    const url = `https://${currentCid}.ipfs.dweb.link/${result.application_id}/${filename}`;
 
     const poaFilePath = `./uploads/application/poa/${appObj.applicationId}/`;
 
@@ -469,12 +474,9 @@ const shareApplicationDecision = async (applicationId, res) => {
   }
 }
 
-const getSubmittedApplicationDetails = async (companyId, res) => {
+const getSubmittedApplicationDetails = async (appObj, res) => {
   try {
-    const result = await Application.findOne({ company_id: companyId  });
-    const cids = result.application_details[0].application_cids;
-    const currentCid = cids[cids.length - 1]
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${result.application_id}.json`;
+    const url = `https://${appObj.cid}.ipfs.dweb.link/${appObj.applicationId}/${appObj.applicationId}.json`;
     axios
         .get(url)
         .then(result => {
@@ -487,7 +489,7 @@ const getSubmittedApplicationDetails = async (companyId, res) => {
           })
         })
         .catch(error => {
-          log.error('Eror retrieving application details from web3 storage: ', error);
+          log.error('Error retrieving application details from web3 storage: ', error);
         })
   } catch (err) {
     log.error(`Error in retrieving application details: ` + err);
@@ -499,13 +501,9 @@ const getSubmittedApplicationDetails = async (companyId, res) => {
   }
 }
 
-const getSubmittedPoiFile = async (companyId, res) => {
+const getSubmittedPoiFile = async (appObj, res) => {
   try {
-    const result = await Application.findOne({ company_id: companyId  });
-    const cids = result.application_details[0].application_cids;
-    const currentCid = cids[cids.length - 1]
-    const filename = result.application_details[0].documents[0].poi.file_name;
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    const url = `https://${appObj.cid}.ipfs.dweb.link/${appObj.applicationId}/${appObj.poiFilename}`;
     return res.send({
       messageCode: `SUBAPPPOI`,
       message: `Successful retrieval of application poi file link`,
@@ -521,13 +519,9 @@ const getSubmittedPoiFile = async (companyId, res) => {
   }
 }
 
-const getSubmittedPoaFile = async (companyId, res) => {
+const getSubmittedPoaFile = async (appObj, res) => {
   try {
-    const result = await Application.findOne({ company_id: companyId  });
-    const cids = result.application_details[0].application_cids;
-    const currentCid = cids[cids.length - 1]
-    const filename = result.application_details[0].documents[0].poa.file_name;
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    const url = `https://${appObj.cid}.ipfs.dweb.link/${appObj.applicationId}/${appObj.poaFilename}`;
     return res.send({
       messageCode: `SUBAPPPOA`,
       message: `Successful retrieval of application poa file link`,
@@ -539,6 +533,26 @@ const getSubmittedPoaFile = async (companyId, res) => {
     return res.status(400).send({
       messageCode: 'SUBAPPPOAERR',
       message: 'Failed to retrieve application poa file link'
+    });
+  }
+}
+
+const applicationExist = async (companyId, res) => {
+  try {
+    const result = await Application.findOne({ customer_id: companyId }).count();
+    log.info('Application exist');
+
+    return res.send({
+      messageCode: 'APPEXI',
+      message: 'Check if application exist for customer.',
+      exists: result > 0
+    });
+  } catch (err) {
+    log.error(`Error checking if application exist: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'APPEXIERR',
+      message: 'Unable to check if application exist'
     });
   }
 }
@@ -563,5 +577,6 @@ module.exports = {
   shareApplicationDecision,
   getSubmittedApplicationDetails,
   getSubmittedPoiFile,
-  getSubmittedPoaFile
+  getSubmittedPoaFile,
+  applicationExist
 }

@@ -6,7 +6,7 @@ const PepType = require('./kyc-onboarding-schema-model').PepType;
 const KycDocument = require('./kyc-onboarding-schema-model').KycDocument;
 const fs = require('fs');
 const fileUtils = require('../utils/file-utils');
-const web3Storage = require('../scripts/push-to-blockchain');
+const web3Storage = require('../web3-storage');
 const web3Utils = require('../utils/web3-utils');
 const axios = require('axios');
 
@@ -354,49 +354,31 @@ const submitApplication = async (applicationId, res) => {
   let date = getCurrentDateTime();
   try {
     // Find and update submission details for application
-    const result = await Application.findOne({ application_id: applicationId });
+    const result = await Application.findOneAndUpdate({ application_id: applicationId },
+      { $set: { 
+        submitted: true, 
+        submission_date: date 
+      }},
+      { new: true }
+    );
 
     // Create json file for application
     fileUtils.createApplicationFileObject(applicationId, result);
 
     // Push application files to blockchain
     const dirPath = `./uploads/application/documents/${applicationId}/`;
-    web3Storage.pushFilesToBlockchain(dirPath);
+    const cid = await web3Storage.storeFilesBlockchain(dirPath);
+    console.log('returned cid: ', cid);
     
-    await new Promise((resolve, reject) => setTimeout(resolve, 5000));
-    
-    const cid = web3Utils.applicationCID.getCID();
-
-    // Save cid to mongodb for later retrieval
-    await Application.findOneAndUpdate(
+    const finalresult = await Application.findOneAndUpdate(
       { application_id: applicationId }, 
-      { $push: { application_cids: cid }},
-      { $set: { 
-        submitted: true, 
-        submission_date: date 
-      }}
+      { $push: { application_cids: cid }}
     );
-
-    // After pushing to blockchain remove files from local storage
-    let poiFilePath = `./${result.documents[0].poi.file_path}`;
-    let poaFilePath = `./${result.documents[0].poa.file_path}`;
-    let appDetailsFilePath = `./uploads/application/documents/${applicationId}/${applicationId}.json`;
-    // let localFilePaths = [poiFilePath, poaFilePath, appDetailsFilePath];
-    
-    /*localFilePaths.forEach(path => {
-      fs.unlinkSync(path, (err) => {
-        if (err) {
-          log.error(`Error removing directory ${dirPath}: `, err);
-        }
-        log.info(`Removal of files at ${dirPath} successful!`);
-      })
-    })*/
-    log.info('application CID: ', cid);
     
     return res.send({
       messageCode: 'SUBAPP',
       message: 'Application has been submitted to blockchain successfully.',
-      appCID: cid
+      res: finalresult
     });
   } catch (err) {
     log.error(`Error submitting application ${applicationId}: ` + err);
@@ -413,7 +395,8 @@ const getSubmittedApplicationDetails = async (customerId, res) => {
     const result = await Application.findOne({ customer_id: customerId  });
     const cids = result.application_cids;
     const currentCid = cids[cids.length - 1]
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${result.application_id}.json`;
+    const url = `https://${currentCid}.ipfs.dweb.link/${result.application_id}/${result.application_id}.json`;
+    // console.log(url);
     axios
         .get(url)
         .then(result => {
@@ -426,7 +409,7 @@ const getSubmittedApplicationDetails = async (customerId, res) => {
           })
         })
         .catch(error => {
-          log.error('Eror retrieving application details from web3 storage: ', error);
+          log.error('Error retrieving application details from web3 storage: ', error);
         })
   } catch (err) {
     log.error(`Error in retrieving application details: ` + err);
@@ -444,7 +427,7 @@ const getSubmittedPoiFile = async (customerId, res) => {
     const cids = result.application_cids;
     const currentCid = cids[cids.length - 1]
     const filename = result.documents[0].poi.file_name;
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    const url = `https://${currentCid}.ipfs.dweb.link/${result.application_id}/${filename}`;
     return res.send({
       messageCode: `SUBAPPPOI`,
       message: `Successful retrieval of application poi file link`,
@@ -466,7 +449,7 @@ const getSubmittedPoaFile = async (customerId, res) => {
     const cids = result.application_cids;
     const currentCid = cids[cids.length - 1]
     const filename = result.documents[0].poa.file_name;
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    const url = `https://${currentCid}.ipfs.dweb.link/${result.application_id}/${filename}`;
     return res.send({
       messageCode: `SUBAPPPOA`,
       message: `Successful retrieval of application poa file link`,

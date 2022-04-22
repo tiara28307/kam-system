@@ -7,7 +7,7 @@
       <h6 class="font-semibold text-md {{getStatusColor(request.status)}} text-sky-500" *ngIf="isDecided || currentService === 'KYC Screening'">{{request.status}}</h6>
     </div>
       <div class="block text-slate-600 text-sm font-bold mt-4">Sent: <span class="text-slate-600 font-normal text-sm">{{request.request_date}}</span></div>
-      <div *ngIf="isAccepted" class="block text-slate-600 text-sm font-bold">Application: <button class="text-theme-500 font-bold focus:outline-none hover:text-red-700" (click)="openApplication(request.application_id)">{{request.application_id}}</button></div>
+      <div *ngIf="isAccepted && currentService === 'KYC Screening'" class="block text-slate-600 text-sm font-bold">Application: <button class="text-theme-500 font-bold focus:outline-none hover:text-red-700" (click)="openApplication(request.application_id)">{{request.application_id}}</button></div>
   </div>
   <div class="flex-auto px-4 lg:px-10 py-10 pt-0 bg-slate-100">
     

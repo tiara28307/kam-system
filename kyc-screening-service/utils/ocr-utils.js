@@ -140,6 +140,7 @@ const getExtractedPoaResults = async (uploadId, docObj) => {
 }
 
 const butlerOcrExtraction = async (filePaths, docObj) => {
+  console.log('BUTLET API IN PROGRESS');
   const uploadId = docObj.kycType === 'poi' ? await uploadPoiFiles(filePaths, docObj) : await uploadPoaFiles(filePaths, docObj);
   const extractionResults = docObj.kycType === 'poi' ? await getExtractedPoiResults(uploadId, docObj) : await getExtractedPoaResults(uploadId, docObj);
   

@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { KycOnboardingService } from 'src/app/services/kyc-onboarding/kyc-onboarding.service';
 import { KycScreeningService } from 'src/app/services/kyc-screening/kyc-screening.service';
+import { RequestService } from 'src/app/services/request.service';
 import { UserService } from 'src/app/services/user.service';
-import { FailedCreateApplicationAlert, ScreenApplicationAlert } from 'src/constants/alerts.constant';
+import { ApplicationScreenedAlert, FailedCreateApplicationAlert, ScreenApplicationAlert } from 'src/constants/alerts.constant';
+import { jsPDF } from "jspdf";
 
 @Component({
   selector: 'app-review-application',
@@ -20,17 +23,19 @@ export class ReviewApplicationComponent implements OnInit {
   poaFileLink = '';
   riskScore = 0;
   isScreened = false;
+  request: any;
+  params = 0;
 
   citizenshipScore = 0;
   pepExposureScore = 0;
   countryResidenceScore = 0;
   poiInformation = [];
   poaInformation = [];
-  applicantSanctions = [];
-  fatherSanctions = [];
-  motherSanctions = [];
-  spouseSanctions = [];
-  companySanctions = [];
+  applicantSanctions = 0;
+  fatherSanctions = 0;
+  motherSanctions = 0;
+  spouseSanctions = 0;
+  companySanctions = 0;
   legalStructureScore = 0;
 
   pepTypes = [];
@@ -63,11 +68,17 @@ export class ReviewApplicationComponent implements OnInit {
   constructor(
     private screeningService: KycScreeningService,
     private userService: UserService,
-    private onboardingService: KycOnboardingService
+    private onboardingService: KycOnboardingService,
+    private requestService: RequestService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.user = this.userService.getUserData();
+    this.request = this.requestService.currentReq.getReq();
+    if (this.request.length === 0) {
+      this.router.navigate(['/user/kyc/screening/dashboard']);
+    }
     this.setPepTypes();
     this.getSubmittedApplicationDetails();
     this.getSubmittedApplicationPoiFile();
@@ -76,9 +87,14 @@ export class ReviewApplicationComponent implements OnInit {
 
   getSubmittedApplicationDetails() {
     this.isLoading = true;
-    let companyId = 'F' + this.user[0].username.slice(-12); 
+    let appObj = {
+      applicationId: this.request.application_id,
+      cid: this.request.app_cid
+    } 
 
-    this.screeningService.getSubmittedApplicationDetails(companyId).subscribe(
+    console.log(this.request);
+
+    this.screeningService.getSubmittedApplicationDetails(appObj).subscribe(
       res => {
         this.isLoading = false;
         this.setApplicationDetails([res]);
@@ -119,9 +135,14 @@ export class ReviewApplicationComponent implements OnInit {
 
   getSubmittedApplicationPoiFile() {
     this.isLoading = true;
-    let companyId = 'F' + this.user[0].username.slice(-12);  
+    
+    let appObj = {
+      applicationId: this.request.application_id,
+      cid: this.request.app_cid,
+      poifile: this.request.poi_file
+    }
 
-    this.screeningService.getSubmittedApplicationPoiFile(companyId).subscribe(
+    this.screeningService.getSubmittedApplicationPoiFile(appObj).subscribe(
       res => {
         this.isLoading = false;
         this.setPoiLink([res]);
@@ -135,9 +156,13 @@ export class ReviewApplicationComponent implements OnInit {
 
   getSubmittedApplicationPoaFile() {
     this.isLoading = true;
-    let companyId = 'F' + this.user[0].username.slice(-12); 
+    let appObj = {
+      applicationId: this.request.application_id,
+      cid: this.request.app_cid,
+      poafile: this.request.poa_file
+    }
 
-    this.screeningService.getSubmittedApplicationPoaFile(companyId).subscribe(
+    this.screeningService.getSubmittedApplicationPoaFile(appObj).subscribe(
       res => {
         this.isLoading = false;
         this.setPoaLink([res]);
@@ -203,6 +228,14 @@ export class ReviewApplicationComponent implements OnInit {
 
   addToRiskScore(riskLevel) {
     this.riskScore += riskLevel;
+    this.params++;
+  }
+
+  finalRiskScore() {
+    console.log(`Risk Score before: ${this.riskScore}`);
+    let risk = this.riskScore / 7;
+    this.riskScore = Math.round(risk);
+    console.log(`Risk Score after average: ${this.riskScore}`);
   }
 
   setCountryResidenceScore(score) {
@@ -215,15 +248,26 @@ export class ReviewApplicationComponent implements OnInit {
   
   setSanctions(name, res) {
     if (name === 'applicant') {
-      this.applicantSanctions = res[0];
+      this.applicantSanctions = res[0].data.results.length;
+      console.log(this.applicantSanctions);
+      let risk = this.applicantSanctions;
+      this.addToRiskScore(risk);
     } else if (name === 'father') {
-      this.fatherSanctions = res[0];
+      this.fatherSanctions = res[0].data.results.length;
+      let risk = this.applicantSanctions;
+      this.addToRiskScore(risk);
     } else if (name === 'mother') {
-      this.motherSanctions = res[0];
+      this.motherSanctions = res[0].data.results.length;
+      let risk = this.applicantSanctions;
+      this.addToRiskScore(risk);
     } else if (name === 'spouse') {
-      this.spouseSanctions = res[0];
+      this.spouseSanctions = res[0].data.results.length;
+      let risk = this.applicantSanctions;
+      this.addToRiskScore(risk)
     } else if (name === 'company') {
-      this.companySanctions = res[0];
+      this.companySanctions = res[0].data.results.length;
+      let risk = this.applicantSanctions;
+      this.addToRiskScore(risk);
     }
   }
 
@@ -299,7 +343,7 @@ export class ReviewApplicationComponent implements OnInit {
         }
       )
 
-      this.screeningService.extractPoiInformation(poaObj).subscribe(
+      this.screeningService.extractPoaInformation(poaObj).subscribe(
         res => {
           let poaExtraction = [res];
           this.setProofDocuments('poa', [res]);
@@ -315,9 +359,7 @@ export class ReviewApplicationComponent implements OnInit {
       let lastName = this.applicationData.details[0].last_name;
       this.screeningService.getIndividualSanctions(firstName, lastName).subscribe(
         res => {
-          let applicantSanctions = [res];
           this.setSanctions('applicant', [res]);
-          console.log('Applicant Sanctions: ', applicantSanctions);
         },
         error => {
           console.error('Unable to get sanctions information: ', error);
@@ -326,7 +368,8 @@ export class ReviewApplicationComponent implements OnInit {
 
       // Father Sanctions
       let fatherName = this.applicationData.details[0].father_name;
-      this.screeningService.getIndividualSanctions(fatherName, '').subscribe(
+      fatherName.split(' ');
+      this.screeningService.getIndividualSanctions(fatherName[0], fatherName[1]).subscribe(
         res => {
           let fatherSanctions = [res];
           this.setSanctions('father', [res]);
@@ -366,7 +409,13 @@ export class ReviewApplicationComponent implements OnInit {
           console.error('Unable to get sanctions information: ', error);
         }
       )
-
+      this.isLoading = false;
+      ApplicationScreenedAlert.fire({})
+      .then((result) => {
+        if (result.isConfirmed === true) {
+          this.finalRiskScore();
+        }
+      })
       // update poiExtraction, poaExtraction, riskScore 
     }
 
@@ -406,7 +455,7 @@ export class ReviewApplicationComponent implements OnInit {
         }
       )
 
-      this.screeningService.extractPoiInformation(poaObj).subscribe(
+      this.screeningService.extractPoaInformation(poaObj).subscribe(
         res => {
           let poaExtraction = [res];
           this.setProofDocuments('poa', [res]);
@@ -429,7 +478,13 @@ export class ReviewApplicationComponent implements OnInit {
           console.error('Unable to get sanctions information: ', error);
         }
       )
-
+      this.isLoading = false;
+      ApplicationScreenedAlert.fire({})
+      .then((result) => {
+        if (result.isConfirmed === true) {
+          this.finalRiskScore();
+        }
+      })
       // update poiExtraction, poaExtraction, riskScore
     }
     this.isScreened = true;
@@ -482,7 +537,6 @@ export class ReviewApplicationComponent implements OnInit {
     })
     .then((result) => {
       if (result.isConfirmed === true) {
-        this.saveApplication();
         this.screenApplication();
       }
     });

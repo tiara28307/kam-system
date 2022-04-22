@@ -15,6 +15,8 @@ export class CardRequestFullTableComponent implements OnInit {
   isLoading = false;
   user: any[];
   requests = [];
+  column2Name = '';
+  currentService = '';
 
   constructor(
     private requestService: RequestService,
@@ -25,7 +27,9 @@ export class CardRequestFullTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.getUserData();
+    this.currentService = this.userService.currentService;
     this.getRequests();
+    this.column2Name = this.currentService === 'KYC Onboarding' ? 'Sender' : 'Receiver'
   }
 
   getRequests() {
@@ -58,7 +62,7 @@ export class CardRequestFullTableComponent implements OnInit {
   }
 
   openRequest(request) {
-    this.requestService.req = request;
+    this.requestService.currentReq.setReq(request);
     this.dialog.open(CardRequestOverviewComponent);
   }
 }

@@ -20,7 +20,7 @@ export class CardRequestOverviewComponent implements OnInit {
   currentService: String;
   isLoading = false;
   user: any[];
-  applicationIds = [];
+  applicationObj = [];
 
   constructor(
     public ref: DialogRef,
@@ -33,10 +33,10 @@ export class CardRequestOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.getUserData();
     this.currentService = this.userService.currentService;
-    this.request = this.requestService.req;
+    this.request = this.requestService.currentReq.getReq();
     this.checkStatus();
     if (this.currentService === 'KYC Onboarding') {
-      this.getApplicationIdCid();
+      this.getApplication();
     }
   }
 
@@ -56,14 +56,14 @@ export class CardRequestOverviewComponent implements OnInit {
     this.isAccepted = this.request.status === 'ACCEPTED';
   }
 
-  getApplicationIdCid() {
+  getApplication() {
     this.isLoading = true;
     let customerId = 'C' + this.user[0].username.slice(-12); 
 
-    this.onboardingService.getApplicationIdCid(customerId).subscribe(
+    this.onboardingService.getApplication(customerId).subscribe(
       res => {
         this.isLoading = false;
-        this.setApplicationIds([res]);
+        this.setApplicationObj([res]);
       },
       error => {
         this.isLoading = false;
@@ -72,26 +72,34 @@ export class CardRequestOverviewComponent implements OnInit {
     );
   }
 
-  setApplicationIds(res) {
-    this.applicationIds = res;
+  setApplicationObj(res) {
+    this.applicationObj = res;
   }
 
   onDecision(status) {
     this.isLoading;
     let reqObj;
+    let appDetails = this.applicationObj[0].applicationDetails
+    let cids = appDetails.application_cids;
+    let currentCid = cids[cids.length - 1];
 
     if (status === 'ACCEPTED') {
       reqObj = {
         requestId: this.request.request_id,
         status: status,
-        applicationId: this.applicationIds[0].ids.applicationId,
-        cid: this.applicationIds[0].ids.cid
+        applicationId: appDetails.application_id,
+        cid: currentCid,
+        poiFilename: appDetails.documents[0].poi.file_name,
+        poaFilename: appDetails.documents[0].poa.file_name
       }
     } else if (status === 'REJECTED') {
       reqObj = {
+        requestId: this.request.request_id,
         status: status,
         applicationId: '',
-        cid: ''
+        cid: '',
+        poiFilename: '',
+        poaFilename: ''
       }
     }
 
@@ -110,6 +118,7 @@ export class CardRequestOverviewComponent implements OnInit {
   }
 
   openApplication(applicationId) {
+    
     this.router.navigate(['/user/kyc/screening/application', applicationId]);
     this.ref.close();
   }

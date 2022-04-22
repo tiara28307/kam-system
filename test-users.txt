@@ -12,13 +12,29 @@ pass: n4BrebI$ruv
 
 DEMO CUSTOMER TEST USERS
 1. Michael Robinson - low level
-    email: michael.robinson2@gmail.com, 
+    email: michael.robinson2@gmail.com
     pass: G#4PAdisI1L
 
 2. Claire Shipman - medium level
-    email: claire.shipman@gmail.com, 
-    pass: Yah4_rlrO#U
+    email: claire.shipman@gmail.com
+    pass: womi@l3r1Ko@
 
 3. Cargo Aircraft Leasing Corp. - high level
     email: lucas.wright@cargoairleasing.com
     pass: q0Dri9u+hop
+
+4. Financial Instution User
+    Principal Financial Group - Hannah Walker
+    email: hannah.walker@principalfinance.com
+    pass: Br8cRlWer$y
+
+5. Test Registration
+    John Mark
+    email: john.mark@outlook.com
+    pass: 2rof_AQ-tL4R
+    phone: 517-303-8268
+
+
+TEST CIDs
+bafybeibptupm5faelw3vgtx3gljrqcant42ccrsv6e4x3gvoo34u7bqquu
+

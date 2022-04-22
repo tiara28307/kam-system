@@ -14,6 +14,7 @@
             </h3>
           </div>
         </div>
+        <p class="font-semibold">{{applicationData.details[0].first_name}} {{applicationData.details[0].last_name}}</p>
 
         <div *ngIf="isScreened">
           <hr class="mt-6 border-b-1 border-slate-300" />
@@ -95,7 +96,7 @@
                   >
                     Applicant Sanctions
                   </label>
-                  <p class="text-theme-500 font-bold mb-6">{{applicantSanctions}}</p>
+                  <code class="{{getRiskColor(applicantSanctions)}} font-bold mb-6">{{applicantSanctions}}</code>
                 </div>
               </div>
 
@@ -106,7 +107,7 @@
                   >
                   Father Sanctions
                   </label>
-                  <p class="text-theme-500 font-bold mb-6">{{fatherSanctions}}</p>
+                  <code class="{{getRiskColor(fatherSanctions)}} font-bold mb-6">{{fatherSanctions}}</code>
                 </div>
               </div>
 
@@ -117,7 +118,7 @@
                 >
                 Mother Sanctions
                 </label>
-                <p class="text-theme-500 font-bold mb-6">{{motherSanctions}}</p>
+                <code class="{{getRiskColor(motherSanctions)}} font-bold mb-6">{{motherSanctions}}</code>
               </div>
             </div>
 
@@ -128,7 +129,7 @@
               >
               Spouse Sanctions
               </label>
-              <p class="text-theme-500 font-bold mb-6">{{spouseSanctions}}</p>
+              <code class="{{getRiskColor(spouseSanctions)}} font-bold mb-6">{{spouseSanctions}}</code>
             </div>
           </div>
           </div>

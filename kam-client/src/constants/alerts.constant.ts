@@ -267,6 +267,62 @@ let SuccessfulAtrributesUpdateAlert = Swal.mixin({
   icon: 'success'
 });
 
+// Screening Alerts
+let ScreenApplicationAlert = Swal.mixin({
+  title: 'Application Screening',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.theme,
+  icon: 'info'
+});
+
+let ApplicationScreenedAlert = Swal.mixin({
+  title: 'Application Screening Complete',
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
+// Request Alerts
+let RequestSentAlert = Swal.mixin({
+  title: 'Request Sent',
+  toast: true,
+  position: 'top-end',
+  showCloseButton: true,
+  showConfirmButton: false,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
+let FailedRequestSendAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Send Request',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
+let RequestDecisionAlert = Swal.mixin({
+  title: 'Request Decision Sent',
+  toast: true,
+  position: 'top-end',
+  showCloseButton: true,
+  showConfirmButton: false,
+  iconColor: colors.success,
+  icon: 'success'
+});
+
+let FailedRequestDecisionAlert = (err: Error) => Swal.mixin({
+  title: 'Failed to Send Request Decision',
+  text: err.message || JSON.stringify(err),
+  confirmButtonText: 'Okay',
+  confirmButtonColor: colors.theme,
+  iconColor: colors.error,
+  icon: 'error'
+});
+
 export {
   SuccessfulRegistrationAlert,
   FailedRegistrationAlert,
@@ -294,5 +350,11 @@ export {
   SubmitApplicationAlert,
   ApplicationSubmittedAlert,
   FailedSubmitApplicationAlert,
-  DeleteSubmittedApplicationAlert
+  DeleteSubmittedApplicationAlert,
+  ScreenApplicationAlert,
+  ApplicationScreenedAlert,
+  RequestSentAlert,
+  FailedRequestSendAlert,
+  RequestDecisionAlert,
+  FailedRequestDecisionAlert
 }

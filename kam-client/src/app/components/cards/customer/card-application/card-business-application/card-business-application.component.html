@@ -336,7 +336,7 @@
                   <option hidden value="" disabled selected>Select Country</option>
                   <option 
                     *ngFor="let country of countries | orderBy: 'name'"
-                    [value]="country.code"
+                    [value]="country.name"
                   >
                   {{country.name}}
                   </option>

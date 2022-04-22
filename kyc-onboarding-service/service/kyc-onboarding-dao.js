@@ -6,7 +6,7 @@ const PepType = require('./kyc-onboarding-schema-model').PepType;
 const KycDocument = require('./kyc-onboarding-schema-model').KycDocument;
 const fs = require('fs');
 const fileUtils = require('../utils/file-utils');
-const web3Storage = require('../scripts/push-to-blockchain');
+const web3Storage = require('../web3-storage');
 const web3Utils = require('../utils/web3-utils');
 const axios = require('axios');
 
@@ -16,8 +16,6 @@ const dbUrl = process.env.MONGODB_KOS_URL;
 mongoose.connect(dbUrl)
         .then(log.info('connected to mongo kos database....'))
         .catch(err => log.error('unable to connect, please check your connection....' + err));
-
-// TODO: Connect to Web3.Storage Blockchain
 
 function getCurrentDateTime() {
   return new Date().toUTCString();
@@ -181,6 +179,30 @@ const getApplication = async (customerId, res) => {
   }
 }
 
+const getApplicationIdCid = async (customerId, res) => {
+  try {
+    const result =  await Application.findOne({ customer_id: customerId });
+    log.info(`Application ${result.application_id} has been retrieved for customer ${result.customer_id}`);
+
+    const cids = result.application_cids;
+    const currentCid = cids[cids.length - 1];
+    const applicationId = result.application_id;
+    
+    return res.send({
+      messageCode: 'GETAPPID',
+      message: 'Application ids have been retrieved successfully.',
+      ids: { applicationId: applicationId, cid: currentCid}
+    });
+  } catch (err) {
+    log.error(`Error retrieving application ids for customer ${customerId}: ` + err);
+    
+    return res.status(400).send({
+      messageCode: 'GETAPPIDERR',
+      message: 'Unable to retrieve application ids for customer ' + customerId
+    });
+  }
+}
+
 const applicationExist = async (customerId, res) => {
   try {
     const result = await Application.findOne({ customer_id: customerId }).count();
@@ -332,8 +354,7 @@ const submitApplication = async (applicationId, res) => {
   let date = getCurrentDateTime();
   try {
     // Find and update submission details for application
-    const result = await Application.findOneAndUpdate(
-      { application_id: applicationId }, 
+    const result = await Application.findOneAndUpdate({ application_id: applicationId },
       { $set: { 
         submitted: true, 
         submission_date: date 
@@ -346,26 +367,18 @@ const submitApplication = async (applicationId, res) => {
 
     // Push application files to blockchain
     const dirPath = `./uploads/application/documents/${applicationId}/`;
-    web3Storage.pushFilesToBlockchain(dirPath);
-    const cid = web3Utils.applicationCID.getCID();
-
-    // Save cid to mongodb for later retrieval
-    await Application.findOneAndUpdate(
+    const cid = await web3Storage.storeFilesBlockchain(dirPath);
+    console.log('returned cid: ', cid);
+    
+    const finalresult = await Application.findOneAndUpdate(
       { application_id: applicationId }, 
       { $push: { application_cids: cid }}
     );
-
-    // After pushing to blockchain remove files from local storage
-    fs.unlinkSync(dirPath, (err) => {
-      if (err) {
-        log.error(`Error removing directory ${dirPath}: `, err);
-      }
-      log.info(`Removal of files at ${dirPath} successful!`);
-    })
     
     return res.send({
       messageCode: 'SUBAPP',
-      message: 'Application has been submitted to blockchain successfully.'
+      message: 'Application has been submitted to blockchain successfully.',
+      res: finalresult
     });
   } catch (err) {
     log.error(`Error submitting application ${applicationId}: ` + err);
@@ -382,7 +395,8 @@ const getSubmittedApplicationDetails = async (customerId, res) => {
     const result = await Application.findOne({ customer_id: customerId  });
     const cids = result.application_cids;
     const currentCid = cids[cids.length - 1]
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${result.application_id}.json`;
+    const url = `https://${currentCid}.ipfs.dweb.link/${result.application_id}/${result.application_id}.json`;
+    // console.log(url);
     axios
         .get(url)
         .then(result => {
@@ -395,7 +409,7 @@ const getSubmittedApplicationDetails = async (customerId, res) => {
           })
         })
         .catch(error => {
-          log.error('Eror retrieving application details from web3 storage: ', error);
+          log.error('Error retrieving application details from web3 storage: ', error);
         })
   } catch (err) {
     log.error(`Error in retrieving application details: ` + err);
@@ -413,7 +427,7 @@ const getSubmittedPoiFile = async (customerId, res) => {
     const cids = result.application_cids;
     const currentCid = cids[cids.length - 1]
     const filename = result.documents[0].poi.file_name;
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    const url = `https://${currentCid}.ipfs.dweb.link/${result.application_id}/${filename}`;
     return res.send({
       messageCode: `SUBAPPPOI`,
       message: `Successful retrieval of application poi file link`,
@@ -435,7 +449,7 @@ const getSubmittedPoaFile = async (customerId, res) => {
     const cids = result.application_cids;
     const currentCid = cids[cids.length - 1]
     const filename = result.documents[0].poa.file_name;
-    const url = `https://gateway.ipfs.io/ipfs/${currentCid}/${result.application_id}/${filename}`;
+    const url = `https://${currentCid}.ipfs.dweb.link/${result.application_id}/${filename}`;
     return res.send({
       messageCode: `SUBAPPPOA`,
       message: `Successful retrieval of application poa file link`,
@@ -462,5 +476,6 @@ module.exports = {
     updateDocument,
     getSubmittedApplicationDetails,
     getSubmittedPoiFile,
-    getSubmittedPoaFile
+    getSubmittedPoaFile,
+    getApplicationIdCid
 }

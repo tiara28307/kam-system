@@ -24,14 +24,10 @@ export class KycOnboardingService {
   }
 
   getPepTypes() {
-    let isValidUser = this.canAccess();
-
-    if (isValidUser) {
       return this.httpreq.get("http://localhost:8082/kyc/onboarding/peptypes", {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'json'
       });
-    }
   }
 
   createNewApplication(body) {
@@ -50,6 +46,17 @@ export class KycOnboardingService {
 
     if (isValidUser) {
       return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/application`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      }); 
+    }
+  }
+
+  getApplicationIdCid(customerId) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8082/kyc/onboarding/customer/${customerId}/application/ids`, {
       headers: { 'Content-Type': 'application/json' },
       responseType: 'json'
       }); 

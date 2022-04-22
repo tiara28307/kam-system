@@ -1,1 +1,681 @@
-<p>review-application works!</p>
+<div
+  class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
+>
+  <div class="rounded-t mb-0 px-4 py-3 border-0">
+    <div class="flex flex-wrap items-center">
+      <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+        <div class="flex flex-auto justify-between">
+          <h3 class="text-xl text-slate-700">
+            Application: <span class="font-semibold text-theme-500">{{applicationData.application_id}}</span>
+          </h3>
+          <div *ngIf="isScreened">
+            <h3 class="text-2xl text-slate-700 mr-4 font-semibold">
+              Risk Score: <span class="font-semibold {{getRiskColor(riskScore)}}">{{riskScore}}</span>
+            </h3>
+          </div>
+        </div>
+        <p class="font-semibold">{{applicationData.details[0].first_name}} {{applicationData.details[0].last_name}}</p>
+
+        <div *ngIf="isScreened">
+          <hr class="mt-6 border-b-1 border-slate-300" />
+        
+          <h3 class="text-xl font-semibold text-slate-700 text-center mt-4 mb-2">
+            Application Screening
+          </h3>
+        </div>
+
+        <div *ngIf="applicationData.application_type === 'INDIVIDUAL' && isScreened">
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Risk Assessment
+          </h6>
+
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Risk of Citizenship Status
+                </label>
+                <p class="{{getRiskColor(citizenshipScore)}} font-bold mb-6">{{citizenshipScore}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Risk of PEP Exposure
+                </label>
+                <p class="{{getRiskColor(pepExposureScore)}} font-bold mb-6">{{pepExposureScore}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Risk of Residence
+                </label>
+                <p class="{{getRiskColor(countryResidenceScore)}} font-bold mb-6">{{countryResidenceScore}}</p>
+              </div>
+            </div>
+            </div>
+
+            <div class="flex flex-wrap">
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    POI Information
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{poiInformation}}</p>
+                </div>
+              </div>
+
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    POA Information
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{poaInformation}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap">
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    Applicant Sanctions
+                  </label>
+                  <code class="{{getRiskColor(applicantSanctions)}} font-bold mb-6">{{applicantSanctions}}</code>
+                </div>
+              </div>
+
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                  Father Sanctions
+                  </label>
+                  <code class="{{getRiskColor(fatherSanctions)}} font-bold mb-6">{{fatherSanctions}}</code>
+                </div>
+              </div>
+
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                Mother Sanctions
+                </label>
+                <code class="{{getRiskColor(motherSanctions)}} font-bold mb-6">{{motherSanctions}}</code>
+              </div>
+            </div>
+
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-slate-600 text-xs font-bold mb-2"
+              >
+              Spouse Sanctions
+              </label>
+              <code class="{{getRiskColor(spouseSanctions)}} font-bold mb-6">{{spouseSanctions}}</code>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div *ngIf="applicationData.application_type === 'BUSINESS' && isScreened">
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Risk Assessment
+          </h6>
+
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Risk of Legal Structure
+                </label>
+                <p class="{{getRiskColor(legalStructureScore)}} font-bold mb-6">{{legalStructureScore}}</p>
+              </div>
+            </div>
+            </div>
+
+            <div class="flex flex-wrap">
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    POI Information
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{poiInformation}}</p>
+                </div>
+              </div>
+
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    POA Information
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{poaInformation}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap">
+              <div class="w-full lg:w-6/12 px-4">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                  >
+                    Company Sanctions
+                  </label>
+                  <p class="text-theme-500 font-bold mb-6">{{companySanctions}}</p>
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <div *ngIf="applicationData.application_type === 'INDIVIDUAL' && !isScreened">
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Personal Details
+          </h6>
+          
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Full Name
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].first_name}} {{applicationData.details[0].last_name}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Maiden Name
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].maiden_name}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Father Full Name
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].father_name}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Mother First Name
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].mother_name}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Mother Maiden Name
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].mother_maidenname}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Spouse Name
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].spouse_name}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Marital Status
+                </label>
+                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].marital_status}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Gender
+                </label>
+                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].gender}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Date of Birth
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].dob}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Citizenship Status
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].citizenship_status}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Occupation
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].occupation}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                Politically Exposed Person (PEP)?
+                </label>
+                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].pep}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                Relative or Associate of PEP?
+                </label>
+                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].rca_pep}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                PEP Exposure
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].pep_exposure}}</p>
+              </div>
+            </div>
+
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                PEP's FullName
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].pep_fullname}}</p>
+              </div>
+            </div>
+          </div>
+          
+          <hr class="mt-6 border-b-1 border-slate-300" />
+          
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Proof of Identity
+          </h6>
+          
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                Document File
+                </label>
+                <a [attr.href]="poiFileLink" class="hover:text-red-700">
+                  {{applicationData.documents[0].poi.file_name}}
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <hr class="mt-6 border-b-1 border-slate-300" />
+          
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Address Details
+          </h6>
+          
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Current Address
+                </label>
+                <p class="text-theme-500">{{applicationData.details[0].current_address.address}}</p>
+                <p class="text-theme-500">{{applicationData.details[0].current_address.city}}, {{applicationData.details[0].current_address.state}} {{applicationData.details[0].current_address.postal_code}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].current_address.country}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Permanent Address
+                </label>
+                <p class="text-theme-500">{{applicationData.details[0].permanent_address.address}}</p>
+                <p class="text-theme-500">{{applicationData.details[0].permanent_address.city}}, {{applicationData.details[0].permanent_address.state}} {{applicationData.details[0].permanent_address.postal_code}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].permanent_address.country}}</p>
+              </div>
+            </div>
+          </div>
+          
+          <hr class="mt-6 border-b-1 border-slate-300" />
+          
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Proof of Address
+          </h6>
+          
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                Document File
+                </label>
+                <a [attr.href]="poaFileLink" class="hover:text-red-700">
+                  {{applicationData.documents[0].poa.file_name}}
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <hr class="mt-6 border-b-1 border-slate-300" />
+          
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Contact Information
+          </h6>
+          
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Email
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].email}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                Phone Number
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].phone}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="applicationData.application_type === 'BUSINESS' && !isScreened">
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Company Details
+          </h6>
+          
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Company Name
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].company_name}}</p>
+              </div>
+            </div>
+
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Employee Name
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].employee_firstname}} {{applicationData.details[0].employee_lastname}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Date of Incorporation
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].date_incorporation}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  State of Incorporation
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].state_incorporation}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Registration Number
+                </label>
+                <p class="text-theme-500 mb-6 lowercase">{{applicationData.details[0].registration_number}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Date of Commencement
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].date_commencement}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Company Type
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].company_type}}</p>
+              </div>
+            </div>
+          </div>
+          
+          <hr class="mt-6 border-b-1 border-slate-300" />
+          
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Proof of Business
+          </h6>
+          
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                Document File
+                </label>
+                <a [attr.href]="poaFileLink" class="hover:text-red-700">
+                  {{applicationData.documents[0].poi.file_name}}
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <hr class="mt-6 border-b-1 border-slate-300" />
+          
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Address Details
+          </h6>
+          
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Company Address
+                </label>
+                <p class="text-theme-500">{{applicationData.details[0].company_address.address}}</p>
+                <p class="text-theme-500">{{applicationData.details[0].company_address.city}}, {{applicationData.details[0].company_address.state}} {{applicationData.details[0].company_address.postalCode}}</p>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].company_address.country}}</p>
+              </div>
+            </div>
+          </div>
+          
+          <hr class="mt-6 border-b-1 border-slate-300" />
+          
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Proof of Address
+          </h6>
+          
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                Document File
+                </label>
+                <a [attr.href]="poaFileLink" class="hover:text-red-700">
+                  {{applicationData.documents[0].poa.file_name}}
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <hr class="mt-6 border-b-1 border-slate-300" />
+          
+          <h6 class="text-slate-400 text-sm mt-3 mb-6 font-bold uppercase">
+            Employee Contact Information
+          </h6>
+          
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                  Email
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].emp_email}}</p>
+              </div>
+            </div>
+          
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-slate-600 text-xs font-bold mb-2"
+                >
+                Phone Number
+                </label>
+                <p class="text-theme-500 mb-6">{{applicationData.details[0].emp_phone}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap mt-8 justify-center">
+          <button
+          *ngIf="!isScreened"
+          class="bg-emerald-500 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-3 ease-linear transition-all duration-150"
+          type="button"
+          (click)="onScreen()"
+          >
+            Screen Application
+          </button>
+    </div>
+    <div class="flex flex-wrap mt-8 justify-center" *ngIf="isScreened">
+        <button
+        class="bg-emerald-500 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-3 ease-linear transition-all duration-150"
+        type="button"
+        (click)="onApprove()"
+        >
+          Approve
+        </button>
+
+        <button
+        class="bg-red-600 text-white active:bg-slate-600 disabled:bg-emerald-400 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ml-3 ease-linear transition-all duration-150"
+        type="button"
+        (click)="onDeny()"
+        >
+          Deny
+        </button>
+    </div>
+    <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px', backdropBackgroundColour: 'rgba(0, 0, 0, 0.5)'}"></ngx-loading>
+  </div>
+</div>

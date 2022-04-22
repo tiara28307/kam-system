@@ -1,35 +1,68 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DoNotHavePermissionToServiceAlert } from 'src/constants/alerts.constant';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequestService {
-  private _requestId: string;
-  private _status: string;
+  constructor(
+    private httpreq: HttpClient,
+    private authService: AuthService
+  ) { }
 
-  constructor() { }
-
-  set requestId(id: string) {
-    this._requestId = id;
+  currentReq = {
+    req: [],
+    getReq() {
+      return this.req;
+    },
+    setReq(request) {
+      this.req = request;
+    }
   }
 
-  get requestId(): string {
-    return this._requestId;
+  canAccess(): boolean {
+    let isAuthCustomer = this.authService.isAuthenticated('CUSTOMER');
+    let isAuthCompany = this.authService.isAuthenticated('COMPANY');
+    
+    if (!isAuthCustomer && !isAuthCompany) {
+      DoNotHavePermissionToServiceAlert('request').fire({});
+    }
+
+    return isAuthCustomer || isAuthCompany;
   }
 
-  set status(status: string) {
-    this._status = status;
+  createNewRequest(body) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.post("http://localhost:8083/kyc/request/new", body, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'text'
+      });
+    }
   }
 
-  get status(): string {
-    return this._status;
+  getRequests(userType, email) {
+    let isValidUser = this.canAccess();
+
+    if (isValidUser) {
+      return this.httpreq.get(`http://localhost:8083/kyc/request/all/user/${userType}/${email}`, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'json'
+      }); 
+    }
   }
 
-  acceptedRequest() {
-    console.log('accepted request: ', this._requestId);
-  }
+  updateRequest(body) {
+    let isValidUser = this.canAccess();
 
-  rejectedRequest() {
-    console.log('rejected request: ', this._requestId);
+    if (isValidUser) {
+      return this.httpreq.post(`http://localhost:8083/kyc/request/update`, body, {
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'text'
+      });
+    }
   }
 }

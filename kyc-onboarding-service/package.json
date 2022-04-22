@@ -29,6 +29,7 @@
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
     "pug": "^3.0.2",
+    "sync-request": "^6.1.0",
     "web3.storage": "^4.0.0"
   }
 }

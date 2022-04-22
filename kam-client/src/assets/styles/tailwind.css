@@ -2097,6 +2097,10 @@ select {
   height: 12rem;
 }
 
+.h-35 {
+  height: 10rem;
+}
+
 .h-32 {
   height: 8rem;
 }
@@ -2405,6 +2409,10 @@ select {
 
 .mt-48 {
   margin-top: 12rem;
+}
+
+.mt-55 {
+  margin-top: 28rem;
 }
 
 .mr-auto {
@@ -3599,6 +3607,10 @@ select {
 
 .w-40 {
   width: 15rem;
+}
+
+.w-50 {
+  width: 20rem;
 }
 
 .w-auto {

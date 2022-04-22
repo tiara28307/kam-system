@@ -19,11 +19,10 @@ export class UserDropdownComponent implements AfterViewInit {
 
   constructor(
     private userService: UserService
-  ) {
-    this.settingsLink = this.userService.settingsLink;
-  }
+  ) {}
 
   ngAfterViewInit() {
+    this.settingsLink = this.userService.settingsLink;
     createPopper(
       this.btnDropdownRef.nativeElement,
       this.popoverDropdownRef.nativeElement,

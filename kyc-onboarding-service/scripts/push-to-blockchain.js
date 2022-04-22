@@ -2,7 +2,7 @@ const { exec } = require('child_process');
 const Logger = require('../logger/logger');
 const log = new Logger('Store-Files-Blockchain-Script');
 
-function pushFilesToBlockchain(fileDir) {
+async function pushFilesToBlockchain(fileDir) {
   const apiToken = process.env.WEB3_STORAGE_TOKEN;
 
   exec(`node web3-storage.js --token=${apiToken} ${fileDir}`, (error, stdout, stderr) => {
@@ -15,6 +15,7 @@ function pushFilesToBlockchain(fileDir) {
       return;
     }
     log.info(`stdout: ${stdout}`);
+    return stdout;
   })
 }
 
